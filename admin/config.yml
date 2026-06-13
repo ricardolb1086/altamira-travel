@@ -2,7 +2,7 @@ backend:
   name: github
   repo: ricardolb1086/altamira-travel
   branch: main
-  base_url: https://REEMPLAZAR_CON_TU_WORKER.workers.dev  # OAuth proxy — ver instrucciones en README
+  base_url: https://altamira-cms-auth.ricardolb1086.workers.dev  # OAuth proxy — ver instrucciones en README
 
 publish_mode: editorial_workflow
 
