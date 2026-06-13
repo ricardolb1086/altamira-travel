@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Altamira Travel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream: oklch(0.972 0.012 78);
+  --cream-2: oklch(0.945 0.016 76);
+  --ink: oklch(0.245 0.014 58);
+  --ink-soft: oklch(0.42 0.02 60);
+  --line: oklch(0.86 0.014 76);
+  --terra: oklch(0.575 0.115 46);
+  --terra-deep: oklch(0.48 0.11 42);
+  --olive: oklch(0.52 0.055 128);
+  --paper: oklch(0.99 0.006 80);
+
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans: "Hanken Grotesk", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --maxw: 1280px;
+  --pad: clamp(20px, 5vw, 64px);
+}
+
+*{ box-sizing: border-box; margin: 0; padding: 0; }
+html{ scroll-behavior: smooth; }
+body{
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+img{ display:block; max-width:100%; }
+a{ color: inherit; text-decoration: none; }
+
+.wrap{ max-width: var(--maxw); margin: 0 auto; padding-inline: var(--pad); }
+
+/* ---------- type helpers ---------- */
+.overline{
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--terra-deep);
+  display:inline-flex; align-items:center; gap:.7em;
+}
+.overline::before{
+  content:""; width: 26px; height:1px; background: var(--terra); display:inline-block;
+}
+.overline.center::before{ display:none; }
+
+h1,h2,h3{ font-family: var(--serif); font-weight: 500; line-height: 1.04; letter-spacing: -0.01em; text-wrap: balance; }
+.display{ font-size: clamp(44px, 7.4vw, 104px); font-weight: 500; }
+.h2{ font-size: clamp(34px, 4.6vw, 60px); }
+.lead{ font-size: clamp(17px, 1.4vw, 20px); color: var(--ink-soft); max-width: 54ch; text-wrap: pretty; }
+em.it{ font-style: italic; color: var(--terra-deep); }
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:.6em;
+  font-family: var(--sans); font-weight: 600; font-size: 14px;
+  letter-spacing: .01em;
+  padding: 14px 26px; border-radius: 100px;
+  border: 1px solid transparent; cursor: pointer;
+  transition: all .35s cubic-bezier(.2,.7,.3,1);
+}
+.btn .arr{ transition: transform .35s cubic-bezier(.2,.7,.3,1); }
+.btn:hover .arr{ transform: translateX(4px); }
+.btn-solid{ background: var(--ink); color: var(--cream); }
+.btn-solid:hover{ background: var(--terra-deep); }
+.btn-ghost{ border-color: color-mix(in oklab, var(--ink) 22%, transparent); color: var(--ink); }
+.btn-ghost:hover{ border-color: var(--ink); background: var(--ink); color: var(--cream); }
+.btn-light{ background: var(--cream); color: var(--ink); }
+.btn-light:hover{ background: var(--terra); color: var(--paper); }
+.link-u{ font-weight:600; font-size:14px; display:inline-flex; align-items:center; gap:.5em; border-bottom:1px solid var(--terra); padding-bottom:3px; transition:gap .3s; }
+.link-u:hover{ gap:.85em; }
+
+/* ---------- image placeholder ---------- */
+.ph{
+  position: relative; overflow: hidden;
+  background:
+    repeating-linear-gradient(135deg, color-mix(in oklab, var(--ink) 7%, transparent) 0 1.5px, transparent 1.5px 11px),
+    var(--cream-2);
+  border: 1px solid var(--line);
+}
+.ph .ph-tag{
+  position:absolute; left: 14px; bottom: 12px;
+  font-family: var(--mono); font-size: 11px; letter-spacing:.12em; text-transform: uppercase;
+  color: var(--ink-soft);
+  background: color-mix(in oklab, var(--paper) 80%, transparent);
+  backdrop-filter: blur(2px);
+  padding: 5px 9px; border-radius: 4px; border:1px solid var(--line);
+}
+.ph.dark{
+  background:
+    repeating-linear-gradient(135deg, rgba(255,255,255,.05) 0 1.5px, transparent 1.5px 11px),
+    oklch(0.30 0.02 56);
+  border-color: oklch(0.36 0.02 56);
+}
+.ph.dark .ph-tag{ color: oklch(0.82 0.01 78); background: rgba(0,0,0,.28); border-color: oklch(0.40 0.02 56); }
+
+/* ====================================================== NAV */
+.nav{
+  position: fixed; top:0; left:0; right:0; z-index: 100;
+  transition: background .4s ease, box-shadow .4s ease, padding .4s ease;
+  padding: 18px 0;
+}
+.nav.solid{ background: color-mix(in oklab, var(--cream) 90%, transparent); backdrop-filter: blur(12px) saturate(1.2); box-shadow: 0 1px 0 var(--line); padding: 12px 0; }
+.nav-row{ display:flex; align-items:center; justify-content:space-between; gap: 24px; }
+.brand{ display:flex; align-items:baseline; gap:10px; font-family: var(--serif); }
+.brand .mark{
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--terra);
+  display:grid; place-items:center; flex: none;
+  position: relative; align-self:center;
+}
+.brand .mark::after{ content:""; width:11px; height:11px; border-radius:50%; border:2px solid var(--cream); }
+.brand .name{ font-size: 25px; letter-spacing: .14em; font-weight:600; text-transform: uppercase; }
+.brand .name b{ font-weight:600; color: var(--terra-deep); }
+.nav-links{ display:flex; gap: 30px; list-style:none; }
+.nav-links a{ font-size: 14px; font-weight: 500; color: var(--ink-soft); position: relative; padding: 4px 0; transition: color .3s; }
+.nav-links a::after{ content:""; position:absolute; left:0; bottom:-2px; width:0; height:1px; background: var(--terra); transition: width .3s; }
+.nav-links a:hover{ color: var(--ink); }
+.nav-links a:hover::after{ width:100%; }
+.nav-cta{ display:flex; align-items:center; gap: 18px; }
+.nav-tel{ font-family: var(--mono); font-size: 12.5px; letter-spacing:.04em; color: var(--ink-soft); white-space:nowrap; }
+.burger{ display:none; }
+/* nav legible sobre el video del hero (claro arriba, oscuro al hacer scroll) */
+.nav .name{ color: var(--paper); }
+.nav .name b{ color: var(--terra); }
+.nav .nav-links a{ color: rgba(255,255,255,.82); }
+.nav .nav-links a::after{ background: var(--terra); }
+.nav .nav-tel{ color: rgba(255,255,255,.72); }
+.nav.solid .name{ color: var(--ink); }
+.nav.solid .name b{ color: var(--terra-deep); }
+.nav.solid .nav-links a{ color: var(--ink-soft); }
+.nav.solid .nav-tel{ color: var(--ink-soft); }
+.lang{ display:inline-flex; border:1px solid var(--line); border-radius:100px; overflow:hidden; }
+.nav:not(.solid) .lang{ border-color:rgba(255,255,255,.42); }
+.lang button{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; padding:7px 12px; background:transparent; border:none; cursor:pointer; color:var(--ink-soft); transition:all .25s; }
+.nav:not(.solid) .lang button{ color:rgba(255,255,255,.8); }
+.lang button.on{ background:var(--terra); color:var(--paper); }
+
+/* ====================================================== HERO */
+.hero{ position: relative; min-height: 100svh; display:flex; align-items:flex-end; padding-bottom: clamp(40px, 6vh, 72px); padding-top: 150px; }
+.hero-slides{ position:absolute; inset:0; z-index:0; overflow:hidden; background: linear-gradient(135deg, oklch(0.46 0.07 52), oklch(0.30 0.035 58)); }
+.hslide{ position:absolute; inset:0; opacity:0; transition:opacity 1.3s ease; }
+.hslide.on{ opacity:1; }
+.hslide video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.hslide image-slot{ position:absolute; inset:0; width:100%; height:100%; display:block; background:linear-gradient(135deg, oklch(0.46 0.07 52), oklch(0.30 0.035 58)); }
+.hero-scrim{ position:absolute; inset:0; z-index:1; pointer-events:none; background:
+   linear-gradient(180deg, rgba(18,12,8,.42) 0%, rgba(18,12,8,.12) 26%, rgba(18,12,8,.22) 52%, rgba(18,12,8,.80) 100%),
+   linear-gradient(90deg, rgba(18,12,8,.48) 0%, transparent 60%); }
+.hero-loc{ position:absolute; z-index:3; top:clamp(98px,14vh,150px); right:var(--pad); display:flex; flex-direction:column; align-items:flex-end; gap:14px; }
+.hero-loc .chip{ display:inline-flex; align-items:center; gap:11px; font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--paper); background:rgba(18,12,8,.34); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(5px); padding:10px 16px; border-radius:100px; white-space:nowrap; }
+.hero-loc .chip .pdot{ width:7px; height:7px; border-radius:50%; background:var(--terra); animation:pulse 2.2s infinite; }
+.hero-loc .chip .reg{ color:oklch(0.82 0.07 50); }
+.hdots{ display:flex; gap:8px; }
+.hdots button{ width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.4); border:none; padding:0; cursor:pointer; transition:all .35s; }
+.hdots button.on{ background:var(--terra); width:26px; border-radius:10px; }
+@keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(199,118,68,.55);} 70%{box-shadow:0 0 0 9px rgba(199,118,68,0);} 100%{box-shadow:0 0 0 0 rgba(199,118,68,0);} }
+.ph.has-img{ border:none; }
+.hero-inner{ position: relative; z-index: 2; width:100%; }
+.hero .display{ color: var(--paper); text-shadow: 0 2px 40px rgba(0,0,0,.35); max-width: 16ch; }
+.hero .display em{ font-style: italic; }
+.hero-sub{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap: 28px; margin-top: 34px; }
+.hero .lead{ color: oklch(0.94 0.01 78); max-width: 46ch; }
+.hero .overline{ color: var(--paper); }
+.hero .overline::before{ background: var(--paper); }
+.hero-actions{ display:flex; gap: 14px; flex-wrap:wrap; }
+.scroll-cue{ position:absolute; left: var(--pad); bottom: 26px; z-index:3; font-family: var(--mono); font-size: 11px; letter-spacing:.2em; text-transform:uppercase; color: var(--paper); display:flex; align-items:center; gap:10px; opacity:.85; }
+.scroll-cue .dot{ width:6px;height:6px;border-radius:50%;background:var(--paper); animation: bob 1.6s ease-in-out infinite; }
+@keyframes bob{ 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(6px);} }
+
+/* ====================================================== MARQUEE / strip */
+.strip{ border-block: 1px solid var(--line); background: var(--paper); }
+.strip-row{ display:grid; grid-template-columns: repeat(4, 1fr); }
+.stat{ padding: 34px var(--pad); border-right:1px solid var(--line); }
+.stat:last-child{ border-right:none; }
+.stat .num{ font-family: var(--serif); font-size: clamp(36px, 3.2vw, 50px); font-weight:500; line-height:1; }
+.stat .num span{ color: var(--terra-deep); }
+.stat .lab{ font-size: 13.5px; color: var(--ink-soft); margin-top: 10px; }
+
+/* ====================================================== SECTION shells */
+section.block{ padding-block: clamp(72px, 11vh, 140px); }
+.sec-head{ display:flex; align-items:flex-end; justify-content:space-between; gap: 30px; flex-wrap:wrap; margin-bottom: clamp(36px, 5vh, 64px); }
+.sec-head .lead{ margin-top: 18px; }
+
+/* ====================================================== DESTINATIONS */
+.dest-grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap: 22px; }
+.dest{ position: relative; overflow:hidden; border-radius: 6px; cursor:pointer; }
+.dest .ph{ width:100%; height:100%; border-radius:6px; transition: transform 1.1s cubic-bezier(.2,.7,.3,1); }
+.dest:hover .ph{ transform: scale(1.05); }
+.dest-body{ position:absolute; inset:0; z-index:3; display:flex; flex-direction:column; justify-content:flex-end; padding: 26px; background: linear-gradient(180deg, transparent 40%, rgba(20,14,10,.62) 100%); }
+.dest-body .k{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color: oklch(0.9 0.02 70); }
+.dest-body h3{ color: var(--paper); font-size: clamp(26px, 2.4vw, 38px); margin-top: 6px; }
+.dest-meta{ display:flex; align-items:center; justify-content:space-between; margin-top:14px; color: oklch(0.92 0.01 78); font-size:13px; opacity:0; transform: translateY(8px); transition: all .4s ease; }
+.dest:hover .dest-meta{ opacity:1; transform: translateY(0); }
+.dest-meta .pill{ font-family:var(--mono); font-size:11px; letter-spacing:.08em; border:1px solid rgba(255,255,255,.4); border-radius:100px; padding:4px 11px; }
+.tall{ grid-column: span 6; aspect-ratio: 1 / 1.08; }
+.wide{ grid-column: span 6; aspect-ratio: 16 / 13; }
+.third{ grid-column: span 4; aspect-ratio: 3 / 3.5; }
+
+/* ====================================================== EXPERIENCES (split) */
+.split{ display:grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); align-items:center; }
+.split.flip{ direction: rtl; } .split.flip > *{ direction: ltr; }
+.exp-media{ aspect-ratio: 4/5; border-radius: 8px; }
+.exp-media .ph{ width:100%; height:100%; border-radius:8px; }
+.exp-list{ margin-top: 30px; display:flex; flex-direction:column; }
+.exp-item{ display:flex; gap: 20px; padding: 22px 0; border-top:1px solid var(--line); }
+.exp-item:last-child{ border-bottom:1px solid var(--line); }
+.exp-item .ix{ font-family: var(--mono); font-size:13px; color: var(--terra-deep); padding-top:5px; flex:none; }
+.exp-item h3{ font-size: 26px; }
+.exp-item p{ color: var(--ink-soft); font-size: 15.5px; margin-top: 6px; max-width: 44ch; }
+
+/* ====================================================== VALUES ribbon */
+.values{ background: var(--ink); color: var(--cream); }
+.values .overline{ color: oklch(0.78 0.06 50); }
+.values .overline::before{ background: var(--terra); }
+.values h2{ color: var(--paper); }
+.val-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: oklch(0.34 0.018 58); border:1px solid oklch(0.34 0.018 58); margin-top: 54px; border-radius: 8px; overflow:hidden; }
+.val{ background: var(--ink); padding: 38px 34px; }
+.val .vn{ font-family: var(--mono); font-size: 12px; letter-spacing:.16em; color: var(--terra); }
+.val h3{ color: var(--paper); font-size: 28px; margin: 18px 0 12px; }
+.val p{ color: oklch(0.78 0.012 78); font-size: 15px; max-width: 34ch; }
+
+/* ====================================================== TESTIMONIAL */
+.quote{ text-align:center; }
+.quote blockquote{ font-family: var(--serif); font-weight: 500; font-size: clamp(28px, 3.6vw, 48px); line-height: 1.18; letter-spacing:-0.01em; max-width: 20ch; margin: 26px auto 0; text-wrap: balance; }
+.quote blockquote em{ font-style: italic; color: var(--terra-deep); }
+.quote .who{ margin-top: 34px; display:inline-flex; align-items:center; gap:14px; }
+.quote .who .av{ width:42px; height:42px; border-radius:50%; }
+.quote .who .nm{ text-align:left; }
+.quote .who .nm b{ font-weight:600; font-size:15px; }
+.quote .who .nm span{ display:block; font-size:13px; color: var(--ink-soft); }
+.q-nav{ display:flex; gap:10px; justify-content:center; margin-top: 40px; }
+.q-dot{ width: 7px; height:7px; border-radius:50%; background: var(--line); border:none; cursor:pointer; padding:0; transition: all .3s; }
+.q-dot.active{ background: var(--terra); width: 24px; border-radius: 10px; }
+
+/* ====================================================== JOURNAL */
+.jrnl-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+.post .ph{ aspect-ratio: 4/3; border-radius:6px; transition: transform .9s cubic-bezier(.2,.7,.3,1); }
+.post{ cursor:pointer; }
+.post .pm{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color: var(--terra-deep); margin-top: 18px; }
+.post h3{ font-size: 26px; margin-top: 10px; line-height:1.12; }
+.post:hover h3{ color: var(--terra-deep); }
+.post p{ color: var(--ink-soft); font-size: 14.5px; margin-top: 8px; }
+
+/* ====================================================== CTA band */
+.cta{ position:relative; overflow:hidden; border-radius: 14px; }
+.cta .ph{ position:absolute; inset:0; width:100%; height:100%; border:none; border-radius:14px; }
+.cta::after{ content:""; position:absolute; inset:0; background: linear-gradient(110deg, rgba(28,18,12,.86), rgba(28,18,12,.45)); }
+.cta-inner{ position:relative; z-index:2; padding: clamp(54px, 9vw, 110px) var(--pad); text-align:center; }
+.cta h2{ color: var(--paper); margin: 18px auto 0; max-width: 18ch; }
+.cta .lead{ color: oklch(0.92 0.01 78); margin: 22px auto 34px; text-align:center; }
+.cta .overline{ color: var(--paper); }
+.cta .overline::before{ background: var(--paper); }
+
+/* ====================================================== FOOTER */
+footer{ background: var(--paper); border-top:1px solid var(--line); padding-block: 70px 34px; }
+.foot-top{ display:grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+.foot-brand .name{ font-family: var(--serif); font-size: 30px; letter-spacing:.12em; text-transform:uppercase; font-weight:600; }
+.foot-brand p{ color: var(--ink-soft); font-size:14.5px; max-width: 30ch; margin-top: 16px; }
+.fcol h4{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color: var(--ink-soft); margin-bottom: 18px; font-weight:500; }
+.fcol ul{ list-style:none; display:flex; flex-direction:column; gap: 11px; }
+.fcol a{ font-size:14.5px; color: var(--ink); opacity:.82; transition: opacity .2s, color .2s; }
+.fcol a:hover{ opacity:1; color: var(--terra-deep); }
+.foot-bot{ display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; margin-top: 56px; padding-top: 24px; border-top:1px solid var(--line); font-size:13px; color: var(--ink-soft); font-family:var(--mono); letter-spacing:.02em; }
+
+/* ====================================================== reveal */
+.rv{ opacity:0; transform: translateY(26px); transition: opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1); }
+.rv.in{ opacity:1; transform:none; }
+@media (prefers-reduced-motion: reduce){ .rv{opacity:1;transform:none;} html{scroll-behavior:auto;} }
+
+/* ====================================================== responsive */
+@media (max-width: 900px){
+  .nav-links, .nav-tel{ display:none; }
+  .burger{ display:inline-flex; }
+  .strip-row{ grid-template-columns: repeat(2,1fr); }
+  .stat:nth-child(2){ border-right:none; }
+  .stat:nth-child(-n+2){ border-bottom:1px solid var(--line); }
+  .dest-grid > *{ grid-column: 1 / -1 !important; aspect-ratio: 16/11 !important; }
+  .split, .split.flip{ grid-template-columns: 1fr; direction:ltr; }
+  .val-grid{ grid-template-columns: 1fr; }
+  .jrnl-grid{ grid-template-columns: 1fr; }
+  .foot-top{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px){
+  .strip-row{ grid-template-columns: 1fr; }
+  .stat{ border-right:none; border-bottom:1px solid var(--line); }
+  .foot-top{ grid-template-columns: 1fr; }
+  .hero .display{ font-size: clamp(40px, 12vw, 60px); }
+}
+
+/* placeholder banner note */
+.devnote{ position: fixed; right: 14px; bottom: 14px; z-index: 200; font-family: var(--mono); font-size: 11px; letter-spacing:.04em; background: var(--ink); color: var(--cream); padding: 9px 13px; border-radius: 8px; max-width: 250px; line-height:1.5; box-shadow: 0 8px 30px rgba(0,0,0,.2); opacity:.92; }
+.devnote b{ color: var(--terra); }
+.devnote button{ background:none;border:none;color:var(--cream);float:right;cursor:pointer;font-family:var(--mono);opacity:.6;margin-left:8px; }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-row">
+    <a href="#top" class="brand" aria-label="Altamira Travel">
+      <span class="mark"></span>
+      <span class="name">Alta<b>mira</b></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#destinations">Destinations</a></li>
+      <li><a href="#experiences">Experiences</a></li>
+      <li><a href="#values">Why Altamira</a></li>
+      <li><a href="#journal">Journal</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <div class="lang" id="lang"><button data-l="en">EN</button><button data-l="es">ES</button></div>
+      <a href="tel:+18888551889" class="nav-tel">1-888-855-1889</a>
+      <a href="#contact" class="btn btn-solid">Plan your journey <span class="arr">→</span></a>
+      <button class="btn btn-ghost burger" aria-label="Menu">Menu</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <!-- ============================================================
+       HERO — CARRUSEL DE VIDEOS POR DESTINO (crossfade)
+       Cada destino tiene su propio video. Para usar TU video, abre el
+       bloque <script> de más abajo, busca el arreglo HERO_SLIDES y
+       reemplaza el campo `src` de cada destino por la URL o ruta local
+       de tu video (ej. "videos/madrid.mp4"). MP4 H.264, 1920×1080,
+       10-20s, SIN audio. Sugerencias gratis: ver comentarios en HERO_SLIDES.
+       ============================================================ -->
+  <div class="hero-slides" id="hslides"></div>
+  <div class="hero-scrim"></div>
+  <div class="wrap hero-inner">
+    <span class="overline">Extraordinary experiences for every traveler</span>
+    <h1 class="display" style="margin-top:22px;">Journeys made <em>unforgettable</em>.</h1>
+    <div class="hero-sub">
+      <p class="lead">Tailor-made travel, designed around you. From hidden coastlines to legendary cities — we craft the trip you'll talk about for years.</p>
+      <div class="hero-actions">
+        <a href="#destinations" class="btn btn-light">Explore destinations <span class="arr">→</span></a>
+        <a href="#contact" class="btn btn-ghost" style="border-color:rgba(255,255,255,.5);color:#fff;">Speak to an expert</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-loc" id="hloc">
+    <span class="chip"><span class="pdot"></span><span id="hloc-text">Capadocia</span></span>
+    <div class="hdots" id="hdots"></div>
+  </div>
+  <div class="scroll-cue"><span class="dot"></span> Scroll to explore</div>
+</header>
+
+<!-- ============ STATS STRIP ============ -->
+<div class="strip">
+  <div class="wrap" style="padding:0;">
+    <div class="strip-row">
+      <div class="stat"><div class="num">15<span>+</span></div><div class="lab">Years crafting journeys</div></div>
+      <div class="stat"><div class="num">80<span>+</span></div><div class="lab">Destinations worldwide</div></div>
+      <div class="stat"><div class="num">4.9<span>★</span></div><div class="lab">Average traveler rating</div></div>
+      <div class="stat"><div class="num">24/<span>7</span></div><div class="lab">Concierge while you travel</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DESTINATIONS ============ -->
+<section class="block" id="destinations">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <span class="overline">Where to next</span>
+        <h2 class="h2" style="margin-top:18px;">Destinations chosen<br>with intention.</h2>
+      </div>
+      <a href="#" class="link-u">View all destinations →</a>
+    </div>
+
+    <div class="dest-grid" id="dest-grid"></div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCES ============ -->
+<section class="block" id="experiences" style="background:var(--paper);border-block:1px solid var(--line);">
+  <div class="wrap">
+    <div class="split">
+      <div class="rv">
+        <div class="exp-media"><div class="ph"><span class="ph-tag">Experience photo — 4:5</span></div></div>
+      </div>
+      <div class="rv">
+        <span class="overline">How we travel</span>
+        <h2 class="h2" style="margin-top:18px;">Not a package.<br>A <em class="it">point of view</em>.</h2>
+        <p class="lead" style="margin-top:18px;">Every Altamira journey is built from scratch around how you like to move through the world — your pace, your curiosities, your comfort.</p>
+        <div class="exp-list">
+          <div class="exp-item">
+            <span class="ix">01</span>
+            <div><h3>Tailor-made itineraries</h3><p>Designed line by line with you — never copy-pasted, never rushed.</p></div>
+          </div>
+          <div class="exp-item">
+            <span class="ix">02</span>
+            <div><h3>Local experts on the ground</h3><p>Guides and hosts who open doors you couldn't find on your own.</p></div>
+          </div>
+          <div class="exp-item">
+            <span class="ix">03</span>
+            <div><h3>Effortless, end to end</h3><p>Flights, stays, transfers and the small details — handled.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VALUES ============ -->
+<section class="block values" id="values">
+  <div class="wrap">
+    <div style="max-width:680px;" class="rv">
+      <span class="overline">Why Altamira</span>
+      <h2 class="h2" style="margin-top:18px;">Travel that's personal,<br>down to the last detail.</h2>
+    </div>
+    <div class="val-grid rv">
+      <div class="val"><div class="vn">A — Bespoke</div><h3>Made for you</h3><p>No two travelers are alike, so no two itineraries should be either.</p></div>
+      <div class="val"><div class="vn">B — Trusted</div><h3>People, not portals</h3><p>A dedicated advisor who knows your name and your trip by heart.</p></div>
+      <div class="val"><div class="vn">C — Cared for</div><h3>Always reachable</h3><p>Real human support, in your timezone, the whole way through.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIAL ============ -->
+<section class="block quote" id="reviews">
+  <div class="wrap" style="max-width:980px;">
+    <span class="overline center" style="justify-content:center;display:flex;">Traveler stories</span>
+    <div id="qstage">
+      <blockquote>They listened to <em>everything</em> — then built a trip better than we knew how to ask for.</blockquote>
+      <div class="who">
+        <span class="ph av" aria-hidden="true"></span>
+        <span class="nm"><b id="qname">Marina & Diego</b><span id="qmeta">Honeymoon · Greek Isles</span></span>
+      </div>
+    </div>
+    <div class="q-nav" id="qnav"></div>
+  </div>
+</section>
+
+<!-- ============ JOURNAL ============ -->
+<section class="block" id="journal" style="background:var(--paper);border-block:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <span class="overline">The journal</span>
+        <h2 class="h2" style="margin-top:18px;">Notes from the road.</h2>
+      </div>
+      <a href="#" class="link-u">Read the journal →</a>
+    </div>
+    <div class="jrnl-grid">
+      <article class="post rv">
+        <div class="ph"><span class="ph-tag">Article cover</span></div>
+        <div class="pm">Guide · 6 min</div>
+        <h3>When to visit the Greek Isles</h3>
+        <p>Month-by-month on weather, crowds and the quiet windows worth chasing.</p>
+      </article>
+      <article class="post rv">
+        <div class="ph"><span class="ph-tag">Article cover</span></div>
+        <div class="pm">Itinerary · 9 min</div>
+        <h3>Ten days across Japan</h3>
+        <p>A rhythm of cities and stillness, from Tokyo neon to Kyoto temples.</p>
+      </article>
+      <article class="post rv">
+        <div class="ph"><span class="ph-tag">Article cover</span></div>
+        <div class="pm">Inspiration · 5 min</div>
+        <h3>The case for slow travel</h3>
+        <p>Why fewer stops and longer stays make for the journeys you remember.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="block" id="contact">
+  <div class="wrap">
+    <div class="cta rv">
+      <div class="ph"><span class="ph-tag">CTA background — aspirational landscape</span></div>
+      <div class="cta-inner">
+        <span class="overline center" style="justify-content:center;display:flex;">Start the conversation</span>
+        <h2 class="h2">Let's design your<br>next extraordinary trip.</h2>
+        <p class="lead">Tell us where your mind wanders. We'll take it from there — no obligation, no templates.</p>
+        <a href="#" class="btn btn-light" style="padding:16px 30px;">Plan your journey <span class="arr">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="name">Altamira</div>
+        <p>Extraordinary experiences for every traveler. Tailor-made journeys, crafted by people who love the road.</p>
+      </div>
+      <div class="fcol"><h4>Explore</h4><ul><li><a href="#destinations">Destinations</a></li><li><a href="#experiences">Experiences</a></li><li><a href="#journal">Journal</a></li><li><a href="#values">Why Altamira</a></li></ul></div>
+      <div class="fcol"><h4>Company</h4><ul><li><a href="#">About us</a></li><li><a href="#">Our advisors</a></li><li><a href="#">Careers</a></li><li><a href="#contact">Contact</a></li></ul></div>
+      <div class="fcol"><h4>Follow</h4><ul><li><a href="https://www.facebook.com/share/18fKxYw8ce/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a></li><li><a href="https://www.instagram.com/altamiratravelusa" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.tiktok.com/@altamiratravelusa" target="_blank" rel="noopener">TikTok</a></li></ul></div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Altamira Travel. All rights reserved.</span>
+      <span>Privacy · Terms · Cookies</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===================== HERO — VIDEOS POR DESTINO (crossfade) =====================
+   Cómo poner TU video: reemplaza el `src` de cada destino por la URL o ruta
+   local de tu archivo (ej. "videos/santorini.mp4"). El segundo <source> es un
+   clip de respaldo que se reproduce si el `src` principal no carga.
+   Clips de ejemplo (gratis, Pexels — descarga y reemplaza):
+   • Santorini    → https://www.pexels.com/search/videos/santorini%20oia/   (respaldo temporal: mar Egeo — reemplaza por las cúpulas azules)
+   • París        → https://www.pexels.com/video/aerial-view-of-paris-with-eiffel-tower-32495414/
+   • Capadocia    → https://www.pexels.com/video/hot-air-balloons-over-cappadocia-at-sunrise-30549329/
+   • Giza/Egipto  → https://www.pexels.com/video/the-pyramids-of-the-giza-necropolis-in-cairo-10719349/
+   • Shibuya      → https://www.pexels.com/video/shibuya-crossing-at-night-tokyo-s-vibrant-heartbeat-31044319/
+   • Machu Picchu → https://www.pexels.com/video/beautiful-view-of-machu-picchu-4361882/
+================================================================================= */
+const FALLBACK_VID = "https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4";
+const HERO_SLIDES = [
+  { city:"Capadocia",    region:"T\u00fcrkiye", src:"https://videos.pexels.com/video-files/30549329/13084614_1440_2560_30fps.mp4", poster:"https://images.pexels.com/videos/30549329/cappadocia-cappadocia-turkey-cave-hot-air-balloons-30549329.jpeg?auto=compress&cs=tinysrgb&w=1600" },
+  { city:"Dub\u00e1i",       region:"EAU",     src:"https://videos.pexels.com/video-files/1660911/1660911-uhd_2560_1440_30fps.mp4", poster:"https://images.pexels.com/videos/1660911/free-video-1660911.jpg?auto=compress&cs=tinysrgb&w=1600" },
+  { city:"Shibuya",      region:"Tokio",   src:["https://videos.pexels.com/video-files/14952031/14952031-hd_1920_1080_60fps.mp4","https://videos.pexels.com/video-files/14952031/14952031-uhd_2560_1440_60fps.mp4"], poster:"https://images.pexels.com/videos/14952031/pexels-photo-14952031.jpeg?auto=compress&cs=tinysrgb&w=1600" },
+  { city:"Machu Picchu", region:"Per\u00fa",   src:"https://videos.pexels.com/video-files/4361882/4361882-hd_1920_1080_25fps.mp4",  poster:"https://images.pexels.com/videos/4361882/archaeological-site-beautiful-view-clouds-machu-picchu-4361882.jpeg?auto=compress&cs=tinysrgb&w=1600" },
+];
+(function(){
+  const wrap=document.getElementById('hslides'), dots=document.getElementById('hdots'), locText=document.getElementById('hloc-text');
+  if(!wrap) return;
+  HERO_SLIDES.forEach((s,i)=>{
+    const d=document.createElement('div'); d.className='hslide'+(i===0?' on':'');
+    const srcs = Array.isArray(s.src) ? s.src : [s.src];
+    const sourceTags = srcs.map(u=>'<source src="'+u+'" type="video/mp4">').join('') + '<source src="'+FALLBACK_VID+'" type="video/mp4">';
+    d.innerHTML = s.slot
+      ? '<image-slot id="'+s.slot+'" fit="cover" placeholder="'+s.placeholder+'"></image-slot>'
+      : ('<video muted loop playsinline preload="'+(i===0?'auto':'metadata')+'" poster="'+s.poster+'">'+sourceTags+'</video>');
+    wrap.appendChild(d);
+    const b=document.createElement('button'); b.setAttribute('aria-label',s.city); if(i===0)b.className='on'; b.addEventListener('click',()=>go(i)); dots.appendChild(b);
+  });
+  const slides=[...wrap.children], vids=slides.map(s=>s.querySelector('video')), btns=[...dots.children];
+  let idx=0;
+  function setLoc(i){ locText.innerHTML=HERO_SLIDES[i].city+' \u00b7 <span class="reg">'+HERO_SLIDES[i].region+'</span>'; }
+  setLoc(0); if(vids[0]&&vids[0].play) vids[0].play().catch(()=>{});
+  function go(i){
+    idx=(i+slides.length)%slides.length;
+    slides.forEach((s,k)=>s.classList.toggle('on',k===idx));
+    btns.forEach((b,k)=>b.classList.toggle('on',k===idx));
+    vids.forEach((v,k)=>{ if(!v) return; if(k===idx){ if(v.play) v.play().catch(()=>{}); } else { try{ v.pause(); }catch(e){} } });
+    setLoc(idx);
+  }
+  let timer=setInterval(()=>go(idx+1), 6500);
+  const hero=document.querySelector('.hero');
+  hero.addEventListener('mouseenter',()=>clearInterval(timer));
+  hero.addEventListener('mouseleave',()=>{ clearInterval(timer); timer=setInterval(()=>go(idx+1),6500); });
+})();
+
+/* ===================== DESTINOS — CONTENIDO EDITABLE =====================
+   Estas tarjetas se generan desde los datos de abajo y se pueden administrar
+   desde "Altamira Admin.html" SIN tocar código. Los cambios hechos en el panel
+   se guardan en este navegador (localStorage) y se reflejan aquí al recargar.
+========================================================================= */
+const DEST_KEY='altamira_destinations_v1';
+const DEFAULT_DESTINATIONS=[
+  { region:"Greek Isles", name:"Santorini",        meta:"Tailor-made \u00b7 6\u20139 days",        pill:"From request", size:"tall",  photo:"", photoLabel:"Destination photo \u2014 4:5 portrait" },
+  { region:"Japan",       name:"Kyoto & Beyond",   meta:"Cultural immersion \u00b7 8\u201312 days", pill:"Guided",      size:"wide",  photo:"", photoLabel:"Destination photo \u2014 landscape" },
+  { region:"Patagonia",   name:"Torres del Paine", meta:"Adventure \u00b7 7 days",             pill:"Active",       size:"third", photo:"", photoLabel:"Destination photo" },
+  { region:"Morocco",     name:"Marrakech",        meta:"Culture & desert \u00b7 6 days",      pill:"Boutique",     size:"third", photo:"", photoLabel:"Destination photo" },
+  { region:"Italy",       name:"Amalfi Coast",     meta:"Slow travel \u00b7 7\u201310 days",       pill:"Romantic",     size:"third", photo:"", photoLabel:"Destination photo" },
+];
+function loadDestinations(){
+  try{ const r=localStorage.getItem(DEST_KEY); if(r){ const a=JSON.parse(r); if(Array.isArray(a)&&a.length) return a; } }catch(e){}
+  return DEFAULT_DESTINATIONS;
+}
+function renderDestinations(){
+  const grid=document.getElementById('dest-grid'); if(!grid) return;
+  grid.innerHTML=loadDestinations().map(d=>{
+    const size=['tall','wide','third'].includes(d.size)?d.size:'third';
+    const ph = d.photo
+      ? '<div class="ph has-img" style="background:url(\''+d.photo+'\') center/cover;"></div>'
+      : '<div class="ph"><span class="ph-tag">'+(d.photoLabel||'Destination photo')+'</span></div>';
+    return '<article class="dest '+size+' rv">'+ph+
+      '<div class="dest-body"><span class="k">'+(d.region||'')+'</span><h3>'+(d.name||'')+'</h3>'+
+      '<div class="dest-meta"><span>'+(d.meta||'')+'</span>'+(d.pill?'<span class="pill">'+d.pill+'</span>':'')+'</div></div></article>';
+  }).join('');
+}
+renderDestinations();
+</script>
+
+<script>
+// suppress benign ResizeObserver loop warning from host environment
+window.addEventListener('error', (e)=>{ if(e.message && e.message.includes('ResizeObserver loop')){ e.stopImmediatePropagation(); } });
+
+// nav solidify on scroll
+const nav = document.getElementById('nav');
+const onScroll = () => nav.classList.toggle('solid', window.scrollY > 40);
+onScroll(); window.addEventListener('scroll', onScroll, { passive:true });
+
+// reveal on scroll
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{ threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
+document.querySelectorAll('.rv').forEach((el,i)=>{ el.style.transitionDelay = (Math.min(i%4,3)*70)+'ms'; io.observe(el); });
+
+// testimonial rotator (bilingüe)
+const QUOTES = {
+  en: [
+    { t:'They listened to <em>everything</em> — then built a trip better than we knew how to ask for.', n:'Marina & Diego', m:'Honeymoon · Greek Isles' },
+    { t:'Every detail was handled before we even thought to ask. We just <em>traveled</em>.', n:'The Okafor Family', m:'Multi-gen trip · Japan' },
+    { t:'Doors opened that we never could have found on our own. <em>Unforgettable</em>.', n:'Hannah L.', m:'Solo adventure · Patagonia' },
+  ],
+  es: [
+    { t:'Escucharon <em>todo</em> — y armaron un viaje mejor de lo que supimos pedir.', n:'Marina y Diego', m:'Luna de miel · Islas griegas' },
+    { t:'Cada detalle estaba resuelto antes de que pensáramos en pedirlo. Solo <em>viajamos</em>.', n:'Familia Okafor', m:'Viaje multigeneracional · Japón' },
+    { t:'Se abrieron puertas que jamás habríamos encontrado por nuestra cuenta. <em>Inolvidable</em>.', n:'Hannah L.', m:'Aventura en solitario · Patagonia' },
+  ]
+};
+function qlist(){ return QUOTES[window.__lang||'es']; }
+const stage = document.getElementById('qstage');
+const qname = document.getElementById('qname');
+const qmeta = document.getElementById('qmeta');
+const bq = stage.querySelector('blockquote');
+const qnav = document.getElementById('qnav');
+let qi = 0;
+qlist().forEach((_,i)=>{ const b=document.createElement('button'); b.className='q-dot'+(i===0?' active':''); b.setAttribute('aria-label','#'+(i+1)); b.onclick=()=>show(i); qnav.appendChild(b); });
+function show(i){
+  qi=i; const Q=qlist();
+  stage.style.opacity=0; stage.style.transition='opacity .35s ease'; stage.style.transform='translateY(6px)';
+  setTimeout(()=>{
+    bq.innerHTML=Q[i].t; qname.textContent=Q[i].n; qmeta.textContent=Q[i].m;
+    stage.style.opacity=1; stage.style.transform='none';
+    [...qnav.children].forEach((d,k)=>d.classList.toggle('active',k===i));
+  },350);
+}
+window.refreshQuote=function(){ const Q=qlist(); if(Q[qi]){ bq.innerHTML=Q[qi].t; qname.textContent=Q[qi].n; qmeta.textContent=Q[qi].m; } };
+setInterval(()=>show((qi+1)%qlist().length), 6500);
+</script>
+<script>
+/* ===================== i18n EN / ES ===================== */
+(function(){
+  const KEY='altamira_lang';
+  const M=[
+    ['.nav-links a',0,0,'Destinations','Destinos'],
+    ['.nav-links a',1,0,'Experiences','Experiencias'],
+    ['.nav-links a',2,0,'Why Altamira','Por qué Altamira'],
+    ['.nav-links a',3,0,'Journal','Diario'],
+    ['.nav-links a',4,0,'Contact','Contacto'],
+    ['.burger',null,0,'Menu','Menú'],
+    ['.nav-cta a.btn-solid',null,1,'Plan your journey <span class="arr">→</span>','Planifica tu viaje <span class="arr">→</span>'],
+    ['.hero .overline',null,0,'Extraordinary experiences for every traveler','Experiencias extraordinarias para cada viajero'],
+    ['.hero .display',null,1,'Journeys made <em>unforgettable</em>.','Viajes <em>inolvidables</em>.'],
+    ['.hero .lead',null,0,"Tailor-made travel, designed around you. From hidden coastlines to legendary cities — we craft the trip you'll talk about for years.",'Viajes a medida, pensados en torno a ti. De costas escondidas a ciudades legendarias: creamos el viaje del que hablarás durante años.'],
+    ['.hero-actions a.btn-light',null,1,'Explore destinations <span class="arr">→</span>','Explora destinos <span class="arr">→</span>'],
+    ['.hero-actions a.btn-ghost',null,0,'Speak to an expert','Habla con un experto'],
+    ['.scroll-cue',null,1,'<span class="dot"></span> Scroll to explore','<span class="dot"></span> Desliza para explorar'],
+    ['.stat .lab',0,0,'Years crafting journeys','Años creando viajes'],
+    ['.stat .lab',1,0,'Destinations worldwide','Destinos en el mundo'],
+    ['.stat .lab',2,0,'Average traveler rating','Valoración media de viajeros'],
+    ['.stat .lab',3,0,'Concierge while you travel','Conserjería durante tu viaje'],
+    ['#destinations .overline',null,0,'Where to next','¿A dónde vamos?'],
+    ['#destinations .h2',null,1,'Destinations chosen<br>with intention.','Destinos elegidos<br>con intención.'],
+    ['#destinations .link-u',null,0,'View all destinations →','Ver todos los destinos →'],
+    ['#experiences .overline',null,0,'How we travel','Cómo viajamos'],
+    ['#experiences .h2',null,1,'Not a package.<br>A <em class="it">point of view</em>.','No es un paquete.<br>Es una <em class="it">forma de ver</em>.'],
+    ['#experiences .lead',null,0,'Every Altamira journey is built from scratch around how you like to move through the world — your pace, your curiosities, your comfort.','Cada viaje de Altamira se construye desde cero en torno a cómo te gusta moverte por el mundo: tu ritmo, tu curiosidad, tu comodidad.'],
+    ['.exp-item h3',0,0,'Tailor-made itineraries','Itinerarios a medida'],
+    ['.exp-item h3',1,0,'Local experts on the ground','Expertos locales sobre el terreno'],
+    ['.exp-item h3',2,0,'Effortless, end to end','Sin esfuerzo, de principio a fin'],
+    ['.exp-item p',0,0,'Designed line by line with you — never copy-pasted, never rushed.','Diseñados línea por línea contigo: nunca copiados, nunca apresurados.'],
+    ['.exp-item p',1,0,"Guides and hosts who open doors you couldn't find on your own.",'Guías y anfitriones que abren puertas que no encontrarías por tu cuenta.'],
+    ['.exp-item p',2,0,'Flights, stays, transfers and the small details — handled.','Vuelos, alojamientos, traslados y los pequeños detalles: resueltos.'],
+    ['#values .overline',null,0,'Why Altamira','Por qué Altamira'],
+    ['#values .h2',null,1,"Travel that's personal,<br>down to the last detail.",'Viajes personales,<br>hasta el último detalle.'],
+    ['.val .vn',0,0,'A — Bespoke','A — A medida'],
+    ['.val .vn',1,0,'B — Trusted','B — De confianza'],
+    ['.val .vn',2,0,'C — Cared for','C — Bien cuidado'],
+    ['.val h3',0,0,'Made for you','Hecho para ti'],
+    ['.val h3',1,0,'People, not portals','Personas, no portales'],
+    ['.val h3',2,0,'Always reachable','Siempre disponibles'],
+    ['.val p',0,0,'No two travelers are alike, so no two itineraries should be either.','No hay dos viajeros iguales; tampoco debería haber dos itinerarios iguales.'],
+    ['.val p',1,0,'A dedicated advisor who knows your name and your trip by heart.','Un asesor dedicado que conoce tu nombre y tu viaje de memoria.'],
+    ['.val p',2,0,'Real human support, in your timezone, the whole way through.','Soporte humano real, en tu zona horaria, de principio a fin.'],
+    ['#reviews .overline',null,0,'Traveler stories','Historias de viajeros'],
+    ['#journal .overline',null,0,'The journal','El diario'],
+    ['#journal .h2',null,0,'Notes from the road.','Apuntes del camino.'],
+    ['#journal .link-u',null,0,'Read the journal →','Lee el diario →'],
+    ['.post .pm',0,0,'Guide · 6 min','Guía · 6 min'],
+    ['.post .pm',1,0,'Itinerary · 9 min','Itinerario · 9 min'],
+    ['.post .pm',2,0,'Inspiration · 5 min','Inspiración · 5 min'],
+    ['.post h3',0,0,'When to visit the Greek Isles','Cuándo visitar las islas griegas'],
+    ['.post h3',1,0,'Ten days across Japan','Diez días por Japón'],
+    ['.post h3',2,0,'The case for slow travel','El valor del viaje pausado'],
+    ['.post p',0,0,'Month-by-month on weather, crowds and the quiet windows worth chasing.','Mes a mes: clima, multitudes y las ventanas de calma que vale la pena buscar.'],
+    ['.post p',1,0,'A rhythm of cities and stillness, from Tokyo neon to Kyoto temples.','Un ritmo de ciudades y calma, del neón de Tokio a los templos de Kioto.'],
+    ['.post p',2,0,'Why fewer stops and longer stays make for the journeys you remember.','Por qué menos paradas y estancias más largas crean los viajes que recuerdas.'],
+    ['#contact .overline',null,0,'Start the conversation','Empecemos la conversación'],
+    ['#contact .h2',null,1,"Let's design your<br>next extraordinary trip.",'Diseñemos tu<br>próximo viaje extraordinario.'],
+    ['#contact .lead',null,0,"Tell us where your mind wanders. We'll take it from there — no obligation, no templates.",'Cuéntanos a dónde vuela tu imaginación. Nosotros nos encargamos del resto: sin compromiso, sin plantillas.'],
+    ['#contact a.btn-light',null,1,'Plan your journey <span class="arr">→</span>','Planifica tu viaje <span class="arr">→</span>'],
+    ['.foot-brand p',null,0,'Extraordinary experiences for every traveler. Tailor-made journeys, crafted by people who love the road.','Experiencias extraordinarias para cada viajero. Viajes a medida, creados por gente que ama el camino.'],
+    ['.fcol h4',0,0,'Explore','Explorar'],
+    ['.fcol h4',1,0,'Company','Empresa'],
+    ['.fcol h4',2,0,'Follow','Síguenos'],
+    ['.fcol a',0,0,'Destinations','Destinos'],
+    ['.fcol a',1,0,'Experiences','Experiencias'],
+    ['.fcol a',2,0,'Journal','Diario'],
+    ['.fcol a',3,0,'Why Altamira','Por qué Altamira'],
+    ['.fcol a',4,0,'About us','Quiénes somos'],
+    ['.fcol a',5,0,'Our advisors','Nuestros asesores'],
+    ['.fcol a',6,0,'Careers','Empleo'],
+    ['.fcol a',7,0,'Contact','Contacto'],
+    ['.foot-bot span',0,0,'© 2026 Altamira Travel. All rights reserved.','© 2026 Altamira Travel. Todos los derechos reservados.'],
+    ['.foot-bot span',1,0,'Privacy · Terms · Cookies','Privacidad · Términos · Cookies']
+  ];
+  const DEST={'Greek Isles':'Islas griegas','Japan':'Japón','Morocco':'Marruecos','Italy':'Italia','Kyoto & Beyond':'Kioto y alrededores','Amalfi Coast':'Costa de Amalfi','Tailor-made · 6–9 days':'A medida · 6–9 días','Cultural immersion · 8–12 days':'Inmersión cultural · 8–12 días','Adventure · 7 days':'Aventura · 7 días','Culture & desert · 6 days':'Cultura y desierto · 6 días','Slow travel · 7–10 days':'Viaje pausado · 7–10 días','From request':'A consultar','Guided':'Con guía','Active':'Activo','Romantic':'Romántico'};
+  function trEl(el,lang){ if(el.dataset.i18nEn==null) el.dataset.i18nEn=el.textContent.trim(); const en=el.dataset.i18nEn; el.textContent=(lang==='es'&&DEST[en])?DEST[en]:en; }
+  function applyDest(lang){ document.querySelectorAll('#dest-grid .dest').forEach(c=>{ const k=c.querySelector('.k'); if(k)trEl(k,lang); const meta=c.querySelector('.dest-meta span:not(.pill)'); if(meta)trEl(meta,lang); const pill=c.querySelector('.pill'); if(pill)trEl(pill,lang); }); }
+  function apply(lang){
+    M.forEach(e=>{ const el=e[1]==null?document.querySelector(e[0]):document.querySelectorAll(e[0])[e[1]]; if(!el)return; const v=lang==='es'?e[4]:e[3]; if(e[2])el.innerHTML=v; else el.textContent=v; });
+    applyDest(lang);
+    window.__lang=lang; document.documentElement.lang=lang;
+    if(window.refreshQuote) window.refreshQuote();
+    document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===lang));
+    try{ localStorage.setItem(KEY,lang); }catch(e){}
+  }
+  let init='es'; try{ const s=localStorage.getItem(KEY); if(s==='en'||s==='es')init=s; }catch(e){}
+  window.__lang=init;
+  document.addEventListener('click',e=>{ const b=e.target.closest('#lang button'); if(b)apply(b.dataset.l); });
+  apply(init);
+})();
+</script>
+</body>
+</html>
