@@ -586,7 +586,7 @@ function renderDestinations(destinations){
 }
 fetch('/destinations.json')
   .then(r=>r.json())
-  .then(renderDestinations)
+  .then(data=>renderDestinations(Array.isArray(data) ? data : (data.destinations || [])))
   .catch(()=>{ /* fallback silencioso si fetch falla en local */ });
 </script>
 
