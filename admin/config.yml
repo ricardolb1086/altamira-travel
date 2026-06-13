@@ -1,8 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: ricardolb1086/altamira-travel
   branch: main
+  base_url: https://REEMPLAZAR_CON_TU_WORKER.workers.dev  # OAuth proxy — ver instrucciones en README
 
-# Netlify Identity — habilitar en el dashboard de Netlify (Identity + Git Gateway)
 publish_mode: editorial_workflow
 
 media_folder: "img/uploads"
