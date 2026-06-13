@@ -530,10 +530,10 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
 ================================================================================= */
 const FALLBACK_VID = "https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4";
 const HERO_SLIDES = [
-  { city:"Capadocia",    region:"T\u00fcrkiye", src:"https://videos.pexels.com/video-files/30549329/13084614_1440_2560_30fps.mp4", poster:"https://images.pexels.com/videos/30549329/cappadocia-cappadocia-turkey-cave-hot-air-balloons-30549329.jpeg?auto=compress&cs=tinysrgb&w=1600" },
-  { city:"Dub\u00e1i",       region:"EAU",     src:"https://videos.pexels.com/video-files/1660911/1660911-uhd_2560_1440_30fps.mp4", poster:"https://images.pexels.com/videos/1660911/free-video-1660911.jpg?auto=compress&cs=tinysrgb&w=1600" },
-  { city:"Shibuya",      region:"Tokio",   src:["https://videos.pexels.com/video-files/14952031/14952031-hd_1920_1080_60fps.mp4","https://videos.pexels.com/video-files/14952031/14952031-uhd_2560_1440_60fps.mp4"], poster:"https://images.pexels.com/videos/14952031/pexels-photo-14952031.jpeg?auto=compress&cs=tinysrgb&w=1600" },
-  { city:"Machu Picchu", region:"Per\u00fa",   src:"https://videos.pexels.com/video-files/4361882/4361882-hd_1920_1080_25fps.mp4",  poster:"https://images.pexels.com/videos/4361882/archaeological-site-beautiful-view-clouds-machu-picchu-4361882.jpeg?auto=compress&cs=tinysrgb&w=1600" },
+  { city:"Capadocia",    region:"T\u00fcrkiye", src:"/videos/cappadocia.mp4",   poster:"/videos/cappadocia-poster.jpg" },
+  { city:"Dub\u00e1i",       region:"EAU",     src:"/videos/dubai.mp4",        poster:"/videos/dubai-poster.jpg" },
+  { city:"Shibuya",      region:"Tokio",   src:"/videos/shibuya.mp4",      poster:"/videos/shibuya-poster.jpg" },
+  { city:"Machu Picchu", region:"Per\u00fa",   src:"/videos/machu-picchu.mp4", poster:"/videos/machu-picchu-poster.jpg" },
 ];
 (function(){
   const wrap=document.getElementById('hslides'), dots=document.getElementById('hdots'), locText=document.getElementById('hloc-text');
@@ -570,21 +570,9 @@ const HERO_SLIDES = [
    desde "Altamira Admin.html" SIN tocar código. Los cambios hechos en el panel
    se guardan en este navegador (localStorage) y se reflejan aquí al recargar.
 ========================================================================= */
-const DEST_KEY='altamira_destinations_v1';
-const DEFAULT_DESTINATIONS=[
-  { region:"Greek Isles", name:"Santorini",        meta:"Tailor-made \u00b7 6\u20139 days",        pill:"From request", size:"tall",  photo:"", photoLabel:"Destination photo \u2014 4:5 portrait" },
-  { region:"Japan",       name:"Kyoto & Beyond",   meta:"Cultural immersion \u00b7 8\u201312 days", pill:"Guided",      size:"wide",  photo:"", photoLabel:"Destination photo \u2014 landscape" },
-  { region:"Patagonia",   name:"Torres del Paine", meta:"Adventure \u00b7 7 days",             pill:"Active",       size:"third", photo:"", photoLabel:"Destination photo" },
-  { region:"Morocco",     name:"Marrakech",        meta:"Culture & desert \u00b7 6 days",      pill:"Boutique",     size:"third", photo:"", photoLabel:"Destination photo" },
-  { region:"Italy",       name:"Amalfi Coast",     meta:"Slow travel \u00b7 7\u201310 days",       pill:"Romantic",     size:"third", photo:"", photoLabel:"Destination photo" },
-];
-function loadDestinations(){
-  try{ const r=localStorage.getItem(DEST_KEY); if(r){ const a=JSON.parse(r); if(Array.isArray(a)&&a.length) return a; } }catch(e){}
-  return DEFAULT_DESTINATIONS;
-}
-function renderDestinations(){
+function renderDestinations(destinations){
   const grid=document.getElementById('dest-grid'); if(!grid) return;
-  grid.innerHTML=loadDestinations().map(d=>{
+  grid.innerHTML=destinations.map(d=>{
     const size=['tall','wide','third'].includes(d.size)?d.size:'third';
     const ph = d.photo
       ? '<div class="ph has-img" style="background:url(\''+d.photo+'\') center/cover;"></div>'
@@ -593,8 +581,13 @@ function renderDestinations(){
       '<div class="dest-body"><span class="k">'+(d.region||'')+'</span><h3>'+(d.name||'')+'</h3>'+
       '<div class="dest-meta"><span>'+(d.meta||'')+'</span>'+(d.pill?'<span class="pill">'+d.pill+'</span>':'')+'</div></div></article>';
   }).join('');
+  // re-observe new elements for scroll reveal
+  document.querySelectorAll('#dest-grid .rv').forEach((el,i)=>{ el.style.transitionDelay=(Math.min(i%4,3)*70)+'ms'; io.observe(el); });
 }
-renderDestinations();
+fetch('/destinations.json')
+  .then(r=>r.json())
+  .then(renderDestinations)
+  .catch(()=>{ /* fallback silencioso si fetch falla en local */ });
 </script>
 
 <script>

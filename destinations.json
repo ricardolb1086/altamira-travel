@@ -1,0 +1,47 @@
+[
+  {
+    "region": "Greek Isles",
+    "name": "Santorini",
+    "meta": "Tailor-made · 6–9 days",
+    "pill": "From request",
+    "size": "tall",
+    "photo": "",
+    "photoLabel": "Destination photo — 4:5 portrait"
+  },
+  {
+    "region": "Japan",
+    "name": "Kyoto & Beyond",
+    "meta": "Cultural immersion · 8–12 days",
+    "pill": "Guided",
+    "size": "wide",
+    "photo": "",
+    "photoLabel": "Destination photo — landscape"
+  },
+  {
+    "region": "Patagonia",
+    "name": "Torres del Paine",
+    "meta": "Adventure · 7 days",
+    "pill": "Active",
+    "size": "third",
+    "photo": "",
+    "photoLabel": "Destination photo"
+  },
+  {
+    "region": "Morocco",
+    "name": "Marrakech",
+    "meta": "Culture & desert · 6 days",
+    "pill": "Boutique",
+    "size": "third",
+    "photo": "",
+    "photoLabel": "Destination photo"
+  },
+  {
+    "region": "Italy",
+    "name": "Amalfi Coast",
+    "meta": "Slow travel · 7–10 days",
+    "pill": "Romantic",
+    "size": "third",
+    "photo": "",
+    "photoLabel": "Destination photo"
+  }
+]

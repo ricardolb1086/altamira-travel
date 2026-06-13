@@ -1,0 +1,40 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Netlify Identity — habilitar en el dashboard de Netlify (Identity + Git Gateway)
+publish_mode: editorial_workflow
+
+media_folder: "img/uploads"
+public_folder: "/img/uploads"
+
+collections:
+  - name: "destinations"
+    label: "Destinos"
+    label_singular: "Destino"
+    description: "Gestiona los destinos que aparecen en la sección 'Nuestros Destinos' del sitio."
+    files:
+      - name: "destinations"
+        label: "Lista de destinos"
+        file: "destinations.json"
+        description: "Arreglo JSON con todos los destinos. Edita, reordena o añade nuevos destinos aquí."
+        fields:
+          - name: destinations
+            label: Destinos
+            widget: list
+            summary: "{{fields.name}} — {{fields.region}}"
+            fields:
+              - { label: "Región / País", name: region, widget: string }
+              - { label: "Nombre del destino", name: name, widget: string }
+              - { label: "Meta (ej. 6–9 días)", name: meta, widget: string }
+              - { label: "Etiqueta pill", name: pill, widget: string, required: false }
+              - label: "Tamaño de tarjeta"
+                name: size
+                widget: select
+                options:
+                  - { label: "Tall (vertical grande)", value: tall }
+                  - { label: "Wide (horizontal)", value: wide }
+                  - { label: "Third (tercio)", value: third }
+                default: third
+              - { label: "Foto (URL o subida)", name: photo, widget: image, required: false, allow_multiple: false }
+              - { label: "Texto alternativo / label", name: photoLabel, widget: string, required: false }
