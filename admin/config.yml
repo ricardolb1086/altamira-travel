@@ -37,5 +37,5 @@ collections:
                   - { label: "Wide (horizontal)", value: wide }
                   - { label: "Third (tercio)", value: third }
                 default: third
-              - { label: "Foto (URL o subida)", name: photo, widget: image, required: false, allow_multiple: false }
+              - { label: "Foto (URL o subida)", name: photo, widget: image, required: false, multiple: false }
               - { label: "Texto alternativo / label", name: photoLabel, widget: string, required: false }
