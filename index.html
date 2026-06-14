@@ -924,7 +924,18 @@ const HERO_SLIDES = [
    desde "Altamira Admin.html" SIN tocar código. Los cambios hechos en el panel
    se guardan en este navegador (localStorage) y se reflejan aquí al recargar.
 ========================================================================= */
-function renderDestinations(destinations){
+// Traducciones inline — independientes del sistema i18n
+var _destData=null;
+var _DEST_TR={
+  region:{'Greek Isles':'Islas griegas','Japan':'Japón','Morocco':'Marruecos','Italy':'Italia','Patagonia':'Patagonia'},
+  name:{'Kyoto & Beyond':'Kioto y alrededores','Amalfi Coast':'Costa Amalfitana','Positano':'Positano','Santorini':'Santorini','Torres del Paine':'Torres del Paine','Marrakech':'Marrakech'},
+  meta:{'Tailor-made · 6–9 days':'A medida · 6–9 días','Cultural immersion · 8–12 days':'Inmersión cultural · 8–12 días','Adventure · 7 days':'Aventura · 7 días','Culture & desert · 6 days':'Cultura y desierto · 6 días','Slow travel · 7–10 days':'Viaje pausado · 7–10 días'},
+  pill:{'From request':'A consultar','Guided':'Con guía','Active':'Activo','Romantic':'Romántico','Boutique':'Boutique'}
+};
+function _tr(dict,val){ var lang=window.__lang||'es'; return (lang==='es'&&dict[val])?dict[val]:(val||''); }
+function renderDestinations(data){
+  if(data) _destData=data;
+  var destinations=_destData; if(!destinations) return;
   const grid=document.getElementById('dest-grid'); if(!grid) return;
   grid.innerHTML=destinations.map(d=>{
     const size=['tall','wide','third'].includes(d.size)?d.size:'third';
@@ -932,14 +943,13 @@ function renderDestinations(destinations){
       ? '<div class="ph has-img" style="background:url(\''+d.photo+'\') center/cover;"></div>'
       : '<div class="ph"><span class="ph-tag">'+(d.photoLabel||'Destination photo')+'</span></div>';
     return '<article class="dest '+size+' rv">'+ph+
-      '<div class="dest-body"><span class="k">'+(d.region||'')+'</span><h3>'+(d.name||'')+'</h3>'+
-      '<div class="dest-meta"><span>'+(d.meta||'')+'</span>'+(d.pill?'<span class="pill">'+d.pill+'</span>':'')+'</div></div></article>';
+      '<div class="dest-body"><span class="k">'+_tr(_DEST_TR.region,d.region)+'</span><h3>'+_tr(_DEST_TR.name,d.name)+'</h3>'+
+      '<div class="dest-meta"><span>'+_tr(_DEST_TR.meta,d.meta)+'</span>'+(d.pill?'<span class="pill">'+_tr(_DEST_TR.pill,d.pill)+'</span>':'')+'</div></div></article>';
   }).join('');
-  // re-observe new elements for scroll reveal
   document.querySelectorAll('#dest-grid .rv').forEach((el,i)=>{ el.style.transitionDelay=(Math.min(i%4,3)*70)+'ms'; io.observe(el); });
-  // aplicar traducción al idioma activo después del render asíncrono
-  if(window.applyDestLang) window.applyDestLang(window.__lang||'es');
 }
+// re-render cuando cambia el idioma
+window.rerenderDestinations=function(){ renderDestinations(null); };
 fetch('/destinations.json')
   .then(r=>r.json())
   .then(data=>renderDestinations(Array.isArray(data) ? data : (data.destinations || [])))
@@ -1165,6 +1175,7 @@ setInterval(()=>show((qi+1)%qlist().length), 6500);
     applyDest(lang);
     window.__lang=lang; document.documentElement.lang=lang;
     if(window.refreshQuote) window.refreshQuote();
+    if(window.rerenderDestinations) window.rerenderDestinations();
     document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===lang));
     try{ localStorage.setItem(KEY,lang); }catch(e){}
   }
