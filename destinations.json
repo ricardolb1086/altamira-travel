@@ -6,7 +6,7 @@
       "meta": "Tailor-made · 6–9 days",
       "pill": "From request",
       "size": "tall",
-      "photo": "",
+      "photo": "https://images.pexels.com/photos/13356921/pexels-photo-13356921.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "photoLabel": "Destination photo — 4:5 portrait"
     },
     {
@@ -15,7 +15,7 @@
       "meta": "Cultural immersion · 8–12 days",
       "pill": "Guided",
       "size": "wide",
-      "photo": "",
+      "photo": "https://images.pexels.com/photos/16226405/pexels-photo-16226405.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "photoLabel": "Destination photo — landscape"
     },
     {
@@ -24,7 +24,7 @@
       "meta": "Adventure · 7 days",
       "pill": "Active",
       "size": "third",
-      "photo": "",
+      "photo": "https://images.pexels.com/photos/25067987/pexels-photo-25067987.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "photoLabel": "Destination photo"
     },
     {
@@ -33,7 +33,7 @@
       "meta": "Culture & desert · 6 days",
       "pill": "Boutique",
       "size": "third",
-      "photo": "",
+      "photo": "https://images.pexels.com/photos/36209321/pexels-photo-36209321.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "photoLabel": "Destination photo"
     },
     {
@@ -42,7 +42,7 @@
       "meta": "Slow travel · 7–10 days",
       "pill": "Romantic",
       "size": "third",
-      "photo": "",
+      "photo": "https://images.pexels.com/photos/19990859/pexels-photo-19990859.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "photoLabel": "Destination photo"
     }
   ]
