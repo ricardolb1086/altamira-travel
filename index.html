@@ -892,21 +892,20 @@ const HERO_SLIDES = [
     const d=document.createElement('div'); d.className='hslide'+(i===0?' on':'');
     const srcs = Array.isArray(s.src) ? s.src : [s.src];
     const sourceTags = srcs.map(u=>'<source src="'+u+'" type="video/mp4">').join('') + '<source src="'+FALLBACK_VID+'" type="video/mp4">';
-    // autoplay solo en el primer slide; los dem\u00e1s con preload=metadata para pre-buffer sin reproducir
-    const autoAttr = i===0 ? 'autoplay ' : '';
+    // autoplay en TODOS los videos \u2014 Safari necesita el atributo para permitir .play() por JS
     d.innerHTML = s.slot
       ? '<image-slot id="'+s.slot+'" fit="cover" placeholder="'+s.placeholder+'"></image-slot>'
-      : ('<video '+autoAttr+'muted loop playsinline preload="'+(i===0?'auto':'metadata')+'" poster="'+s.poster+'">'+sourceTags+'</video>');
+      : ('<video autoplay muted loop playsinline preload="'+(i===0?'auto':'metadata')+'" poster="'+s.poster+'">'+sourceTags+'</video>');
     wrap.appendChild(d);
     const b=document.createElement('button'); b.setAttribute('aria-label',s.city); if(i===0)b.className='on'; b.addEventListener('click',()=>go(i)); dots.appendChild(b);
   });
   const slides=[...wrap.children], vids=slides.map(s=>s.querySelector('video')), btns=[...dots.children];
   let idx=0;
   function setLoc(i){ locText.innerHTML=HERO_SLIDES[i].city+' \u00b7 <span class="reg">'+HERO_SLIDES[i].region+'</span>'; }
-  setLoc(0);
-  // play() al primer evento de datos disponibles \u2014 evita el bloqueo por pol\u00edtica de autoplay
+  // pausar inmediatamente los videos no activos (tienen autoplay pero los controlamos por JS)
   function tryPlay(v){ if(!v) return; v.play().catch(()=>{}); }
-  if(vids[0]){ vids[0].addEventListener('canplay', ()=>tryPlay(vids[0]), {once:true}); tryPlay(vids[0]); }
+  vids.forEach((v,k)=>{ if(!v) return; if(k===0){ tryPlay(v); } else { v.pause(); } });
+  if(vids[0]){ vids[0].addEventListener('canplay', ()=>tryPlay(vids[0]), {once:true}); }
   function go(i){
     idx=(i+slides.length)%slides.length;
     slides.forEach((s,k)=>s.classList.toggle('on',k===idx));
