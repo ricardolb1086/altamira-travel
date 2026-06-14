@@ -950,7 +950,7 @@ function renderDestinations(data){
 }
 // re-render cuando cambia el idioma
 window.rerenderDestinations=function(){ renderDestinations(null); };
-fetch('/destinations.json')
+fetch('/destinations.json?v='+Date.now())
   .then(r=>r.json())
   .then(data=>renderDestinations(Array.isArray(data) ? data : (data.destinations || [])))
   .catch(()=>{ /* fallback silencioso si fetch falla en local */ });
