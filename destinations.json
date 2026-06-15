@@ -19,21 +19,21 @@
       "photoLabel": "Destination photo — landscape"
     },
     {
-      "region": "Patagonia",
-      "name": "Torres del Paine",
-      "meta": "Adventure · 7 days",
-      "pill": "Active",
+      "region": "Egypt",
+      "name": "Egypt · Nile Cruise",
+      "meta": "8 days · Daily departures",
+      "pill": "Guaranteed",
       "size": "third",
-      "photo": "https://images.pexels.com/photos/25067987/pexels-photo-25067987.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "photo": "https://images.pexels.com/photos/3873681/pexels-photo-3873681.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "photoLabel": "Destination photo"
     },
     {
-      "region": "Morocco",
-      "name": "Marrakech",
-      "meta": "Culture & desert · 6 days",
-      "pill": "Boutique",
+      "region": "Turkey",
+      "name": "Istanbul & Cappadocia",
+      "meta": "10 days · Every Monday",
+      "pill": "Guaranteed",
       "size": "third",
-      "photo": "https://images.pexels.com/photos/36209321/pexels-photo-36209321.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "photo": "https://images.pexels.com/photos/34923589/pexels-photo-34923589.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "photoLabel": "Destination photo"
     },
     {
