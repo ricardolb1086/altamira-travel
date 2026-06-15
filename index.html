@@ -740,6 +740,62 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
   </div>
 </section>
 
+<!-- ============ SALIDAS REGULARES ============ -->
+<section class="block" id="salidas-regulares" style="background:var(--cream);border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <span class="overline">Salidas Regulares</span>
+        <h2 class="h2" style="margin-top:18px;">El mundo, todos<br>los meses del <em class="it">año</em>.</h2>
+      </div>
+      <div>
+        <p class="lead" style="max-width:38ch;">Circuitos con salida garantizada — sin esperar a llenar un grupo. Desde Egipto hasta Turquía, operados con nuestros socios de confianza en tierra.</p>
+        <!-- 3 diferenciadores -->
+        <div style="margin-top:20px; display:flex; flex-direction:column; gap:8px;">
+          <span style="font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); display:flex; align-items:center; gap:10px;">
+            <span style="color:var(--terra); font-size:14px;">✓</span> Salida garantizada desde 2 pasajeros
+          </span>
+          <span style="font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); display:flex; align-items:center; gap:10px;">
+            <span style="color:var(--terra); font-size:14px;">✓</span> Salidas todos los meses del año
+          </span>
+          <span style="font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); display:flex; align-items:center; gap:10px;">
+            <span style="color:var(--terra); font-size:14px;">✓</span> Guía en español incluido
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="circuits-grid rv">
+
+      <!-- Egipto Faraónico -->
+      <div class="circuit">
+        <img class="circuit-img" src="https://images.pexels.com/photos/3689872/pexels-photo-3689872.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Pirámides de Giza, Egipto" loading="lazy">
+        <div class="circuit-scrim"></div>
+        <div class="circuit-body">
+          <span class="circuit-badge">✓ Salida garantizada</span>
+          <div class="circuit-name">Egipto Faraónico<br><span style="font-size:.7em;opacity:.8;">con Crucero por el Nilo</span></div>
+          <div class="circuit-dur">8 días · El Cairo · Luxor · Asuán</div>
+          <a href="/programas/egipto-faraonico.html" class="circuit-cta">Ver itinerario →</a>
+        </div>
+      </div>
+
+      <!-- La Ruta de los Sultanes -->
+      <div class="circuit">
+        <img class="circuit-img" src="https://images.pexels.com/photos/1631665/pexels-photo-1631665.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Capadocia, Turquía" loading="lazy">
+        <div class="circuit-scrim"></div>
+        <div class="circuit-body">
+          <span class="circuit-badge">✓ Salida garantizada</span>
+          <div class="circuit-name">La Ruta de <em style="font-style:italic;">los Sultanes</em></div>
+          <div class="circuit-dur">10 días · Estambul · Capadocia · Pamukkale</div>
+          <a href="/programas/la-ruta-de-los-sultanes.html" class="circuit-cta">Ver itinerario →</a>
+        </div>
+      </div>
+
+    </div><!-- /circuits-grid salidas regulares -->
+
+  </div>
+</section>
+
 <!-- ============ EUROPA ESENCIAL ============ -->
 <section class="block" id="europa-esencial" style="background:var(--paper);border-top:1px solid var(--line);">
   <div class="wrap">
@@ -1276,6 +1332,11 @@ setInterval(()=>show((qi+1)%qlist().length), 6500);
     ['#circuits .circuit-cta',13,0,'Waitlist →','Lista de espera →'],
 
     /* ---- Europa Esencial ---- */
+    /* ---- Salidas Regulares ---- */
+    ['#salidas-regulares .overline',null,0,'Guaranteed Departures','Salidas Regulares'],
+    ['#salidas-regulares .h2',null,1,'The world, every<br>month of the <em class="it">year</em>.','El mundo, todos<br>los meses del <em class="it">año</em>.'],
+    ['#salidas-regulares .lead',null,0,'Circuits with guaranteed departure — no waiting to fill a group. From Egypt to Turkey, operated with our trusted ground partners.','Circuitos con salida garantizada — sin esperar a llenar un grupo. Desde Egipto hasta Turquía, operados con nuestros socios de confianza en tierra.'],
+
     ['#europa-esencial .overline',null,0,'Essential Europe','Europa Esencial'],
     ['#europa-esencial .h2',null,1,'The smartest way<br>to discover <em class="it">Europe</em>.','La manera más inteligente<br>de descubrir <em class="it">Europa</em>.'],
     ['#europa-esencial .lead',null,0,'For first-time visitors to Europe — classic routes, iconic cities and the comfort of traveling with everything arranged. Guaranteed departures from 2 passengers, every month of the year.','Para quienes descubren Europa por primera vez — rutas clásicas, ciudades icónicas y la comodidad de viajar con todo resuelto. Salida garantizada desde 2 pasajeros, todos los meses del año.'],
