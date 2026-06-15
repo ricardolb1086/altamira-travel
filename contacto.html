@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planifica tu viaje — Altamira Travel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream: oklch(0.972 0.012 78);
+  --cream-2: oklch(0.945 0.016 76);
+  --ink: oklch(0.245 0.014 58);
+  --ink-soft: oklch(0.42 0.02 60);
+  --line: oklch(0.86 0.014 76);
+  --terra: oklch(0.575 0.115 46);
+  --terra-deep: oklch(0.48 0.11 42);
+  --paper: oklch(0.99 0.006 80);
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans: "Hanken Grotesk", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --maxw: 1280px;
+  --pad: clamp(20px, 5vw, 64px);
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{ font-family:var(--sans); background:var(--cream); color:var(--ink); -webkit-font-smoothing:antialiased; line-height:1.55; min-height:100vh; }
+a{ color:inherit; text-decoration:none; }
+.wrap{ max-width:var(--maxw); margin:0 auto; padding-inline:var(--pad); }
+
+/* NAV */
+.nav{ position:fixed; top:0; left:0; right:0; z-index:100; background:color-mix(in oklab,var(--cream) 92%,transparent); backdrop-filter:blur(12px); box-shadow:0 1px 0 var(--line); padding:12px 0; }
+.nav-row{ display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.brand{ display:flex; align-items:center; gap:10px; font-family:var(--serif); }
+.brand .mark{ width:30px; height:30px; border-radius:50%; background:var(--terra); display:grid; place-items:center; flex:none; }
+.brand .mark::after{ content:""; width:11px; height:11px; border-radius:50%; border:2px solid var(--cream); }
+.brand .name{ font-size:25px; letter-spacing:.14em; font-weight:600; text-transform:uppercase; color:var(--ink); }
+.brand .name b{ color:var(--terra-deep); }
+.btn-back-nav{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); display:inline-flex; align-items:center; gap:8px; transition:color .2s; }
+.btn-back-nav:hover{ color:var(--terra-deep); }
+
+/* HERO */
+.contact-hero{ padding:clamp(110px,15vh,150px) 0 clamp(48px,7vh,72px); }
+.overline{ font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--terra-deep); display:inline-flex; align-items:center; gap:.7em; margin-bottom:20px; }
+.overline::before{ content:""; width:26px; height:1px; background:var(--terra); }
+.contact-hero h1{ font-family:var(--serif); font-size:clamp(44px,6.5vw,82px); font-weight:500; line-height:1.04; letter-spacing:-.01em; text-wrap:balance; }
+.contact-hero h1 em{ font-style:italic; color:var(--terra-deep); }
+.contact-hero .sub{ font-size:clamp(16px,1.3vw,19px); color:var(--ink-soft); margin-top:18px; max-width:52ch; line-height:1.65; }
+
+/* MAIN GRID */
+.contact-main{ padding-bottom:clamp(80px,12vh,120px); }
+.contact-grid{ display:grid; grid-template-columns:1fr 1px 420px; gap:clamp(32px,5vw,72px); align-items:start; margin-top:clamp(48px,7vh,72px); }
+.divider-v{ background:var(--line); width:1px; height:100%; min-height:500px; }
+
+/* FORM */
+.form-title{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:28px; display:flex; align-items:center; gap:10px; }
+.form-title::before{ content:"01"; color:var(--terra); }
+.contact-form{ display:flex; flex-direction:column; gap:20px; }
+.cf-row{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.cf-field{ display:flex; flex-direction:column; gap:8px; }
+.cf-field label{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); }
+.cf-field input,
+.cf-field select,
+.cf-field textarea{
+  padding:14px 18px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:15px;
+  outline:none;
+  transition:border-color .25s, box-shadow .25s;
+  resize:none;
+  width:100%;
+}
+.cf-field input:focus,
+.cf-field select:focus,
+.cf-field textarea:focus{
+  border-color:var(--terra);
+  box-shadow:0 0 0 3px oklch(0.575 0.115 46 / .12);
+}
+.cf-field input::placeholder,
+.cf-field textarea::placeholder{ color:oklch(0.68 0.01 78); }
+.cf-field select{ appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:42px; cursor:pointer; }
+.cf-field select option{ color:var(--ink); }
+.btn-submit{ display:flex; align-items:center; justify-content:center; gap:10px; background:var(--ink); color:var(--cream); font-family:var(--sans); font-weight:700; font-size:15px; padding:17px 32px; border-radius:100px; border:none; cursor:pointer; transition:all .35s cubic-bezier(.2,.7,.3,1); width:100%; margin-top:4px; }
+.btn-submit .arr{ transition:transform .35s cubic-bezier(.2,.7,.3,1); }
+.btn-submit:hover{ background:var(--terra-deep); }
+.btn-submit:hover .arr{ transform:translateX(4px); }
+.form-note{ font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; color:var(--ink-soft); text-align:center; margin-top:10px; opacity:.7; }
+
+/* SUCCESS STATE */
+.form-success{ display:none; text-align:center; padding:48px 24px; }
+.form-success.show{ display:block; }
+.form-success h3{ font-family:var(--serif); font-size:32px; margin-bottom:12px; }
+.form-success p{ color:var(--ink-soft); }
+
+/* WHATSAPP SIDE */
+.wa-side{ position:sticky; top:88px; }
+.wa-label{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:28px; display:flex; align-items:center; gap:10px; }
+.wa-label::before{ content:"02"; color:var(--terra); }
+.wa-card{ background:var(--ink); border-radius:20px; padding:40px 32px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:18px; }
+.wa-icon{ width:76px; height:76px; border-radius:50%; background:rgba(37,211,102,.15); display:grid; place-items:center; }
+.wa-card h2{ font-family:var(--serif); font-size:30px; color:var(--paper); font-weight:500; line-height:1.1; }
+.wa-card p{ color:oklch(0.68 0.012 78); font-size:15px; line-height:1.65; }
+.wa-card p em{ color:oklch(0.55 0.01 78); font-style:normal; font-size:13px; display:block; margin-top:6px; }
+.btn-wa{ display:flex; align-items:center; justify-content:center; gap:10px; background:#25D366; color:#fff; font-family:var(--sans); font-weight:700; font-size:15px; padding:17px 28px; border-radius:100px; transition:all .3s; width:100%; }
+.btn-wa:hover{ background:#1ebe5d; transform:translateY(-2px); }
+.wa-meta{ display:flex; flex-direction:column; gap:4px; }
+.wa-meta span{ font-family:var(--mono); font-size:11px; letter-spacing:.08em; color:oklch(0.50 0.01 78); text-transform:uppercase; }
+.wa-meta strong{ font-family:var(--mono); font-size:13px; letter-spacing:.06em; color:oklch(0.65 0.01 78); display:block; margin-top:2px; font-weight:400; }
+
+/* TRUST STRIP */
+.trust-strip{ border-top:1px solid var(--line); padding-top:32px; margin-top:clamp(48px,7vh,80px); display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+.trust-item{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); display:flex; align-items:center; gap:8px; }
+.trust-item::before{ content:"✓"; color:var(--terra); font-weight:700; }
+
+/* FOOTER */
+footer{ background:var(--paper); border-top:1px solid var(--line); padding-block:36px 24px; }
+.foot-bot{ display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; font-size:13px; color:var(--ink-soft); font-family:var(--mono); }
+
+@media(max-width:900px){
+  .contact-grid{ grid-template-columns:1fr; }
+  .divider-v{ width:100%; height:1px; min-height:auto; }
+  .wa-side{ position:static; }
+  .cf-row{ grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap nav-row">
+    <a href="/" class="brand">
+      <span class="mark"></span>
+      <span class="name">Alta<b>mira</b></span>
+    </a>
+    <a href="/" class="btn-back-nav">← Volver · Back</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="contact-hero">
+  <div class="wrap">
+    <p class="overline">Planifica tu viaje · Plan your journey</p>
+    <h1>Cuéntanos a dónde<br>quieres <em>llegar.</em></h1>
+    <p class="sub">Sin importar el canal que elijas, uno de nuestros asesores responderá en menos de 24 horas — sin compromiso, sin plantillas. Whatever channel you choose, we'll respond within 24 hours.</p>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="contact-main">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <!-- FORMULARIO -->
+      <div>
+        <p class="form-title">Escríbenos un mensaje · Send us a message</p>
+
+        <div class="form-success" id="form-success">
+          <h3>¡Mensaje enviado! 🎉</h3>
+          <p>Te responderemos en menos de 24 horas a tu correo.<br>We'll get back to you within 24 hours.</p>
+        </div>
+
+        <form class="contact-form" id="contact-form" action="https://formspree.io/f/xzdqydwl" method="POST">
+          <div class="cf-row">
+            <div class="cf-field">
+              <label>Nombre completo · Full name *</label>
+              <input type="text" name="name" placeholder="Tu nombre completo" required>
+            </div>
+            <div class="cf-field">
+              <label>Email *</label>
+              <input type="email" name="email" placeholder="tu@email.com" required>
+            </div>
+          </div>
+
+          <div class="cf-row">
+            <div class="cf-field">
+              <label>Teléfono · Phone</label>
+              <input type="tel" name="phone" placeholder="+1 (000) 000-0000">
+            </div>
+            <div class="cf-field">
+              <label>¿Cuántas personas viajan? · Travelers</label>
+              <select name="travelers">
+                <option value="">Selecciona · Select</option>
+                <option value="1">Solo (1 persona)</option>
+                <option value="2">Pareja (2 personas)</option>
+                <option value="3-5">Familia pequeña (3-5)</option>
+                <option value="6-10">Grupo pequeño (6-10)</option>
+                <option value="11+">Grupo grande (11+)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cf-row">
+            <div class="cf-field">
+              <label>Destino de interés · Destination *</label>
+              <input type="text" name="destination" placeholder="Ej: Japón, Turquía, Egipto, Europa…" required>
+            </div>
+            <div class="cf-field">
+              <label>Fecha aproximada · Approximate date</label>
+              <input type="text" name="date" placeholder="Ej: Octubre 2026, Navidad…">
+            </div>
+          </div>
+
+          <div class="cf-field">
+            <label>Cuéntanos más · Tell us more</label>
+            <textarea name="message" rows="5" placeholder="Cuéntanos sobre tu viaje ideal — intereses, presupuesto aproximado, si es una ocasión especial… / Tell us about your ideal trip — interests, approximate budget, special occasion…"></textarea>
+          </div>
+
+          <input type="hidden" name="_subject" value="Nueva consulta — Altamira Travel">
+          <input type="hidden" name="_next" value="https://altamiratravel.com/contacto.html?enviado=1">
+
+          <button type="submit" class="btn-submit">
+            Enviar mensaje · Send message <span class="arr">→</span>
+          </button>
+          <p class="form-note">Sin spam · No spam · Respondemos en &lt;24h · We reply within 24h</p>
+        </form>
+      </div>
+
+      <!-- DIVIDER -->
+      <div class="divider-v"></div>
+
+      <!-- WHATSAPP -->
+      <div class="wa-side">
+        <p class="wa-label">O chatea ahora · Or chat now</p>
+        <div class="wa-card">
+          <div class="wa-icon">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </div>
+          <h2>Respuesta<br>inmediata</h2>
+          <p>Chatea con uno de nuestros asesores ahora mismo. Disponibles todos los días del año.<em>Chat with one of our advisors right now. Available every day of the year.</em></p>
+          <a href="https://wa.me/16507650627?text=Hola%2C%20quiero%20planificar%20mi%20pr%C3%B3ximo%20viaje%20con%20Altamira%20Travel" target="_blank" rel="noopener" class="btn-wa">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Abrir WhatsApp
+          </a>
+          <div class="wa-meta">
+            <span>Teléfono · Phone</span>
+            <strong>+1 (650) 765-0627</strong>
+            <span style="margin-top:8px;">Horario · Hours</span>
+            <strong>Lun–Dom · 8am–10pm ET</strong>
+          </div>
+        </div>
+
+        <!-- TRUST -->
+        <div class="trust-strip">
+          <div class="trust-item">Respuesta en &lt;24h</div>
+          <div class="trust-item">Sin compromiso</div>
+          <div class="trust-item">Guía en español</div>
+          <div class="trust-item">LLC americana</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-bot">
+      <span>© 2026 Altamira Travel · Altamira Group LLC</span>
+      <a href="/" style="color:var(--terra-deep);">← Volver al inicio · Back to home</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Mostrar mensaje de éxito si viene de Formspree
+if(window.location.search.includes('enviado=1')){
+  document.getElementById('form-success').classList.add('show');
+  document.getElementById('contact-form').style.display='none';
+}
+</script>
+</body>
+</html>
