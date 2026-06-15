@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms & Conditions — Altamira Travel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream: oklch(0.972 0.012 78);
+  --ink: oklch(0.245 0.014 58);
+  --ink-soft: oklch(0.42 0.02 60);
+  --line: oklch(0.86 0.014 76);
+  --terra: oklch(0.575 0.115 46);
+  --terra-deep: oklch(0.48 0.11 42);
+  --paper: oklch(0.99 0.006 80);
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans: "Hanken Grotesk", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --maxw: 860px;
+  --pad: clamp(20px, 5vw, 64px);
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{ font-family:var(--sans); background:var(--cream); color:var(--ink); -webkit-font-smoothing:antialiased; line-height:1.55; }
+a{ color:var(--terra-deep); text-decoration:none; }
+a:hover{ text-decoration:underline; }
+.wrap{ max-width:var(--maxw); margin:0 auto; padding-inline:var(--pad); }
+.nav{ position:fixed; top:0; left:0; right:0; z-index:100; background:color-mix(in oklab,var(--cream) 92%,transparent); backdrop-filter:blur(12px); box-shadow:0 1px 0 var(--line); padding:12px 0; }
+.nav-row{ display:flex; align-items:center; justify-content:space-between; gap:24px; max-width:1280px; margin:0 auto; padding-inline:var(--pad); }
+.brand{ display:flex; align-items:center; gap:10px; font-family:var(--serif); }
+.brand .mark{ width:28px; height:28px; border-radius:50%; background:var(--terra); display:grid; place-items:center; flex:none; }
+.brand .mark::after{ content:""; width:10px; height:10px; border-radius:50%; border:2px solid var(--cream); }
+.brand .name{ font-size:22px; letter-spacing:.14em; font-weight:600; text-transform:uppercase; color:var(--ink); }
+.brand .name b{ color:var(--terra-deep); }
+.page-hero{ padding:clamp(100px,14vh,130px) 0 clamp(36px,5vh,56px); border-bottom:1px solid var(--line); }
+.overline{ font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--terra-deep); display:inline-flex; align-items:center; gap:.7em; margin-bottom:18px; }
+.overline::before{ content:""; width:26px; height:1px; background:var(--terra); }
+.page-hero h1{ font-family:var(--serif); font-size:clamp(36px,5vw,60px); font-weight:500; line-height:1.06; }
+.page-hero .sub{ font-size:15px; color:var(--ink-soft); margin-top:14px; font-family:var(--mono); letter-spacing:.04em; }
+.toc{ background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:28px 32px; margin-block:48px; }
+.toc h3{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:16px; }
+.toc ol{ list-style:none; display:flex; flex-direction:column; gap:8px; counter-reset:toc; }
+.toc li{ counter-increment:toc; display:flex; gap:12px; font-size:14px; }
+.toc li::before{ content:counter(toc,decimal-leading-zero); font-family:var(--mono); font-size:11px; color:var(--terra); padding-top:2px; flex:none; }
+.toc a{ color:var(--ink); transition:color .2s; }
+.toc a:hover{ color:var(--terra-deep); text-decoration:none; }
+.tc-section{ padding-block:40px; border-bottom:1px solid var(--line); scroll-margin-top:80px; }
+.tc-section:last-of-type{ border-bottom:none; }
+.tc-section h2{ font-family:var(--serif); font-size:clamp(22px,2.5vw,30px); font-weight:500; margin-bottom:18px; }
+.tc-section p{ font-size:15px; color:var(--ink-soft); line-height:1.78; margin-bottom:14px; }
+.tc-section p:last-child{ margin-bottom:0; }
+.tc-section ul{ padding-left:20px; display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+.tc-section li{ font-size:15px; color:var(--ink-soft); line-height:1.7; }
+.tc-section strong{ color:var(--ink); font-weight:600; }
+.lang-switch{ display:flex; gap:12px; align-items:center; }
+.lang-btn{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; padding:6px 14px; border-radius:100px; border:1px solid var(--line); background:transparent; cursor:pointer; color:var(--ink-soft); transition:all .25s; }
+.lang-btn.active{ background:var(--terra); color:var(--paper); border-color:var(--terra); }
+footer{ background:var(--paper); border-top:1px solid var(--line); padding-block:36px 24px; margin-top:60px; }
+.foot-bot{ display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; font-size:13px; color:var(--ink-soft); font-family:var(--mono); max-width:1280px; margin:0 auto; padding-inline:var(--pad); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-row">
+    <a href="/" class="brand"><span class="mark"></span><span class="name">Alta<b>mira</b></span></a>
+    <div class="lang-switch">
+      <button class="lang-btn" onclick="location.href='/terminos.html'">ES</button>
+      <button class="lang-btn active" onclick="location.href='/terms.html'">EN</button>
+    </div>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="wrap">
+    <p class="overline">Legal</p>
+    <h1>Terms & Conditions</h1>
+    <p class="sub">Last updated: June 2026 · Altamira Travel LLC</p>
+  </div>
+</section>
+
+<div class="wrap" style="padding-bottom:80px;">
+
+  <p style="font-size:15px;color:var(--ink-soft);line-height:1.78;margin-top:40px;">Please ensure you have read, understand, and accept the following Terms of Service before booking with us.</p>
+
+  <nav class="toc">
+    <h3>Contents</h3>
+    <ol>
+      <li><a href="#passports">Passports & documentation</a></li>
+      <li><a href="#payment">Payment plan</a></li>
+      <li><a href="#deposit">Deposit</a></li>
+      <li><a href="#cancellations">Cancellations, refunds & late fees</a></li>
+      <li><a href="#insurance">Travel insurance</a></li>
+      <li><a href="#fees">Additional fees</a></li>
+      <li><a href="#liability">Scope of service & limitation of liability</a></li>
+      <li><a href="#creditcard">Credit card transactions</a></li>
+      <li><a href="#providers">Provider alternatives & add-on items</a></li>
+      <li><a href="#flights">Flight confirmation & seat assignment</a></li>
+      <li><a href="#groups">Group travel packages</a></li>
+      <li><a href="#health">Health & special requirements</a></li>
+      <li><a href="#photos">Photographs & maps</a></li>
+      <li><a href="#refusal">Refusal of service</a></li>
+      <li><a href="#jurisdiction">Jurisdiction</a></li>
+      <li><a href="#negotiation">Negotiation</a></li>
+      <li><a href="#mediation">Mediation</a></li>
+      <li><a href="#arbitration">Arbitration</a></li>
+      <li><a href="#classaction">Class action waiver</a></li>
+    </ol>
+  </nav>
+
+  <div class="tc-section" id="passports">
+    <h2>1. Passports & Documentation</h2>
+    <p>All individuals departing from the United States of America must be in possession of a valid passport. <strong>You cannot travel if your passport or resident card is expired.</strong> It is your entire responsibility to ensure that you have valid travel documentation, including but not limited to passports and visas, which meet the requirements of immigration and other government authorities at every destination. A government issued ID is required for travel within the USA.</p>
+    <p><strong>WE DO NOT CHECK PASSPORT EXPIRATION DATES.</strong> As the passport holder, it is your responsibility to make sure your passport is still valid before you travel. Please make sure that you have at least <strong>SIX MONTHS</strong> on your passport after your return date to the U.S. Apply several months in advance for a new passport.</p>
+    <p>You are responsible for confirming with the United States Department of State or representative government agency of the country to which you are traveling the requirements for visas and/or other requirements for admission to your destination. Any fines, penalties, payments, or expenditures incurred because of such documents not meeting the requirements of those authorities will be your sole responsibility.</p>
+  </div>
+
+  <div class="tc-section" id="payment">
+    <h2>2. Payment Plan</h2>
+    <p>If you are paying a reservation in installments, you must follow these rules, or your reservation could be cancelled:</p>
+    <ul>
+      <li><strong>90 days before the travel date:</strong> Half of the reservation price must be paid.</li>
+      <li><strong>60 days before the travel date:</strong> The total reservation price must be fully paid.</li>
+      <li><strong>For cruise reservations:</strong> The total price must be paid 120 days before departure.</li>
+      <li><strong>Frequency of installment payments:</strong> Bi-weekly or monthly.</li>
+      <li><strong>Minimum installment payment amount:</strong> $800.</li>
+      <li>If there is a Payment Plan Agreement signed, its provisions shall be considered part of these Terms of Service.</li>
+    </ul>
+  </div>
+
+  <div class="tc-section" id="deposit">
+    <h2>3. Deposit</h2>
+    <p>The non-refundable deposit per person is <strong>$500</strong>, regardless of the initial payment amount. The deposit must be paid in full when the tour plan is accepted.</p>
+  </div>
+
+  <div class="tc-section" id="cancellations">
+    <h2>4. Cancellations, Refunds & Late Fees</h2>
+    <p>The cancellation of a reservation is requested to <strong>Altamira Travel LLC</strong> by the client who paid for the reservation. The cancellation is requested by written notice. Verbal cancellation notices are not accepted. The cancellation date is the date the written cancellation notice is received by <strong>Altamira Travel LLC</strong>. If the reservation is canceled after it was rescheduled, the cancellation refund is calculated based on the original departure date, before rescheduling.</p>
+    <p>The deposit is non-refundable. Besides, if there is a cancellation request the right to receive a refund is limited, as set forth in the following schedule:</p>
+    <ul>
+      <li><strong>Cancellation 121 days or more prior to departure:</strong> Shall be refunded the amount paid, less non-refundable deposit, less non-refundable items.</li>
+      <li><strong>Cancellation 60 to 120 days prior to departure:</strong> Shall be refunded up to 50% of the reservation price, less non-refundable items.</li>
+      <li><strong>Cancellation 59 days or less prior to departure:</strong> No refund available.</li>
+    </ul>
+    <p>Credit card refunds are issued to the credit card used for payment. If the credit card used for the original payment is no longer available, the refund will be issued as credit to be used for future travel with <strong>Altamira Travel LLC</strong>. Payments received in cash/check/transfer may be refunded by bank transfer.</p>
+    <p><strong>Late Fees:</strong> If a client is under a payment plan and does not make the payment within the agreed date, a fee of <strong>$50 dollars</strong> will be applied for each week of delay.</p>
+    <p><strong>Non-Refundable Items:</strong> In addition to the refund calculated based on the cancellation date, cancelled bookings may incur charges of up to 100% of the price of the booking due to the following non-refundable items: airline tickets; cancellation penalties imposed by hotels, cruise lines, wholesalers, tour operators, and other providers; fees for visa requests; any service already paid by <strong>Altamira Travel LLC</strong> to a provider.</p>
+  </div>
+
+  <div class="tc-section" id="insurance">
+    <h2>5. Travel Insurance</h2>
+    <p>The reservations do not include Travel Insurance. <strong>Altamira Travel LLC</strong> recommends that you purchase travel insurance to help protect you and your travel investment against the unexpected. <strong>Altamira Travel LLC</strong> is not an insurance company and does not sell travel insurance. We have no responsibility for the representation, description of coverage, submission, binding coverage, payment, or adjustment of any insurance claims.</p>
+    <p>Any questions regarding the insurance policy and any insurance claims must be submitted to the insurance company identified in the policy. Customer is responsible for notifying the insurance company before the date of travel of any changes to the trip.</p>
+  </div>
+
+  <div class="tc-section" id="fees">
+    <h2>6. Additional Fees</h2>
+    <ul>
+      <li>Some fees or taxes may be payable at airports or at hotels.</li>
+      <li>Additional fees for baggage may apply. Please contact your airline for detailed information regarding their baggage policies.</li>
+      <li>A <strong>$25 non-refundable fee</strong> will be charged per each returned check.</li>
+      <li>A <strong>$25 non-refundable fee</strong> will be charged for any changes or revisions made after initial deposit, in addition to any fees imposed by third party suppliers.</li>
+      <li>We primarily accept payments by check, transfer, or cash. If the customer chooses to pay using any credit or debit card, we charge a <strong>3% convenience fee</strong>. A 3% administrative fee will be deducted from every credit card refund (6% if the 3% convenience fee was not charged with the original payment).</li>
+      <li>A <strong>$300 non-refundable fee</strong> will be charged per credit card transaction charged back.</li>
+    </ul>
+  </div>
+
+  <div class="tc-section" id="liability">
+    <h2>7. Scope & Nature of Our Service and Limitation of Liability</h2>
+    <p><strong>Altamira Travel LLC</strong> acts as a travel agent only. We sell various travel related products on behalf of numerous transport service providers, including but not limited to hotel, tours, airlines, cruise, and rail. Our obligations to you are to make travel bookings on your behalf and to arrange relevant contracts between you and the travel service providers. We have no responsibility for these services, as we have no control or legal relationship over their personnel, equipment, operation or property.</p>
+    <p><strong>Altamira Travel LLC</strong> and its employees, affiliates, officers, directors, successors, agents, and assigns do not own or operate any entity which provides goods and services for your travel. All such persons and entities are independent contractors and are in no way affiliated to <strong>Altamira Travel LLC</strong>.</p>
+    <p><strong>Altamira Travel LLC</strong> is not liable for any negligent or willful act or failure to act of any travel service provider or of any third party, including injury, loss, death, inconvenience, delay, or damage to person or property resulting from acts of God or force majeure, illness, acts of war, strikes, criminal or terrorist activities, overbooking or downgrading of accommodations, mechanical or other failure of transportation, or failure of any transportation mechanism to arrive or depart on time.</p>
+    <p>Our maximum liability to you shall not exceed the price of your reservation, unless otherwise stated by law.</p>
+  </div>
+
+  <div class="tc-section" id="creditcard">
+    <h2>8. Credit Card Transactions</h2>
+    <p>If for any reason any travel service provider is unable to provide the services for which you have contracted, your remedy lies against the provider, and not against <strong>Altamira Travel LLC</strong>. If payment has been made to <strong>Altamira Travel LLC</strong> by credit card, you agree that you will not seek to charge back your payment to <strong>Altamira Travel LLC</strong>. If <strong>Altamira Travel LLC</strong> incurs any costs, including attorneys' fees, to recover any payments charged back, you agree that you will be liable for these costs.</p>
+  </div>
+
+  <div class="tc-section" id="providers">
+    <h2>9. Provider Alternatives & Add-On Items</h2>
+    <p>We reserve the right to change airline and other providers. Should your hotel be unavailable, we reserve the right to change it for one of equal or better category. Add-on items including but not limited to excursions and concerts are offered as courtesy. If for any reason they cannot be delivered, it does not entitle to refunds, exchanges, or compensations of any kind.</p>
+  </div>
+
+  <div class="tc-section" id="flights">
+    <h2>10. Flight Confirmation & Seat Assignment</h2>
+    <p>We strongly suggest that clients reconfirm exact flight times with the carrier prior to departure. Air travelers are required to check in at least <strong>3 hours prior</strong> to departure for domestic flights and <strong>4 hours</strong> for international flights, and must report to the gate at least 1 hour prior to departure. Failure to comply may result in the loss of the seat.</p>
+    <p>Passengers are entirely responsible for verifying if their flights have suffered any changes such as rescheduling, delays, or cancellations. Airfare taxes and fuel surcharges are subject to change without notice until paid in full and air tickets issued.</p>
+  </div>
+
+  <div class="tc-section" id="groups">
+    <h2>11. Group Travel Packages</h2>
+    <p>In each tour, the itinerary specifies the services included. What is not specifically listed as included in the tour price is excluded. The order of activities in the itinerary can change. If it is not possible to carry out an activity for reasons beyond the control of the tour operator, it will be replaced by another activity.</p>
+    <p>Hotels mentioned in itinerary are samples used as reference only. Special requests are not guaranteed in all properties. Standards, bed sizes and room dimensions can vary between hotels of the same class in different countries. We do not recommend a triple room unless you travel with kids as conditions may often be cramped. Most hotels in Europe and the Middle East do not accept more than three people, including minors, per room.</p>
+  </div>
+
+  <div class="tc-section" id="health">
+    <h2>12. Health & Special Requirements</h2>
+    <p>It is your responsibility to ensure you are aware of any health requirements for your travel destinations and to carry all necessary vaccination documentation. Please advise the airline, hotel or service provider of any special requirements you may have.</p>
+    <p>By booking with <strong>Altamira Travel LLC</strong> you acknowledge, understand, and agree that your participation in any travel may result in possible exposure to infectious diseases. You knowingly and freely assume all such risks, both known and unknown, even if arising from negligence, and assume full responsibility for your participation.</p>
+  </div>
+
+  <div class="tc-section" id="photos">
+    <h2>13. Photographs & Maps</h2>
+    <p>All photographs and videos are shown for informational purposes only and may not represent the actual item category purchased. Maps are shown for informational purposes only and display only approximate locations and attractions.</p>
+  </div>
+
+  <div class="tc-section" id="refusal">
+    <h2>14. Refusal of Service</h2>
+    <p><strong>Altamira Travel LLC</strong> assumes no liability for the acts of the service provider in refusing service. Service providers reserve the right to refuse service to travelers at their sole discretion, including if the traveler lacks proper documentation, has a contagious disease, is under the influence of alcohol or drugs, or manifests disruptive behavior.</p>
+  </div>
+
+  <div class="tc-section" id="jurisdiction">
+    <h2>15. Jurisdiction</h2>
+    <p>These Terms of Service shall be construed in accordance with the laws of the <strong>State of Florida</strong>.</p>
+  </div>
+
+  <div class="tc-section" id="negotiation">
+    <h2>16. Negotiation</h2>
+    <p>The customer shall attempt in good faith to resolve any dispute arising out of or relating to <strong>Altamira Travel LLC</strong> services promptly by negotiation. Any party may give the other party written notice of any dispute not resolved in the normal course of business. Within 30 business days after delivery of the notice, both parties shall meet at a mutually acceptable time and place.</p>
+    <p>All offers, promises, conduct and statements made in the course of the negotiation are confidential, privileged and inadmissible for any purpose in arbitration or other proceedings involving the parties.</p>
+  </div>
+
+  <div class="tc-section" id="mediation">
+    <h2>17. Mediation</h2>
+    <p>If the matter is not resolved by negotiation, the customer agrees that all disputes, claims, or controversies arising out of or relating to <strong>Altamira Travel LLC</strong> services shall be submitted to <strong>JAMS</strong> for mediation, and if the matter is not resolved through mediation, then it shall be submitted to JAMS for final and binding arbitration. The parties will cooperate in selecting a mediator and will share equally in its costs.</p>
+  </div>
+
+  <div class="tc-section" id="arbitration">
+    <h2>18. Arbitration</h2>
+    <p>If the matter is not resolved by negotiation or mediation, any controversy or claim arising out of or relating to <strong>Altamira Travel LLC</strong> services shall be settled by arbitration administered by <strong>JAMS</strong> under its commercial arbitration rules. The number of arbitrators shall be one. The place of arbitration shall be <strong>Miami, Florida</strong>. Judgment on the award rendered by the arbitrator may be entered in any court of Miami, Florida.</p>
+    <p>Arbitrators are not empowered to award punitive or exemplary damages, incidental, indirect, or consequential damages, including damages for lost profits; and the parties waive any right to recover any such damages. Individual claims can be brought in small claims court in Miami-Dade County.</p>
+  </div>
+
+  <div class="tc-section" id="classaction">
+    <h2>19. Class Action Waiver</h2>
+    <p>The customer hereby waives the right to any class action proceeding or counterclaim against <strong>Altamira Travel LLC</strong>, its affiliates, successors or assigns, whether at law or equity. Any claims against <strong>Altamira Travel LLC</strong> must be brought only in individual capacity and not as plaintiff or class member in a representative action.</p>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-bot">
+    <span>© 2026 Altamira Travel LLC · All rights reserved</span>
+    <a href="/" style="color:var(--terra-deep);">← Back to home</a>
+  </div>
+</footer>
+
+</body>
+</html>
