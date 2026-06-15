@@ -152,7 +152,7 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
 <div class="contact-hero">
   <div class="wrap">
     <p class="overline contact-overline">Planifica tu viaje · Plan your journey</p>
-    <h1 class="contact-h1"><span class="static">Cuéntanos a dónde</span><br><span class="static2">quieres </span><em class="it">llegar.</em></h1>
+    <h1 class="contact-h1"><span class="line1">Cuéntanos a dónde</span><br><span class="line2">quieres <em class="it">llegar.</em></span></h1>
     <p class="sub contact-lead">Sin importar el canal que elijas, uno de nuestros asesores responderá en menos de 24 horas — sin compromiso, sin plantillas.</p>
   </div>
 </div>
@@ -300,8 +300,9 @@ if(window.location.search.includes('enviado=1')){
 const CT = [
   // [selector, index, isHTML, EN, ES]
   ['.contact-overline',null,0,'Plan your journey · Plan your journey','Planifica tu viaje · Plan your journey'],
-  ['.contact-h1 .static',null,0,'Tell us where you','Cuéntanos a dónde'],
-  ['.contact-h1 .it',null,0,'want to go.','quieres llegar.'],
+  ['.contact-h1 .line1',null,0,'Tell us where you','Cuéntanos a dónde'],
+  ['.contact-h1 .line2',null,1,'want to <em class="it">go.</em>','quieres <em class="it">llegar.</em>'],
+
   ['.contact-lead',null,0,'Whatever channel you choose, one of our advisors will respond within 24 hours — no commitment, no templates.','Sin importar el canal que elijas, uno de nuestros asesores responderá en menos de 24 horas — sin compromiso, sin plantillas.'],
   ['.wa-float__bubble',null,0,'Chat on WhatsApp? 👋','¿Hablamos por WhatsApp? 👋'],
   ['.btn-wa',null,0,'Open WhatsApp','Abrir WhatsApp'],
