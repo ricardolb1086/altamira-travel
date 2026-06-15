@@ -123,22 +123,14 @@ a{ color:inherit; text-decoration:none; }
 footer{ background:var(--paper); border-top:1px solid var(--line); padding-block:48px 28px; }
 .foot-bot{ display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; font-size:13px; color:var(--ink-soft); font-family:var(--mono); letter-spacing:.02em; }
 
-/* GALLERY */
-.gallery-section{ margin-top:56px; }
-.gallery-grid{ display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:auto; gap:10px; margin-top:18px; }
-.g-img{ overflow:hidden; border-radius:8px; cursor:pointer; }
-.g-img img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform 1.1s cubic-bezier(.2,.7,.3,1); aspect-ratio:4/3; }
-.g-img:hover img{ transform:scale(1.05); }
-.g-img.tall img{ aspect-ratio:3/4; }
-.g-img.wide{ grid-column:span 2; }
-.g-img.wide img{ aspect-ratio:16/9; }
-
-/* LIGHTBOX */
-.lightbox{ display:none; position:fixed; inset:0; background:rgba(18,12,8,.92); z-index:999; align-items:center; justify-content:center; }
-.lightbox.open{ display:flex; }
-.lightbox img{ max-width:90vw; max-height:88vh; object-fit:contain; border-radius:4px; }
-.lightbox-close{ position:absolute; top:20px; right:24px; font-size:32px; color:rgba(255,255,255,.7); cursor:pointer; border:none; background:none; line-height:1; }
-.lightbox-close:hover{ color:#fff; }
+/* MAP */
+.map-section{ margin-top:56px; }
+.map-container{ margin-top:18px; border-radius:12px; overflow:hidden; border:1px solid var(--line); height:440px; }
+#egypt-map{ width:100%; height:100%; }
+.map-legend{ display:flex; gap:24px; flex-wrap:wrap; margin-top:14px; }
+.map-leg-item{ display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); }
+.map-leg-dot{ width:10px; height:10px; border-radius:50%; flex:none; }
+.map-leg-line{ width:28px; height:2px; flex:none; }
 
 @media(max-width:900px){
   .prog-grid{ grid-template-columns:1fr; }
@@ -146,14 +138,12 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
   .prog-stats-row{ grid-template-columns:repeat(2,1fr); }
   .pstat:nth-child(2){ border-right:none; }
   .pstat:nth-child(-n+2){ border-bottom:1px solid oklch(0.34 0.018 58); }
-  .gallery-grid{ grid-template-columns:repeat(2,1fr); }
-  .g-img.wide{ grid-column:span 1; }
+  .map-container{ height:320px; }
 }
 @media(max-width:560px){
   .prog-stats-row{ grid-template-columns:1fr; }
   .pstat{ border-right:none; border-bottom:1px solid oklch(0.34 0.018 58); }
   .itin-content{ padding-left:0; }
-  .gallery-grid{ grid-template-columns:1fr; }
 }
 </style>
 </head>
@@ -310,28 +300,28 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
 
         </div><!-- /itinerary -->
 
-        <!-- GALERÍA -->
-        <div class="gallery-section">
-          <p class="prog-label">El destino · The destination</p>
-
-          <div class="gallery-grid">
-            <div class="g-img wide" onclick="openLb(this)">
-              <img src="https://images.pexels.com/photos/3873681/pexels-photo-3873681.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Pirámides de Guiza al atardecer" loading="lazy">
+        <!-- MAPA DE RUTA -->
+        <div class="map-section">
+          <p class="prog-label">La ruta · The route</p>
+          <div class="map-container">
+            <div id="egypt-map"></div>
+          </div>
+          <div class="map-legend">
+            <div class="map-leg-item">
+              <span class="map-leg-dot" style="background:#C47646;"></span>
+              Ciudades del itinerario
             </div>
-            <div class="g-img tall" onclick="openLb(this)">
-              <img src="https://images.pexels.com/photos/36336675/pexels-photo-36336675.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Obelisco del Templo de Karnak, Luxor" loading="lazy">
+            <div class="map-leg-item">
+              <span class="map-leg-line" style="border-top:2px dashed #C47646;"></span>
+              Vuelo doméstico
             </div>
-            <div class="g-img" onclick="openLb(this)">
-              <img src="https://images.pexels.com/photos/18934596/pexels-photo-18934596.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Templo de Luxor" loading="lazy">
+            <div class="map-leg-item">
+              <span class="map-leg-line" style="background:#2563eb;"></span>
+              Crucero por el Nilo
             </div>
-            <div class="g-img" onclick="openLb(this)">
-              <img src="https://images.pexels.com/photos/18934723/pexels-photo-18934723.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Esfinges en Karnak" loading="lazy">
-            </div>
-            <div class="g-img" onclick="openLb(this)">
-              <img src="https://images.pexels.com/photos/20506675/pexels-photo-20506675.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Crucero en el Nilo" loading="lazy">
-            </div>
-            <div class="g-img" onclick="openLb(this)">
-              <img src="https://images.pexels.com/photos/10554435/pexels-photo-10554435.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Estatua de Ramsés II, Karnak" loading="lazy">
+            <div class="map-leg-item">
+              <span class="map-leg-dot" style="background:#6b7280;border:1px dashed #6b7280;"></span>
+              Abu Simbel (opcional)
             </div>
           </div>
         </div>
@@ -432,27 +422,79 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
   </div>
 </footer>
 
-<div class="lightbox" id="lightbox" onclick="closeLb()">
-  <button class="lightbox-close" onclick="closeLb()">×</button>
-  <img id="lb-img" src="" alt="">
-</div>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
 function toggle(btn){
   btn.classList.toggle('open');
   btn.nextElementSibling.classList.toggle('open');
 }
-function openLb(el){
-  const src = el.querySelector('img').src.replace('w=800','w=1600').replace('w=1200','w=1800');
-  document.getElementById('lb-img').src = src;
-  document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow='hidden';
+
+// ---- MAPA DE RUTA EGIPTO ----
+const map = L.map('egypt-map', { zoomControl:true, scrollWheelZoom:false }).setView([26.5, 31.5], 6);
+
+// Tiles elegantes CartoDB Positron
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+  attribution:'© <a href="https://www.openstreetmap.org">OpenStreetMap</a> © <a href="https://carto.com">CARTO</a>',
+  maxZoom:18
+}).addTo(map);
+
+// Coordenadas de las ciudades
+const cities = [
+  { name:'El Cairo',   lat:30.0444, lng:31.2357, day:'Días 1-3 y 7-8', main:true },
+  { name:'Luxor',      lat:25.6872, lng:32.6396, day:'Día 4',           main:true },
+  { name:'Esna',       lat:25.2937, lng:32.5572, day:'Día 4 (crucero)', main:false },
+  { name:'Edfu',       lat:24.9792, lng:32.8739, day:'Día 5',           main:true },
+  { name:'Kom Ombo',   lat:24.4531, lng:32.9285, day:'Día 5',           main:true },
+  { name:'Asuán',      lat:24.0889, lng:32.8998, day:'Días 5-6',        main:true },
+  { name:'Abu Simbel', lat:22.3372, lng:31.6258, day:'Día 6 (opcional)',main:false, optional:true },
+];
+
+// Icono personalizado
+function makeIcon(color, size=12){
+  return L.divIcon({
+    className:'',
+    html:`<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,
+    iconSize:[size,size], iconAnchor:[size/2,size/2]
+  });
 }
-function closeLb(){
-  document.getElementById('lightbox').classList.remove('open');
-  document.body.style.overflow='';
-}
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLb(); });
+
+// Markers con popups
+cities.forEach(c=>{
+  const color = c.optional ? '#9ca3af' : '#C47646';
+  const size  = c.main ? 14 : 10;
+  L.marker([c.lat,c.lng], { icon: makeIcon(color, size) })
+    .addTo(map)
+    .bindPopup(`<strong style="font-family:Georgia,serif;font-size:15px;">${c.name}</strong><br><span style="font-size:12px;color:#666;">${c.day}</span>`)
+    .bindTooltip(c.name, { permanent:true, direction:'right', offset:[10,0],
+      className:'leaflet-tooltip-custom' });
+});
+
+// Ruta de vuelo Cairo → Luxor (discontinua)
+L.polyline([[30.0444,31.2357],[25.6872,32.6396]],{
+  color:'#C47646', weight:2, dashArray:'8 6', opacity:.8
+}).addTo(map).bindPopup('✈️ Vuelo El Cairo → Luxor (incluido)');
+
+// Ruta crucero Nilo
+const crucero = [[25.6872,32.6396],[25.2937,32.5572],[24.9792,32.8739],[24.4531,32.9285],[24.0889,32.8998]];
+L.polyline(crucero,{ color:'#2563eb', weight:3, opacity:.8 })
+  .addTo(map).bindPopup('🚢 Crucero por el Nilo · 4 noches');
+
+// Vuelo Abu Simbel (opcional)
+L.polyline([[24.0889,32.8998],[22.3372,31.6258]],{
+  color:'#9ca3af', weight:1.5, dashArray:'5 5', opacity:.6
+}).addTo(map).bindPopup('Abu Simbel (excursión opcional)');
+
+// Vuelo regreso Asuán → Cairo
+L.polyline([[24.0889,32.8998],[30.0444,31.2357]],{
+  color:'#C47646', weight:2, dashArray:'8 6', opacity:.8
+}).addTo(map).bindPopup('✈️ Vuelo Asuán → El Cairo (incluido)');
+
+// CSS para tooltips
+const style = document.createElement('style');
+style.textContent = `.leaflet-tooltip-custom{background:rgba(255,255,255,.92);border:none;border-radius:4px;font-family:"Hanken Grotesk",sans-serif;font-size:12px;font-weight:600;color:#3d2c1e;padding:4px 8px;box-shadow:0 1px 6px rgba(0,0,0,.15);}`;
+document.head.appendChild(style);
 </script>
 </body>
 </html>
