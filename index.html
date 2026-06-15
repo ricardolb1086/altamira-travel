@@ -942,9 +942,11 @@ function renderDestinations(data){
     const ph = d.photo
       ? '<div class="ph has-img" style="background:url(\''+d.photo+'\') center/cover;"></div>'
       : '<div class="ph"><span class="ph-tag">'+(d.photoLabel||'Destination photo')+'</span></div>';
-    return '<article class="dest '+size+' rv">'+ph+
+    const tag = d.link ? 'a href="'+d.link+'"' : 'article';
+    const closeTag = d.link ? 'a' : 'article';
+    return '<'+tag+' class="dest '+size+' rv">'+ph+
       '<div class="dest-body"><span class="k">'+_tr(_DEST_TR.region,d.region)+'</span><h3>'+_tr(_DEST_TR.name,d.name)+'</h3>'+
-      '<div class="dest-meta"><span>'+_tr(_DEST_TR.meta,d.meta)+'</span>'+(d.pill?'<span class="pill">'+_tr(_DEST_TR.pill,d.pill)+'</span>':'')+'</div></div></article>';
+      '<div class="dest-meta"><span>'+_tr(_DEST_TR.meta,d.meta)+'</span>'+(d.pill?'<span class="pill">'+_tr(_DEST_TR.pill,d.pill)+'</span>':'')+'</div></div></'+closeTag+'>';
   }).join('');
   document.querySelectorAll('#dest-grid .rv').forEach((el,i)=>{ el.style.transitionDelay=(Math.min(i%4,3)*70)+'ms'; io.observe(el); });
 }
