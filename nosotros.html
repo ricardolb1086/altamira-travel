@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiénes somos · Altamira Travel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream: oklch(0.972 0.012 78);
+  --cream-2: oklch(0.945 0.016 76);
+  --ink: oklch(0.245 0.014 58);
+  --ink-soft: oklch(0.42 0.02 60);
+  --line: oklch(0.86 0.014 76);
+  --terra: oklch(0.575 0.115 46);
+  --terra-deep: oklch(0.48 0.11 42);
+  --paper: oklch(0.99 0.006 80);
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans: "Hanken Grotesk", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --maxw: 1280px;
+  --pad: clamp(20px, 5vw, 64px);
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{ font-family:var(--sans); background:var(--cream); color:var(--ink); -webkit-font-smoothing:antialiased; line-height:1.55; }
+a{ color:inherit; text-decoration:none; }
+.wrap{ max-width:var(--maxw); margin:0 auto; padding-inline:var(--pad); }
+
+/* NAV */
+.nav{ position:fixed; top:0; left:0; right:0; z-index:100; background:color-mix(in oklab,var(--cream) 90%,transparent); backdrop-filter:blur(12px); box-shadow:0 1px 0 var(--line); padding:12px 0; }
+.nav-row{ display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.brand{ display:flex; align-items:center; gap:10px; font-family:var(--serif); }
+.brand .mark{ width:30px; height:30px; border-radius:50%; background:var(--terra); display:grid; place-items:center; flex:none; }
+.brand .mark::after{ content:""; width:11px; height:11px; border-radius:50%; border:2px solid var(--cream); }
+.brand .name{ font-size:25px; letter-spacing:.14em; font-weight:600; text-transform:uppercase; color:var(--ink); }
+.brand .name b{ color:var(--terra-deep); }
+.btn{ display:inline-flex; align-items:center; gap:.6em; font-family:var(--sans); font-weight:600; font-size:14px; padding:12px 24px; border-radius:100px; border:1px solid transparent; cursor:pointer; transition:all .3s; }
+.btn-solid{ background:var(--ink); color:var(--cream); }
+.btn-solid:hover{ background:var(--terra-deep); }
+
+/* HERO SIMPLE */
+.page-hero{ padding:clamp(100px,14vh,140px) 0 clamp(48px,7vh,80px); border-bottom:1px solid var(--line); }
+.page-hero .overline{ font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--terra-deep); display:inline-flex; align-items:center; gap:.7em; margin-bottom:22px; }
+.page-hero .overline::before{ content:""; width:26px; height:1px; background:var(--terra); }
+.page-hero h1{ font-family:var(--serif); font-size:clamp(42px,6vw,80px); font-weight:500; line-height:1.04; letter-spacing:-.01em; text-wrap:balance; }
+.page-hero h1 em{ font-style:italic; color:var(--terra-deep); }
+
+/* SECTIONS */
+.nos-section{ padding-block:clamp(64px,10vh,110px); border-bottom:1px solid var(--line); }
+.nos-section:last-of-type{ border-bottom:none; }
+.nos-grid{ display:grid; grid-template-columns:1fr 2fr; gap:clamp(32px,6vw,96px); align-items:start; }
+.nos-label{ font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--terra-deep); display:flex; align-items:center; gap:.7em; margin-bottom:12px; }
+.nos-label::before{ content:""; width:26px; height:1px; background:var(--terra); }
+.nos-anchor{ position:relative; top:-80px; visibility:hidden; }
+.nos-num{ font-family:var(--serif); font-size:clamp(80px,10vw,130px); font-weight:500; color:var(--line); line-height:1; margin-top:8px; }
+.nos-content h2{ font-family:var(--serif); font-size:clamp(32px,4vw,52px); font-weight:500; line-height:1.08; margin-bottom:28px; letter-spacing:-.01em; }
+.nos-content h2 em{ font-style:italic; color:var(--terra-deep); }
+.nos-content p{ font-size:clamp(16px,1.2vw,18px); color:var(--ink-soft); line-height:1.78; margin-bottom:20px; }
+.nos-content p:last-child{ margin-bottom:0; }
+.nos-content p strong{ color:var(--ink); font-weight:600; }
+
+/* FOOTER */
+footer{ background:var(--paper); border-top:1px solid var(--line); padding-block:48px 28px; }
+.foot-bot{ display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; font-size:13px; color:var(--ink-soft); font-family:var(--mono); letter-spacing:.02em; }
+.btn-back{ font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); display:inline-flex; align-items:center; gap:8px; transition:color .2s; }
+.btn-back:hover{ color:var(--terra-deep); }
+
+@media(max-width:768px){
+  .nos-grid{ grid-template-columns:1fr; }
+  .nos-num{ display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap nav-row">
+    <a href="/" class="brand">
+      <span class="mark"></span>
+      <span class="name">Alta<b>mira</b></span>
+    </a>
+    <a href="/#contact" class="btn btn-solid">Planifica tu viaje →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="wrap">
+    <p class="overline">Altamira Group LLC</p>
+    <h1>Más que una agencia.<br>Una <em>convicción</em>.</h1>
+  </div>
+</section>
+
+<!-- QUIÉNES SOMOS -->
+<section class="nos-section" id="quienes-somos">
+  <span class="nos-anchor"></span>
+  <div class="wrap nos-grid">
+    <div>
+      <p class="nos-label">01</p>
+      <div class="nos-num">01</div>
+    </div>
+    <div class="nos-content">
+      <h2>Quiénes <em>somos</em></h2>
+      <p>Altamira Travel es la división de viajes grupales y salidas programadas de <strong>Altamira Group LLC</strong>, una empresa norteamericana fundada con una convicción simple pero poderosa: las experiencias extraordinarias no son un privilegio exclusivo — son un derecho de todo viajero.</p>
+      <p>Ofrecemos a nuestros clientes los mejores itinerarios, actividades y programas cuidadosamente seleccionados hacia Europa, Medio Oriente, Asia, África, Sudamérica y el Caribe. Cada programa está diseñado para garantizar que cada viajero, independientemente de su presupuesto, viva un viaje que se sienta, se vea y se recuerde como excepcional.</p>
+      <p>Nuestra diferencia no está en el precio. Está en los detalles, en la selección, en el acompañamiento — y en la certeza de que cuando viajes con nosotros, <strong>cada momento habrá sido pensado para ti</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MISIÓN -->
+<section class="nos-section" id="mision-vision">
+  <span class="nos-anchor"></span>
+  <div class="wrap nos-grid">
+    <div>
+      <p class="nos-label">02</p>
+      <div class="nos-num">02</div>
+    </div>
+    <div class="nos-content">
+      <h2>Nuestra <em>misión</em></h2>
+      <p>Hacer accesible lo extraordinario. Diseñamos y comercializamos experiencias de viaje grupales y salidas programadas que combinan <strong>estándares de excelencia, acompañamiento personalizado y precios competitivos</strong>, permitiendo que cada viajero descubra el mundo con elegancia y sin barreras.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VISIÓN -->
+<section class="nos-section">
+  <div class="wrap nos-grid">
+    <div>
+      <p class="nos-label">03</p>
+      <div class="nos-num">03</div>
+    </div>
+    <div class="nos-content">
+      <h2>Nuestra <em>visión</em></h2>
+      <p>Ser reconocidos como la empresa que demostró que <strong>viajar bien no es un privilegio — es una decisión</strong>. Una marca de confianza que cada año lleva a miles de viajeros a descubrir destinos extraordinarios con el sello inconfundible de Altamira Travel.</p>
+      <p>Consolidarnos primero en el mercado hispano de los Estados Unidos y expandirnos hacia el viajero norteamericano que exige lo mejor en cada experiencia.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-bot">
+      <span>© 2026 Altamira Travel · Altamira Group LLC</span>
+      <a href="/" class="btn-back">← Volver al inicio</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
