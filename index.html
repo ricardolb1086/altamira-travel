@@ -339,6 +339,16 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
 .op-chip{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); padding:8px 18px; border:1px solid var(--line); border-radius:100px; transition:all .25s; }
 .op-chip:hover{ border-color:var(--terra); color:var(--terra-deep); }
 
+/* ====================================================== ACREDITACIONES FOOTER */
+.foot-accred{ border-top:1px solid var(--line); padding-top:28px; margin-top:40px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.accred-badges{ display:flex; gap:10px; flex-wrap:wrap; }
+.accred-chip{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); border:1px solid var(--line); border-radius:100px; padding:6px 14px; transition:all .25s; }
+.accred-chip:hover{ border-color:var(--terra); color:var(--terra-deep); }
+.accred-sot{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.sot-item{ font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; color:var(--ink-soft); }
+.sot-item b{ color:var(--terra-deep); }
+.sot-sep{ color:var(--line); }
+
 /* ====================================================== ALTAMIRA GROUP BAND */
 .group-band{ border-top:1px solid oklch(0.88 0.012 76); margin-top:40px; padding-top:26px; display:flex; align-items:center; justify-content:center; gap:6px 20px; flex-wrap:wrap; font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); }
 .group-band .gb-label{ color:var(--ink-soft); opacity:.55; }
@@ -849,9 +859,23 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
       <div class="fcol"><h4>Company</h4><ul><li><a href="/nosotros.html#quienes-somos">About us</a></li><li><a href="/nosotros.html#mision-vision">Mission & Vision</a></li><li><a href="/terms.html">Terms & Conditions</a></li><li><a href="#contact">Contact</a></li></ul></div>
       <div class="fcol"><h4>Follow</h4><ul><li><a href="https://www.facebook.com/altamiratravelusa" target="_blank" rel="noopener">Facebook</a></li><li><a href="https://www.instagram.com/altamiratravelusa" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.tiktok.com/@altamiratravelusa" target="_blank" rel="noopener">TikTok</a></li></ul></div>
     </div>
+    <!-- ACREDITACIONES Y SOT -->
+    <div class="foot-accred">
+      <div class="accred-badges">
+        <span class="accred-chip">ASTA Member</span>
+        <span class="accred-chip">IATA</span>
+        <span class="accred-chip">USTOA</span>
+        <span class="accred-chip">CLIA</span>
+      </div>
+      <div class="accred-sot">
+        <span class="sot-item">Florida Seller of Travel · Reg. <b>#[PENDING]</b></span>
+        <span class="sot-sep">·</span>
+        <span class="sot-item">California Seller of Travel · CST <b>#[PENDING]</b></span>
+      </div>
+    </div>
     <div class="foot-bot">
-      <span>© 2026 Altamira Travel. All rights reserved.</span>
-      <span>Privacy · Terms · Cookies</span>
+      <span>© 2026 Altamira Travel · Altamira Group LLC. All rights reserved.</span>
+      <a href="/terms.html" style="color:inherit;opacity:.7;">Privacy · Terms · Cookies</a>
     </div>
     <div class="group-band">
       <span class="gb-label">Altamira Group LLC</span>
