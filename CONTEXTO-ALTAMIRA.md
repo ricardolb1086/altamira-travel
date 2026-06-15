@@ -19,7 +19,7 @@ Antes operaba como "Brandon" en Travel Viajes USA — tengo cartera de clientes 
 - **CMS:** Sveltia CMS en /admin/ con GitHub OAuth (worker Cloudflare: altamira-cms-auth.ricardolb1086.workers.dev)
 - **Stack:** HTML/CSS/JS estático, sin framework. Diseño: tipografía Cormorant Garamond + Hanken Grotesk + IBM Plex Mono. Colores: crema, terracota (#C47646), tinta oscura. Toggle EN/ES funcional.
 - **Email leads:** Formspree (form id: xzdqydwl) → llega a hola@altamiratravel.com (buzón Namecheap Private Email, ya configurado en Mac Mail)
-- **WhatsApp temporal en el site:** wa.me/16507650627 (PENDIENTE: número corporativo real vía Google Voice)
+- **WhatsApp:** wa.me/17869776948 — número OpenPhone, +1 (786) 977-6948 ✅
 
 ## Páginas existentes
 - `index.html` — home (hero con 4 videos, Nuestros Destinos, 14 Altamira Originals, 6 Europa Esencial, email capture, footer con badges)
@@ -55,7 +55,7 @@ Antes operaba como "Brandon" en Travel Viajes USA — tengo cartera de clientes 
 ## Pendientes (en orden)
 1. Precio de Turquía → agregar a su página
 2. Mapa ilustrado de Turquía (estilo igual al de Egipto, hecho en ChatGPT)
-3. Número WhatsApp corporativo (Google Voice) → actualizar en site y Buffer
+3. ~~Número WhatsApp corporativo~~ ✅ Resuelto — +1 (786) 977-6948 activo en sitio
 4. SEO: meta títulos/descripciones, Google Business Profile, Google Search Console
 5. Reel viral: Higgsfield (plan PLUS $49) para clips + ElevenLabs para voz + CapCut (gratis) para editar
 6. Reactivar clientes antiguos vía WhatsApp/email bajo marca Altamira
