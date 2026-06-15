@@ -565,13 +565,13 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
         <!-- 3 diferenciadores -->
         <div style="margin-top:20px; display:flex; flex-direction:column; gap:8px;">
           <span style="font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); display:flex; align-items:center; gap:10px;">
-            <span style="color:var(--terra); font-size:14px;">✓</span> Salida garantizada desde 2 pasajeros
+            <span style="color:var(--terra); font-size:14px;">✓</span> <span data-i18n="sr-diff1">Salida garantizada desde 2 pasajeros</span>
           </span>
           <span style="font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); display:flex; align-items:center; gap:10px;">
-            <span style="color:var(--terra); font-size:14px;">✓</span> Salidas todos los meses del año
+            <span style="color:var(--terra); font-size:14px;">✓</span> <span data-i18n="sr-diff2">Salidas todos los meses del año</span>
           </span>
           <span style="font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); display:flex; align-items:center; gap:10px;">
-            <span style="color:var(--terra); font-size:14px;">✓</span> Guía en español incluido
+            <span style="color:var(--terra); font-size:14px;">✓</span> <span data-i18n="sr-diff3">Guía en español incluido</span>
           </span>
         </div>
       </div>
@@ -618,7 +618,7 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
         <h2 class="h2" style="margin-top:18px;">El mundo,<br>a tu ritmo.</h2>
         <p style="margin-top:12px; font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--terra); display:flex; align-items:center; gap:.6em;">
           <span style="width:22px;height:1px;background:var(--terra);display:inline-block;"></span>
-          Altamira Originals · Viajes de diseño de autor
+          <span data-i18n="originals-tagline">Altamira Originals · Viajes de diseño de autor</span>
         </p>
       </div>
       <p class="lead" style="max-width:38ch;">Desde Japón hasta la Patagonia — experiencias grupales diseñadas y operadas por Altamira Travel. Itinerarios exclusivos con salidas fijas a lo largo del año.</p>
@@ -1271,6 +1271,10 @@ setInterval(()=>show((qi+1)%qlist().length), 6500);
     ['[data-i18n="custom-cta-wa"]',null,0,'Tell us your idea','Cuéntanos tu idea'],
     ['[data-i18n="custom-cta-email"]',null,0,'Or write us an email','O escríbenos por email'],
 
+    ['[data-i18n="originals-tagline"]',null,0,'Altamira Originals · Signature Journeys','Altamira Originals · Viajes de diseño de autor'],
+    ['[data-i18n="sr-diff1"]',null,0,'Guaranteed departure from 2 passengers','Salida garantizada desde 2 pasajeros'],
+    ['[data-i18n="sr-diff2"]',null,0,'Departures every month of the year','Salidas todos los meses del año'],
+    ['[data-i18n="sr-diff3"]',null,0,'Spanish-speaking guide included','Guía en español incluido'],
     ['#circuits .overline',null,0,'Our Circuits','Nuestros circuitos'],
     ['#circuits .h2',null,1,'The world,<br>at your pace.','El mundo,<br>a tu ritmo.'],
     ['#circuits .lead',null,0,'From Japan to Patagonia — group experiences designed and operated by Altamira Travel. Exclusive itineraries with fixed departures throughout the year.','Desde Japón hasta la Patagonia — experiencias grupales diseñadas y operadas por Altamira Travel. Itinerarios exclusivos con salidas fijas a lo largo del año.'],
