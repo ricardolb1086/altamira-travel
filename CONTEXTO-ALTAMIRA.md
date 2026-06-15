@@ -70,3 +70,69 @@ Antes operaba como "Brandon" en Travel Viajes USA — tengo cartera de clientes 
 - Mapas ilustrados los hace Ricardo en ChatGPT, Claude los integra en /img/
 - Fotos: optimizar con ffmpeg antes de subir (rutas /opt/homebrew/bin/ffmpeg)
 - gh CLI en /opt/homebrew/bin/gh (autenticado como ricardolb1086)
+
+---
+
+# ESTRATEGIA Y ARQUITECTURA DE FONDO
+*(Esto es el "por qué" detrás de cada decisión — lo más importante)*
+
+## Análisis competitivo
+- **ST Travel Shop** (@sttravelshop, 1M seguidores, 27 años, México+USA): rival principal. Modelo de VOLUMEN — tours genéricos, masivos, poca curaduría. Su debilidad = nuestra oportunidad.
+- **Travel Vacations Groups** (16K): nicho pequeño "viajes con propósito", no es amenaza directa.
+- **Legado Travesías** (luxury cultural, guías académicos, respaldo MVS World 40+ años): benchmark para Altamira Collection a futuro.
+
+## Ventaja competitiva de Altamira (vs ST Travel)
+1. LLC americana → pagos USD, protección consumidor USA, soporte en su zona horaria
+2. Única con estructura de 3 niveles (grupal aspiracional + ultra luxury + B2B DMC)
+3. Destinos experienciales únicos: GASTRONOMÍA y VINO (Perú Gastronómico, Viñedos Chile+Patagonia, Viñedos España) — NADIE en el mercado hispano de USA hace esto
+4. Asia profunda y combinaciones únicas (China+Mongolia, Turquía+Dubái, Egipto+Jordania+Israel)
+5. Salidas garantizadas desde 2 pax (vs mínimos altos de la competencia)
+
+## PRINCIPIO CENTRAL: "Altamira curates, no cataloga"
+La marca enmarca el producto, no al revés. NUNCA vendemos "un circuito de Wamos" — vendemos "Europa Central operada con nuestro socio de confianza en tierra". El cliente compra con Altamira. Los operadores son INVISIBLES en todo el sitio (solo se mencionan discretamente en página de detalle como "operado en tierra por nuestro socio especialista en [región]" si acaso).
+
+## Arquitectura de 3 niveles (el corazón del producto)
+**Nivel 1 — Altamira Originals** (la joya de la corona)
+- Operaciones propias. Tratamiento editorial completo. Cupos NO especificados (flexibilidad: a veces 20, a veces 40, a veces 2 salidas/mes).
+- Badge: ● Altamira Original. Copy: "Diseñados y operados por nosotros."
+- 14 destinos: Japón, China+HK+Japón, Corea+Japón, China+Mongolia, Turquía+Dubái, Egipto+Jordania+Israel, Tailandia+Singapur+Cambodia, Vietnam+Bali, Viñedos Chile+Patagonia, Viñedos España, Islandia, Perú Gastronómico, Safari Kenya+Tanzania, Zimbabwe+Botsuana+Sudáfrica
+
+**Nivel 2 — Salidas Regulares con Salida Garantizada**
+- Operadores invisibles (Wamos/Europa, Eurowelcome/UK, Latitude/Turquía, Larimar/Jordania, Vered/Israel, Explora Traveler/Egipto, Honest Group)
+- Key message: "Desde 2 pasajeros, todos los meses del año" — diferenciador brutal vs ST Travel
+- Badge: ✓ Salida garantizada
+
+**Nivel 3 — Europa Esencial** (MasEuropa, circuitos de colores)
+- NUNCA llamarlo "barato/económico". Framing: "La manera más inteligente de descubrir Europa por primera vez"
+- Badge: ◎ Mejor valor. Mismo diseño de card que los demás — la elegancia visual borra la percepción de precio bajo
+- Posicionarlo como ENTRY POINT al ecosistema: "Tu primera vez en Europa. Cuando estés listo para más, estamos aquí." El viajero de bus hoy es el cliente de Altamira Collection en 3 años.
+
+## Estrategia de precios
+- Regla: utilidad mínima $500/pax DESPUÉS de comisión del procesador
+- Absorber el 3% de tarjeta en el precio final REDONDEADO hacia arriba (un solo precio, sin "desde", sin mostrar el +3% aparte)
+- Ofrecer descuento por pago en efectivo/transferencia como herramienta de cierre
+- Decisión de marca: NO usar la palabra "desde" o mostrarla tachada (~~Desde~~ $X) como diferenciador de transparencia
+- Procesador: empezar con Stripe; Payment Cloud solo si crece volumen o Stripe rechaza
+
+## Estrategia de marca / tono
+- Bilingüe desde día 1 (ES principal + línea EN). El hispano en USA es bilingüe; duplica alcance orgánico.
+- Voz: amigo experto, no vendedor. Oraciones cortas. Datos específicos que demuestran conocimiento. Sin signos de exclamación excesivos ni "¡OFERTA!".
+- Ricardo SALE en las fotos = activo, no problema. En viajes la gente compra al asesor. Construir la MARCA, no la persona (opera como "Altamira Travel", sin nombre propio público).
+
+## Estrategia de redes sociales (el problema: redes vacías al lanzar)
+1. Solidez sin seguidores: el SITIO web es la credibilidad inicial. Google Business Profile + testimonios reales + membresía ASTA pesan más que seguidores.
+2. Backlog de 12 posts ANTES de publicar el primero (grid completo desde día 1)
+3. Lista propia (emails) vale más que seguidores — capturar desde el site
+4. Automatización: Buffer programa, Claude genera contenido
+5. NO publicar al vacío — primero comentar/estar presente donde ya está el cliente
+
+## Plan de recuperación de ingresos (urgente para Ricardo)
+- LO MÁS RÁPIDO: reactivar clientes antiguos (cartera de "Brandon"). Un WhatsApp a 50 contactos que ya confían > 10,000 seguidores.
+- Mensaje de transición SIN mencionar Brandon ni Travel Viajes: activa la relación previa por la experiencia compartida, presenta Altamira Travel como evolución.
+- Secuencia: Semana 1 contacto personal top 20-30 / Semana 2 broadcast lista completa / Semana 3 email con diseño Altamira + programas con precios
+
+## Los primeros 4 reels (orden estratégico)
+1. Presentación de marca — bilingüe (PRIMERO: el mercado necesita saber quién es Altamira)
+2. Egipto Faraónico — con mapa y precios
+3. Japón — fotos reales + Higgsfield
+4. La Ruta de los Sultanes — Turquía
