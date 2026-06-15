@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Logo Preview — Altamira Travel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=IBM+Plex+Mono:wght@500&family=Hanken+Grotesk:wght@400&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Hanken Grotesk',sans-serif;background:#1a1510}
+  .grid{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+  .panel{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;padding:60px 40px}
+  .dark{background:#2E2820}
+  .light{background:#F5F0E8}
+  img{width:280px;height:280px}
+  label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.5}
+  .dark label{color:#F5F0E8}
+  .light label{color:#2E2820}
+
+  /* Versión horizontal pequeña (como aparecería en el nav) */
+  .nav-preview{width:100%;max-width:340px;padding:20px 32px;border-radius:4px;display:flex;align-items:center;gap:16px}
+  .nav-preview.on-cream{background:#F5F0E8}
+  .nav-preview.on-dark{background:#2E2820}
+  .nav-preview img{width:52px;height:52px}
+  .nav-text{display:flex;flex-direction:column}
+  .nav-brand{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;letter-spacing:.18em}
+  .nav-brand.dark-text{color:#2E2820}
+  .nav-brand.light-text{color:#F5F0E8}
+  .nav-sub{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.22em;color:#C47646;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="grid">
+
+  <!-- VERSIÓN DARK -->
+  <div class="panel dark">
+    <label>Versión dark — redes / hero</label>
+    <img src="img/logo-dark.svg" alt="Altamira Travel logo dark">
+
+    <label>En nav oscuro</label>
+    <div class="nav-preview on-dark">
+      <img src="img/logo-dark.svg" alt="">
+      <div class="nav-text">
+        <span class="nav-brand light-text">ALTAMIRA</span>
+        <span class="nav-sub">TRAVEL</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERSIÓN LIGHT -->
+  <div class="panel light">
+    <label>Versión light — nav del sitio</label>
+    <img src="img/logo-light.svg" alt="Altamira Travel logo light">
+
+    <label>En nav crema (como el sitio actual)</label>
+    <div class="nav-preview on-cream">
+      <img src="img/logo-light.svg" alt="">
+      <div class="nav-text">
+        <span class="nav-brand dark-text">ALTAMIRA</span>
+        <span class="nav-sub">TRAVEL</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

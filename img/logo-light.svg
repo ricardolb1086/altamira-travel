@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&amp;family=IBM+Plex+Mono:wght@500&amp;family=Hanken+Grotesk:wght@400&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- Fondo crema (mismo que --cream del sitio) -->
+  <rect width="400" height="400" fill="#F5F0E8"/>
+
+  <!-- ═══ ÍCONO: A estilizada en terracota ═══ -->
+  <g stroke="#C47646" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="155" y1="215" x2="198" y2="88" stroke-width="2.2"/>
+    <line x1="198" y1="88" x2="241" y2="215" stroke-width="2.2"/>
+    <line x1="170" y1="170" x2="226" y2="170" stroke-width="2.2"/>
+    <line x1="215" y1="102" x2="284" y2="62" stroke-width="1.6"/>
+  </g>
+
+  <!-- Sparkle -->
+  <path d="M289 53 L291 60 L298 62 L291 64 L289 71 L287 64 L280 62 L287 60 Z"
+        fill="#C47646"/>
+
+  <!-- ALTAMIRA en tinta oscura -->
+  <text
+    x="200" y="262"
+    font-family="'Cormorant Garamond', Georgia, serif"
+    font-size="31"
+    font-weight="500"
+    fill="#2E2820"
+    text-anchor="middle"
+    letter-spacing="10">ALTAMIRA</text>
+
+  <!-- Líneas decorativas + TRAVEL en terracota -->
+  <line x1="88" y1="280" x2="138" y2="280" stroke="#C47646" stroke-width="0.8"/>
+  <text
+    x="200" y="284"
+    font-family="'IBM Plex Mono', 'Courier New', monospace"
+    font-size="11"
+    font-weight="500"
+    fill="#C47646"
+    text-anchor="middle"
+    letter-spacing="7">TRAVEL</text>
+  <line x1="262" y1="280" x2="312" y2="280" stroke="#C47646" stroke-width="0.8"/>
+
+  <!-- Tagline en tinta suave -->
+  <text
+    x="200" y="312"
+    font-family="'Hanken Grotesk', Arial, sans-serif"
+    font-size="7.2"
+    fill="#2E2820"
+    fill-opacity="0.4"
+    text-anchor="middle"
+    letter-spacing="2.8">EXTRAORDINARY EXPERIENCES FOR EVERY TRAVELER</text>
+</svg>
