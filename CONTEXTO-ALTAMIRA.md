@@ -62,6 +62,7 @@ Antes operaba como "Brandon" en Travel Viajes USA — tengo cartera de clientes 
 7. SOT Florida (requiere surety bond $25k, ~$300/año) y California CST — Ricardo los tramita
 8. Asociaciones: ASTA, IATA, USTOA, CLIA (badges placeholder ya en footer)
 9. Más páginas de programa: Japón, Santorini, Positano, etc.
+10. **Sección "Próximas Salidas"** (carrusel de departures reales en home) + posible página `/salidas` filtrable con tabs pill — ver detalle en sección "CÓMO SE MUESTRAN LOS 3 NIVELES EN EL SITIO". Bloqueado hasta que Ricardo dé 2-4 circuitos reales con fechas/precios.
 
 ## Reglas de trabajo
 - Trabajar en Sonnet (no Opus, para ahorrar créditos)
@@ -106,6 +107,35 @@ La marca enmarca el producto, no al revés. NUNCA vendemos "un circuito de Wamos
 - NUNCA llamarlo "barato/económico". Framing: "La manera más inteligente de descubrir Europa por primera vez"
 - Badge: ◎ Mejor valor. Mismo diseño de card que los demás — la elegancia visual borra la percepción de precio bajo
 - Posicionarlo como ENTRY POINT al ecosistema: "Tu primera vez en Europa. Cuando estés listo para más, estamos aquí." El viajero de bus hoy es el cliente de Altamira Collection en 3 años.
+
+## CÓMO SE MUESTRAN LOS 3 NIVELES EN EL SITIO (plan UI/UX — sin que se vea como catálogo)
+> El secreto: **la card es IDÉNTICA para los tres niveles** (misma fotografía editorial, misma tipografía Cormorant, mismo layout). SOLO cambia el badge. Así el Nivel 3 (Europa/MasEuropa) se ve premium aunque el precio sea bajo. La elegancia visual borra la percepción de precio bajo.
+
+### A) En el home — sección "Próximas Salidas"
+- Sección nueva DEBAJO de "Nuestros Destinos".
+- Carrusel horizontal de 6-8 departures REALES, ordenadas por fecha de salida.
+- Cada card: foto del destino · duración · precio "desde" · badge de nivel · fecha más cercana · botón "Ver salidas".
+- Ejemplos de formato de card:
+  - `[ Europa Central · 10 días · desde $1,490 · Próxima salida: 15 ago ]`
+  - `[ Israel · 8 días · desde $2,190 · Salida garantizada · 2 pax ]`
+  - `[ Turquía · 12 días · desde $1,890 · Próxima salida: 3 sep ]`
+- OJO contradicción a resolver con Ricardo: la estrategia de precios dice "sin desde". Aquí el mockup usa "desde". Para las Salidas Regulares (operador, fechas fijas) el "desde" tiene sentido; para Originals mantener precio único. Confirmar con Ricardo antes de construir.
+
+### B) Página dedicada `/circuitos` o `/salidas` (PENDIENTE DE DECIDIR: home vs página propia)
+- Grid filtrable con tabs pill elegantes (NO dropdowns feos).
+- Filtro 1 (región): `[ Todos ] [ Europa ] [ Oriente Medio ] [ Israel & Jordania ] [ Nuestros Originals ]`
+- Filtro 2 (nivel, discreto): `[ Todas las opciones ] [ Salida garantizada ] [ Mejor valor ]`
+- Cada card: foto · nombre del circuito en Cormorant grande · duración · badge de nivel · precio desde · botón "Ver itinerario →".
+
+### C) Página de detalle de cada circuito
+- Itinerario día por día · tabla limpia de fechas de salida del año · Incluye/No incluye.
+- El operador SÍ se menciona, pero SOLO aquí y al final, discretamente, como CREDIBILIDAD (no resta, suma): *"Este programa es operado en tierra por [Wamos Travel], nuestro socio de confianza en Europa con 30 años de operación."*
+- (Matiz vs la regla "operadores invisibles": en el card y home son invisibles; en el detalle se mencionan al final como respaldo de confianza.)
+
+### PREGUNTAS ABIERTAS para construir la sección "Próximas Salidas" (Ricardo debe responder)
+1. 2-4 circuitos REALES con: nombre · destino · duración · precio desde · fecha(s) de salida · operador (para el detalle) · nivel (Original/Regular/Esencial).
+2. ¿Página `/salidas` nueva o incorporado dentro del home?
+3. ¿URL solo `altamiratravel.com`, o también subdominios `dmc.altamiratravel.com` y `collection.altamiratravel.com`? (los dominios .com de Collection y DMC ya están comprados; falta decidir si se usan como dominios propios o subdominios)
 
 ## Estrategia de precios
 - Regla: utilidad mínima $500/pax DESPUÉS de comisión del procesador
