@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Tarjeta de Presentación — Ricardo Lazo · Altamira Travel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:  #F5F0E8;
+    --ink:    #2E2820;
+    --terra:  #C47646;
+    --serif:  'Cormorant Garamond', Georgia, serif;
+    --sans:   'Hanken Grotesk', system-ui, sans-serif;
+    --mono:   'IBM Plex Mono', monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  body{
+    background: #E8E4DC;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    padding: 60px 40px;
+    font-family: var(--sans);
+  }
+
+  h2{
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: #888;
+    text-align: center;
+    margin-bottom: -40px;
+  }
+
+  .card-wrap{
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .card-label{
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #999;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  /* ═══ TARJETA — dimensiones 3.5" × 2" a 96dpi ≈ 336×192 pero la escalo al doble para pantalla ═══ */
+  .card{
+    width: 680px;
+    height: 384px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 2px 4px rgba(0,0,0,.04),
+      0 8px 24px rgba(0,0,0,.10),
+      0 24px 48px rgba(0,0,0,.08);
+  }
+
+  /* ═══ FRENTE ═══ */
+  .card-front{
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 48px 56px;
+  }
+
+  /* Detalle decorativo: línea terracota izquierda */
+  .card-front::before{
+    content:'';
+    position:absolute;
+    left:0; top:0; bottom:0;
+    width:3px;
+    background: var(--terra);
+  }
+
+  /* Detalle decorativo: punto terracota esquina */
+  .card-front::after{
+    content:'';
+    position:absolute;
+    right:36px; bottom:36px;
+    width:6px; height:6px;
+    border-radius:50%;
+    background: var(--terra);
+    opacity:.6;
+  }
+
+  .front-logo-icon{
+    margin-bottom: 20px;
+  }
+
+  .front-brand{
+    font-family: var(--serif);
+    font-size: 38px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    color: var(--cream);
+    line-height: 1;
+    text-align: center;
+  }
+
+  .front-divider{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 14px 0 12px;
+    width: 100%;
+    justify-content: center;
+  }
+  .front-divider::before,
+  .front-divider::after{
+    content:'';
+    flex:1;
+    max-width: 60px;
+    height:1px;
+    background: var(--terra);
+    opacity:.7;
+  }
+
+  .front-travel{
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .28em;
+    color: var(--terra);
+    text-transform: uppercase;
+  }
+
+  .front-tagline{
+    font-family: var(--sans);
+    font-size: 9.5px;
+    font-weight: 300;
+    letter-spacing: .18em;
+    color: var(--cream);
+    opacity: .38;
+    text-transform: uppercase;
+    margin-top: 4px;
+    text-align: center;
+  }
+
+  /* ═══ REVERSO ═══ */
+  .card-back{
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* Banda lateral terracota */
+  .card-back-stripe{
+    position:absolute;
+    right:0; top:0; bottom:0;
+    width:5px;
+    background: var(--terra);
+  }
+
+  /* Contenido izquierdo */
+  .back-left{
+    padding: 40px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+  }
+
+  .back-name-block{ display:flex; flex-direction:column; gap:4px; }
+
+  .back-name{
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: .02em;
+    line-height: 1;
+  }
+
+  .back-title{
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    color: var(--terra);
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .back-contacts{
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .contact-row{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .contact-icon{
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    opacity: .55;
+  }
+
+  .contact-text{
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: .01em;
+    opacity: .85;
+  }
+
+  .contact-text.wa{ color: #1a7a3e; opacity:1; font-weight:500; }
+
+  /* Mini logo reverso */
+  .back-right{
+    width: 140px;
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 32px 20px;
+    position:relative;
+  }
+
+  .back-right-brand{
+    font-family: var(--serif);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .16em;
+    color: var(--cream);
+    text-align: center;
+  }
+
+  .back-right-divider{
+    width: 40px;
+    height: 1px;
+    background: var(--terra);
+  }
+
+  .back-right-travel{
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: .22em;
+    color: var(--terra);
+    text-transform: uppercase;
+  }
+
+  .back-right-web{
+    font-family: var(--sans);
+    font-size: 8px;
+    color: var(--cream);
+    opacity:.35;
+    letter-spacing:.06em;
+    text-align:center;
+    margin-top: 4px;
+  }
+
+  /* Nota de impresión */
+  .print-note{
+    max-width: 680px;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    color: #999;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+
+<h2>Altamira Travel · Tarjeta de Presentación · Ricardo Lazo</h2>
+
+<div class="card-wrap">
+
+  <!-- FRENTE -->
+  <div>
+    <p class="card-label">Frente</p>
+    <div class="card card-front">
+
+      <!-- Ícono A del logo -->
+      <div class="front-logo-icon">
+        <svg width="72" height="72" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="28" y1="82" x2="50" y2="20" stroke="#C47646" stroke-width="2.8" stroke-linecap="round"/>
+          <line x1="50" y1="20" x2="72" y2="82" stroke="#C47646" stroke-width="2.8" stroke-linecap="round"/>
+          <line x1="35" y1="60" x2="65" y2="60" stroke="#C47646" stroke-width="2.8" stroke-linecap="round"/>
+          <line x1="62" y1="30" x2="84" y2="16" stroke="#C47646" stroke-width="2" stroke-linecap="round"/>
+          <!-- Sparkle -->
+          <path d="M87 10 L88.5 15 L94 17 L88.5 19 L87 24 L85.5 19 L80 17 L85.5 15 Z" fill="#C47646"/>
+        </svg>
+      </div>
+
+      <div class="front-brand">ALTAMIRA</div>
+
+      <div class="front-divider">
+        <span class="front-travel">Travel</span>
+      </div>
+
+      <div class="front-tagline">Extraordinary Experiences for Every Traveler</div>
+
+    </div>
+  </div>
+
+  <!-- REVERSO -->
+  <div>
+    <p class="card-label">Reverso</p>
+    <div class="card card-back">
+
+      <div class="back-left">
+
+        <div class="back-name-block">
+          <span class="back-name">Ricardo Lazo</span>
+          <span class="back-title">Founder &amp; CEO</span>
+        </div>
+
+        <div class="back-contacts">
+
+          <!-- Teléfono -->
+          <div class="contact-row">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="#2E2820" stroke-width="1.8" stroke-linecap="round">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5 19.79 19.79 0 01.1 2.82 2 2 0 012.08 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l.91-.91a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+            <span class="contact-text">+1 (888) 855-1889</span>
+          </div>
+
+          <!-- WhatsApp -->
+          <div class="contact-row">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="#1a7a3e" xmlns="http://www.w3.org/2000/svg" style="opacity:1">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            <span class="contact-text wa">+1 (786) 977-6948</span>
+          </div>
+
+          <!-- Email -->
+          <div class="contact-row">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="#2E2820" stroke-width="1.8" stroke-linecap="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <span class="contact-text">ricardo@altamiratravel.com</span>
+          </div>
+
+          <!-- Web -->
+          <div class="contact-row">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="#2E2820" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+            </svg>
+            <span class="contact-text">altamiratravel.com</span>
+          </div>
+
+          <!-- Instagram -->
+          <div class="contact-row">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="#2E2820" stroke-width="1.8" stroke-linecap="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+            <span class="contact-text">@altamiratravelusa</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Columna derecha oscura con mini logo -->
+      <div class="back-right">
+        <svg width="44" height="54" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="28" y1="90" x2="50" y2="22" stroke="#C47646" stroke-width="3" stroke-linecap="round"/>
+          <line x1="50" y1="22" x2="72" y2="90" stroke="#C47646" stroke-width="3" stroke-linecap="round"/>
+          <line x1="35" y1="66" x2="65" y2="66" stroke="#C47646" stroke-width="3" stroke-linecap="round"/>
+          <line x1="62" y1="34" x2="82" y2="20" stroke="#C47646" stroke-width="2" stroke-linecap="round"/>
+          <path d="M85 13 L86.5 18 L92 20 L86.5 22 L85 27 L83.5 22 L78 20 L83.5 18 Z" fill="#C47646"/>
+        </svg>
+        <div class="back-right-divider"></div>
+        <span class="back-right-brand">ALTAMIRA</span>
+        <span class="back-right-travel">Travel</span>
+        <span class="back-right-web">Miami, Florida · USA</span>
+      </div>
+
+      <div class="card-back-stripe"></div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Nota para diseñadora -->
+<div class="print-note">
+  Dimensiones estándar: 3.5" × 2" · Impresión: 300 dpi · Sangría: 3mm<br>
+  Fuente frente: Cormorant Garamond 500 · Reverso: Hanken Grotesk 400<br>
+  Terracota: #C47646 · Tinta: #2E2820 · Crema: #F5F0E8
+</div>
+
+</body>
+</html>
