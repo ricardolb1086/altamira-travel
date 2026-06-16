@@ -147,6 +147,10 @@ em.it{ font-style: italic; color: var(--terra-deep); }
 .nav-cta{ display:flex; align-items:center; gap: 18px; }
 .nav-tel{ font-family: var(--mono); font-size: 12.5px; letter-spacing:.04em; color: var(--ink-soft); white-space:nowrap; }
 .burger{ display:none; }
+.nav-tel-mini{ display:none; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; border:1px solid color-mix(in oklab,var(--ink) 22%,transparent); color:var(--ink); flex:none; }
+.nav-tel-mini svg{ width:18px; height:18px; }
+.nav .nav-tel-mini{ color:var(--cream); border-color:rgba(255,255,255,.4); }
+.nav.solid .nav-tel-mini{ color:var(--ink); border-color:color-mix(in oklab,var(--ink) 22%,transparent); }
 /* nav legible sobre el video del hero (claro arriba, oscuro al hacer scroll) */
 .nav .name{ color: var(--paper); }
 .nav .name b{ color: var(--terra); }
@@ -300,6 +304,7 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
 /* ====================================================== responsive */
 @media (max-width: 900px){
   .nav-links, .nav-tel{ display:none; }
+  .nav-tel-mini{ display:inline-flex; }
   .burger{ display:inline-flex; }
   .strip-row{ grid-template-columns: repeat(2,1fr); }
   .stat:nth-child(2){ border-right:none; }
@@ -431,6 +436,9 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
     <div class="nav-cta">
       <div class="lang" id="lang"><button data-l="en">EN</button><button data-l="es">ES</button></div>
       <a href="tel:+18888551889" class="nav-tel">1-888-855-1889</a>
+      <a href="tel:+18888551889" class="nav-tel-mini" aria-label="Llamar 1-888-855-1889">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5 19.79 19.79 0 010.1 2.82 2 2 0 012.08 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l.91-.91a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      </a>
       <a href="#contact" class="btn btn-solid">Plan your journey <span class="arr">→</span></a>
       <button class="btn btn-ghost burger" aria-label="Menu">Menu</button>
     </div>
