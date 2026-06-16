@@ -53,7 +53,13 @@ Antes operaba como "Brandon" en Travel Viajes USA — tengo cartera de clientes 
 - 12 posts de backlog ya escritos (copy + descripción imagen)
 
 ## Pendientes (en orden)
-0. **PRÓXIMA SESIÓN (mañana):** Cargar 2 programas de Japón (destino muy de moda, alto volumen de búsqueda) + escribir un blog/artículo sobre Japón. Estrategia: blog atrae tráfico SEO, programa convierte. Ricardo trae los datos de los 2 circuitos (operador, itinerario, precios). Aplicar misma fórmula: nombre Altamira, operador invisible, precio único sin "desde", mapa ilustrado Higgsfield. Japón serán Altamira Originals (badge ●). El blog inaugura la sección "El Diario" (que hoy son solo tarjetas placeholder sin páginas reales detrás).
+0. **PRÓXIMA SESIÓN (mañana) — cargar varios programas + blog:**
+   - **Japón** (2 programas) — destino muy de moda, alto volumen de búsqueda. Serán Altamira Originals (badge ●). + escribir blog/artículo sobre Japón (inaugura "El Diario").
+   - **Israel / Tierra Santa** — ya está referenciado como "consultar" en el bloque "Extiende tu viaje" de Egipto y los 3 de Jordania. Al crearlo, cambiar esos "consultar" por link real.
+   - **Dubái** — ya referenciado como "consultar" en los 3 de Turquía. Al crearlo, cambiar "consultar" por link real.
+   - **Grecia** (algunos) — complementa Turquía y las Islas Griegas.
+   - Aplicar SIEMPRE: nombre Altamira (operador invisible), precio único sin "desde", utilidad mínima $500 (o lo que defina Ricardo), mapa ilustrado Higgsfield estilo pergamino, meta tags SEO + agregar URL al sitemap.xml, y el bloque "Extiende tu viaje" con combos geográficos.
+   - Ricardo trae: operador, itinerario día a día, precios netos por temporada/categoría, días de salida.
 1. Precio de Turquía → agregar a su página
 2. Mapa ilustrado de Turquía (estilo igual al de Egipto, hecho en ChatGPT)
 3. ~~Número WhatsApp corporativo~~ ✅ Resuelto — +1 (786) 977-6948 activo en sitio
