@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La Ruta de los Sultanes · Turquía — Altamira Travel</title>
+<title>La Ruta de los Sultanes · Turquía 10 Días — Altamira Travel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -29,6 +29,8 @@ body{ font-family:var(--sans); background:var(--cream); color:var(--ink); -webki
 img{ display:block; max-width:100%; }
 a{ color:inherit; text-decoration:none; }
 .wrap{ max-width:var(--maxw); margin:0 auto; padding-inline:var(--pad); }
+
+/* NAV */
 .nav{ position:fixed; top:0; left:0; right:0; z-index:100; background:color-mix(in oklab,var(--cream) 90%,transparent); backdrop-filter:blur(12px); box-shadow:0 1px 0 var(--line); padding:12px 0; }
 .nav-row{ display:flex; align-items:center; justify-content:space-between; gap:24px; }
 .brand{ display:flex; align-items:center; gap:10px; font-family:var(--serif); }
@@ -39,20 +41,26 @@ a{ color:inherit; text-decoration:none; }
 .btn{ display:inline-flex; align-items:center; gap:.6em; font-family:var(--sans); font-weight:600; font-size:14px; padding:12px 24px; border-radius:100px; border:1px solid transparent; cursor:pointer; transition:all .3s; }
 .btn-solid{ background:var(--ink); color:var(--cream); }
 .btn-solid:hover{ background:var(--terra-deep); }
+
+/* HERO */
 .prog-hero{ position:relative; height:72vh; min-height:480px; display:flex; align-items:flex-end; padding-bottom:clamp(40px,6vh,72px); margin-top:57px; }
-.prog-hero-img{ position:absolute; inset:0; background:url('/videos/cappadocia-poster.jpg') center/cover; }
+.prog-hero-img{ position:absolute; inset:0; background:url('https://images.unsplash.com/photo-1641128324972-af3212f0f6bd?auto=format&fit=crop&w=2000&q=80') center/cover; }
 .prog-hero-scrim{ position:absolute; inset:0; background:linear-gradient(180deg,rgba(18,12,8,.2) 0%,rgba(18,12,8,.72) 100%); }
 .prog-hero-inner{ position:relative; z-index:2; }
 .prog-tag{ font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.8); display:flex; align-items:center; gap:.7em; margin-bottom:16px; }
 .prog-tag::before{ content:""; width:26px; height:1px; background:var(--terra); }
 .prog-hero h1{ font-family:var(--serif); font-size:clamp(38px,5.5vw,72px); font-weight:500; color:var(--paper); line-height:1.05; text-wrap:balance; }
 .prog-hero h1 em{ font-style:italic; color:oklch(0.85 0.08 50); }
+
+/* STATS STRIP */
 .prog-stats{ background:var(--ink); }
 .prog-stats-row{ display:grid; grid-template-columns:repeat(4,1fr); }
 .pstat{ padding:28px var(--pad); border-right:1px solid oklch(0.34 0.018 58); text-align:center; }
 .pstat:last-child{ border-right:none; }
 .pstat .val{ font-family:var(--serif); font-size:clamp(22px,2.2vw,30px); color:var(--paper); font-weight:500; }
 .pstat .lbl{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:oklch(0.65 0.01 78); margin-top:6px; }
+
+/* CONTENT */
 .prog-body{ padding-block:clamp(60px,9vh,100px); }
 .prog-grid{ display:grid; grid-template-columns:1fr 380px; gap:clamp(32px,5vw,80px); align-items:start; }
 .prog-section{ margin-bottom:56px; }
@@ -60,6 +68,8 @@ a{ color:inherit; text-decoration:none; }
 .prog-label{ font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--terra-deep); margin-bottom:18px; display:flex; align-items:center; gap:.7em; }
 .prog-label::before{ content:""; width:26px; height:1px; background:var(--terra); }
 .prog-section h2{ font-family:var(--serif); font-size:clamp(28px,3vw,42px); font-weight:500; line-height:1.1; margin-bottom:20px; }
+
+/* ITINERARY */
 .itin-day{ border-top:1px solid var(--line); }
 .itin-day:last-child{ border-bottom:1px solid var(--line); }
 .itin-toggle{ width:100%; background:none; border:none; cursor:pointer; display:flex; align-items:center; gap:18px; padding:20px 0; text-align:left; }
@@ -69,8 +79,10 @@ a{ color:inherit; text-decoration:none; }
 .itin-toggle.open .arr{ transform:rotate(180deg); }
 .itin-content{ display:none; padding:0 0 22px 70px; }
 .itin-content.open{ display:block; }
-.itin-content p{ color:var(--ink-soft); font-size:15.5px; line-height:1.7; }
+.itin-content p{ color:var(--ink-soft); font-size:15.5px; line-height:1.7; margin-bottom:8px; }
 .itin-content .meals{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--terra-deep); margin-top:12px; }
+
+/* SIDEBAR */
 .prog-sidebar{ position:sticky; top:80px; }
 .sidebar-card{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:32px; margin-bottom:20px; }
 .sidebar-card h3{ font-family:var(--serif); font-size:22px; margin-bottom:18px; }
@@ -85,8 +97,35 @@ a{ color:inherit; text-decoration:none; }
 .btn-wa:hover{ background:#1ebe5d; transform:translateY(-2px); }
 .btn-back{ font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); display:inline-flex; align-items:center; gap:8px; margin-bottom:36px; transition:color .2s; }
 .btn-back:hover{ color:var(--terra-deep); }
+
+/* PRICING CARD */
+.price-card{ background:var(--cream-2); border:1px solid var(--line); border-radius:12px; padding:28px; margin-bottom:20px; }
+.price-card-title{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:20px; }
+.price-row{ display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--line); }
+.price-row:last-of-type{ border-bottom:none; padding-bottom:0; }
+.price-row:first-of-type{ padding-top:0; }
+.price-season{ font-size:13.5px; color:var(--ink-soft); line-height:1.4; }
+.price-season strong{ display:block; color:var(--ink); font-weight:600; font-size:14px; }
+.price-amount{ text-align:right; flex:none; }
+.price-amount .amount{ font-family:var(--serif); font-size:28px; font-weight:500; color:var(--ink); line-height:1; }
+.price-amount .pax{ font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--ink-soft); text-transform:uppercase; display:block; margin-top:3px; }
+.price-note{ font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:var(--ink-soft); margin-top:14px; line-height:1.6; opacity:.8; }
+.price-upgrade{ display:flex; align-items:center; justify-content:space-between; padding:14px 0 0; }
+.price-upgrade .label{ font-size:13.5px; color:var(--ink-soft); }
+.price-upgrade .label strong{ display:block; color:var(--ink); font-weight:600; font-size:14px; }
+.price-consult{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--terra-deep); border:1px solid var(--terra); border-radius:100px; padding:6px 14px; transition:all .25s; }
+.price-consult:hover{ background:var(--terra); color:var(--paper); }
+
+/* NOTA OPERATIVA */
+.op-note{ background:oklch(0.575 0.115 46 / .07); border-left:3px solid var(--terra); border-radius:0 8px 8px 0; padding:14px 18px; margin-top:24px; font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; color:var(--terra-deep); line-height:1.7; }
+
+/* MAP */
+.map-section{ margin-top:56px; }
+
+/* FOOTER */
 footer{ background:var(--paper); border-top:1px solid var(--line); padding-block:48px 28px; }
 .foot-bot{ display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; font-size:13px; color:var(--ink-soft); font-family:var(--mono); letter-spacing:.02em; }
+
 @media(max-width:900px){
   .prog-grid{ grid-template-columns:1fr; }
   .prog-sidebar{ position:static; }
@@ -103,6 +142,7 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
 </head>
 <body>
 
+<!-- NAV -->
 <nav class="nav">
   <div class="wrap nav-row">
     <a href="/" class="brand">
@@ -111,11 +151,12 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
     </a>
     <div style="display:flex;gap:14px;align-items:center;">
       <a href="tel:+18888551889" style="font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);">1-888-855-1889</a>
-      <a href="https://wa.me/17869776948?text=Hola%2C%20me%20interesa%20La%20Ruta%20de%20los%20Sultanes%20Turqu%C3%ADa" target="_blank" class="btn btn-solid">Reservar →</a>
+      <a href="https://wa.me/17869776948?text=Hola%2C%20me%20interesa%20el%20programa%20Perlas%20de%20Turqu%C3%ADa" target="_blank" class="btn btn-solid">Reservar →</a>
     </div>
   </div>
 </nav>
 
+<!-- HERO -->
 <section class="prog-hero">
   <div class="prog-hero-img"></div>
   <div class="prog-hero-scrim"></div>
@@ -125,32 +166,36 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
   </div>
 </section>
 
+<!-- STATS -->
 <div class="prog-stats">
   <div class="wrap" style="padding:0;">
     <div class="prog-stats-row">
-      <div class="pstat"><div class="val">10</div><div class="lbl">Días</div></div>
-      <div class="pstat"><div class="val">Lunes</div><div class="lbl">Salida semanal</div></div>
-      <div class="pstat"><div class="val">9+5</div><div class="lbl">Desayunos + Cenas</div></div>
+      <div class="pstat"><div class="val">10</div><div class="lbl">Días · 9 Noches</div></div>
+      <div class="pstat"><div class="val">Lunes</div><div class="lbl">Salida garantizada</div></div>
+      <div class="pstat"><div class="val">9D · 5C</div><div class="lbl">Desayunos + Cenas</div></div>
       <div class="pstat"><div class="val">ESP</div><div class="lbl">Guía en español</div></div>
     </div>
   </div>
 </div>
 
+<!-- BODY -->
 <div class="prog-body">
   <div class="wrap">
     <a href="/" class="btn-back">← Volver a destinos</a>
     <div class="prog-grid">
 
+      <!-- LEFT: ITINERARY -->
       <div>
         <div class="prog-section">
           <p class="prog-label">El viaje</p>
-          <h2>Estambul · Ankara · Capadocia · Pamukkale · Éfeso</h2>
-          <p style="color:var(--ink-soft);font-size:16px;line-height:1.7;">El circuito clásico de Turquía para quienes visitan el país por primera vez. De los minaretes de Estambul a los globos aerostáticos de Capadocia, pasando por las piscinas de travertino de Pamukkale y la ciudad antigua de Éfeso. Diez días que lo cambian todo.</p>
+          <h2>Estambul · Ankara · Capadocia · Pamukkale · Éfeso · Bursa</h2>
+          <p style="color:var(--ink-soft);font-size:16px;line-height:1.7;">Diez días para descubrir lo mejor de Turquía: el Bósforo y la magia de Estambul, los globos aerostáticos al amanecer en Capadocia, las piscinas blancas de Pamukkale, la antigua ciudad de Éfeso y el primer día incluye un crucero de regalo por el Bósforo. Todo con guía en español y salida garantizada desde 2 pasajeros.</p>
         </div>
 
         <div class="prog-section">
           <p class="prog-label">Itinerario día a día</p>
 
+          <!-- DÍA 1 -->
           <div class="itin-day">
             <button class="itin-toggle" onclick="toggle(this)">
               <span class="day-n">Día 1</span>
@@ -158,35 +203,40 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
               <span class="arr">▾</span>
             </button>
             <div class="itin-content">
-              <p>Llegada al aeropuerto de Estambul. Recibimiento por nuestro equipo y traslado al hotel. Alojamiento.</p>
+              <p>Llegada y asistencia en el aeropuerto de Estambul. Traslado al hotel y alojamiento. Bienvenido a la ciudad que une dos continentes.</p>
               <p class="meals">Sin alimento incluido</p>
             </div>
           </div>
 
+          <!-- DÍA 2 -->
           <div class="itin-day">
             <button class="itin-toggle" onclick="toggle(this)">
               <span class="day-n">Día 2</span>
-              <span class="day-title">Estambul · Santa Sofía · Palacio Topkapi · Mezquita Azul · Gran Bazar</span>
+              <span class="day-title">Estambul · Crucero por el Bósforo + Fener & Balat ★ Regalo</span>
               <span class="arr">▾</span>
             </button>
             <div class="itin-content">
-              <p>Desayuno. Excursión de día completo por la ciudad histórica. Santa Sofía — una de las maravillas arquitectónicas del mundo. Palacio Topkapi — residencia de los sultanes otomanos entre 1478 y 1856. Mezquita Azul — famosa por sus seis minaretes y cúpulas perfectas. Hipódromo Romano. Finalización del día en el Gran Bazar.</p>
-              <p class="meals">Desayuno incluido</p>
+              <p>Día completo incluido de regalo. Por la mañana, visita al Bazar Egipcio o Bazar de las Especias, construido en el siglo XVII en el histórico barrio de Eminönü. A continuación, abordamos el barco para el recorrido por el Bósforo — un viaje fascinante por las aguas que separan Europa y Asia. Durante el trayecto disfrutaremos de vistas panorámicas del Palacio de Dolmabahçe, el Palacio de Çırağan y la Fortaleza de Rumeli Hisarı.</p>
+              <p>Por la tarde, recorremos el barrio histórico de Fener & Balat: callejuelas de piedra, casas de colores, cafés temáticos y la iglesia ortodoxa búlgara de San Esteban de hierro fundido. Visita al Patriarcado Ecuménico de Constantinopla, una de las instituciones religiosas más antiguas del mundo.</p>
+              <p class="meals">Desayuno y almuerzo incluidos ★ Excursión de regalo</p>
             </div>
           </div>
 
+          <!-- DÍA 3 -->
           <div class="itin-day">
             <button class="itin-toggle" onclick="toggle(this)">
               <span class="day-n">Día 3</span>
-              <span class="day-title">Estambul · Crucero por el Bósforo</span>
+              <span class="day-title">Estambul · City Tour completo</span>
               <span class="arr">▾</span>
             </button>
             <div class="itin-content">
-              <p>Desayuno. Bazar Egipcio (Bazar de las Especias, siglo XVII). Crucero por el Bósforo navegando entre los continentes europeo y asiático, contemplando el Palacio de Dolmabahce, la fortaleza de Rumeli Hisarı y otros monumentos. Palacio de Beylerbeyi. Subida a la Colina de Çamlica con vista panorámica de toda la ciudad.</p>
-              <p class="meals">Desayuno incluido</p>
+              <p>Excursión de día completo por la ciudad. Visitamos la Santa Sofía desde el exterior — una de las maravillas arquitectónicas más imponentes del mundo. A continuación, el Palacio Topkapi, residencia de los sultanes otomanos entre 1478 y 1856: un complejo monumental con jardines, tesoros y vistas al Bósforo.</p>
+              <p>Continuamos con la Mezquita Azul, admirada por sus seis minaretes y sus inigualables cúpulas. Por la tarde, el Hipódromo Romano — el corazón de la vida pública de Constantinopla durante más de mil años. Terminamos en el Gran Bazar, uno de los mercados cubiertos más grandes y antiguos del mundo.</p>
+              <p class="meals">Desayuno y almuerzo incluidos</p>
             </div>
           </div>
 
+          <!-- DÍA 4 -->
           <div class="itin-day">
             <button class="itin-toggle" onclick="toggle(this)">
               <span class="day-n">Día 4</span>
@@ -194,71 +244,82 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
               <span class="arr">▾</span>
             </button>
             <div class="itin-content">
-              <p>Desayuno. Salida en autobús hacia Ankara (600 km), capital de Turquía, cruzando las montañas de Bolu. Visita al Mausoleo de Ataturk, fundador de la República Turca. Salida hacia Capadocia, región de formación geológica única en el mundo. Llegada pasando por el Lago Salado. Cena y alojamiento.</p>
+              <p>Desayuno. Salida en autobús de lujo hacia Ankara, capital de la República Turca, cruzando las montañas de Bolu. Visita al Mausoleo de Atatürk, fundador de la República Turca y figura central de la historia moderna del país.</p>
+              <p>Continuamos hacia Capadocia, una región geológica única en el mundo, famosa por sus formaciones rocosas en forma de chimeneas de hadas y sus iglesias rupestres. Pasando por el Lago Salado, llegada al hotel.</p>
               <p class="meals">Desayuno y cena incluidos</p>
             </div>
           </div>
 
+          <!-- DÍA 5 -->
           <div class="itin-day">
             <button class="itin-toggle" onclick="toggle(this)">
               <span class="day-n">Día 5</span>
-              <span class="day-title">Capadocia · Göreme · Chimeneas de las Hadas</span>
+              <span class="day-title">Capadocia · Tour completo</span>
               <span class="arr">▾</span>
             </button>
             <div class="itin-content">
-              <p>Desayuno. Opcional al amanecer: vuelo en globo aerostático sobre Capadocia (experiencia única en el mundo). Museo al Aire Libre de Göreme con iglesias talladas en roca y frescos del siglo X. Pueblo troglodita de Uçhisar. Valle de las Palomeras. Valle Pasabag (chimeneas de las hadas). Avanos (pueblo de alfareros). Ciudad subterránea de Serhatlı. Taller de alfombras turcas y onix. Cena y alojamiento.</p>
+              <p><strong style="color:var(--terra-deep);">Opcional al amanecer:</strong> Vuelo en globo aerostático sobre las chimeneas de hadas — una de las experiencias más fotográficas del mundo (precio bajo consulta).</p>
+              <p>Día completo: Museo al Aire Libre de Göreme, con iglesias talladas en roca y frescos interiores del siglo X. Pueblo troglodita de Uçhisar. Valle de las Palomares. El famoso Valle del Amor con sus chimeneas en forma de hongo. El pueblo de alfareros de Avanos a orillas del río Kızılırmak.</p>
+              <p>Por la tarde, descenso a una ciudad subterránea de varios niveles excavada por los primeros cristianos en los siglos VI-VII. Visita a un taller de alfombras turcas tejidas a mano y taller de ónix y joyería.</p>
               <p class="meals">Desayuno y cena incluidos</p>
             </div>
           </div>
 
+          <!-- DÍA 6 -->
           <div class="itin-day">
             <button class="itin-toggle" onclick="toggle(this)">
               <span class="day-n">Día 6</span>
-              <span class="day-title">Capadocia · Pamukkale</span>
+              <span class="day-title">Capadocia · Ruta de la Seda · Pamukkale</span>
               <span class="arr">▾</span>
             </button>
             <div class="itin-content">
-              <p>Desayuno. Salida hacia Pamukkale (600 km) siguiendo la histórica Ruta de la Seda. Visita a la Caravansarai de Sultanhan, antigua posada de caravanas de camellos del siglo XIII. Llegada a Pamukkale. Cena y alojamiento.</p>
+              <p>Desayuno. Salida hacia Aksaray siguiendo la histórica Ruta de la Seda. Visitamos el Caravansarai, antigua posada donde descansaban las caravanas de camellos que conectaban Oriente y Occidente. Continuamos hacia Pamukkale. Llegada al hotel.</p>
               <p class="meals">Desayuno y cena incluidos</p>
             </div>
           </div>
 
+          <!-- DÍA 7 -->
           <div class="itin-day">
             <button class="itin-toggle" onclick="toggle(this)">
               <span class="day-n">Día 7</span>
-              <span class="day-title">Pamukkale · Éfeso · Kusadasi</span>
+              <span class="day-title">Pamukkale · Hierápolis · Éfeso · Kuşadası</span>
               <span class="arr">▾</span>
             </button>
             <div class="itin-content">
-              <p>Desayuno. Pamukkale — "Castillo de Algodón", piscinas naturales de travertino formadas por fuentes termales. Ciudad antigua de Hierápolis. Casa de la Virgen María (donde pasó sus últimos años). Desfile de modas de piel. Ciudad antigua de Éfeso — la mejor conservada de Asia Menor: Templo Adriano, Biblioteca de Celso, teatro con capacidad para 24.500 espectadores. Traslado a Kusadasi. Cena y alojamiento.</p>
+              <p>Pamukkale — "Castillo de Algodón" en turco: las icónicas piscinas naturales de travertino blanco formadas por fuentes termales durante milenios. Seguimos con Hierápolis, antigua ciudad de Frigia y centro episcopal del período bizantino.</p>
+              <p>En ruta hacia Kuşadası, visita a la Casa de la Virgen María, donde pasó sus últimos años según la tradición cristiana. Éfeso — la ciudad antigua mejor conservada de Asia Menor: el Templo de Adriano, los Baños Romanos, la magnífica Biblioteca de Celso y el Teatro con capacidad para 24.500 espectadores.</p>
               <p class="meals">Desayuno y cena incluidos</p>
             </div>
           </div>
 
+          <!-- DÍA 8 -->
           <div class="itin-day">
             <button class="itin-toggle" onclick="toggle(this)">
               <span class="day-n">Día 8</span>
-              <span class="day-title">Kusadasi · Día libre</span>
+              <span class="day-title">Kuşadası · Día libre</span>
               <span class="arr">▾</span>
             </button>
             <div class="itin-content">
-              <p>Desayuno. Día libre con posibilidad de contratar excursiones opcionales. Opción 1: Isla griega de Chios (la isla de Homero). Opción 2: Priene, Mileto y Didyma — tres ciudades de la antigua Jonia.</p>
+              <p>Desayuno. Día libre en Kuşadası para disfrutar del mar Egeo. El guía sugerirá propuestas de recorrido según las condiciones del tiempo.</p>
+              <p><strong style="color:var(--terra-deep);">Opcional:</strong> Excursión a la isla griega de Quíos — la isla de Homero. Traslado al puerto de Çeşme, cruce a Quíos, visita al pueblo de Mesta, producción de mástic (la resina única del mundo), playas volcánicas y gastronomía griega local.</p>
               <p class="meals">Desayuno y cena incluidos</p>
             </div>
           </div>
 
+          <!-- DÍA 9 -->
           <div class="itin-day">
             <button class="itin-toggle" onclick="toggle(this)">
               <span class="day-n">Día 9</span>
-              <span class="day-title">Kusadasi · Bursa · Estambul</span>
+              <span class="day-title">Kuşadası · Bursa · Estambul</span>
               <span class="arr">▾</span>
             </button>
             <div class="itin-content">
-              <p>Desayuno. Salida hacia Estambul vía Bursa — primera capital del Imperio Otomano, famosa por sus mezquitas y producción de seda. Mezquita Grande del siglo XIV, Mezquita y Mausoleo Verde, bazar de seda. Llegada a Estambul. Alojamiento.</p>
+              <p>Desayuno. Salida hacia Estambul vía Bursa, primera capital del Imperio Otomano. Ciudad reconocida por sus mezquitas, fuentes termales, baños turcos y la producción de seda. Visitamos la Mezquita Verde y su Mausoleo, y el bazar local de seda. Continuamos hacia Estambul. Llegada y alojamiento.</p>
               <p class="meals">Desayuno incluido</p>
             </div>
           </div>
 
+          <!-- DÍA 10 -->
           <div class="itin-day">
             <button class="itin-toggle" onclick="toggle(this)">
               <span class="day-n">Día 10</span>
@@ -266,21 +327,80 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
               <span class="arr">▾</span>
             </button>
             <div class="itin-content">
-              <p>Desayuno. Traslado al aeropuerto de Estambul para el vuelo de regreso a su ciudad de origen. Fin de nuestros servicios.</p>
+              <p>Desayuno. A la hora indicada, traslado al aeropuerto de Estambul para tomar el vuelo de regreso a su ciudad de origen. Fin de nuestros servicios.</p>
               <p class="meals">Desayuno incluido</p>
             </div>
           </div>
 
+        </div><!-- /itinerary -->
+
+        <div class="op-note">
+          ★ Por razones operativas, el orden de las visitas podrá variar según el día de llegada y disponibilidad en destino. El contenido del programa siempre se mantiene completo.
         </div>
+
+        <!-- MAPA (placeholder — a generar en ChatGPT) -->
+        <div class="map-section">
+          <p class="prog-label">La ruta · The route</p>
+          <p style="color:var(--ink-soft);font-size:14px;font-family:var(--mono);letter-spacing:.06em;">Estambul → Ankara → Capadocia → Pamukkale → Éfeso/Kuşadası → Bursa → Estambul</p>
+        </div>
+
       </div>
 
-      <!-- SIDEBAR -->
+      <!-- RIGHT: SIDEBAR -->
       <div class="prog-sidebar">
 
+        <!-- PRECIOS -->
+        <div class="price-card">
+          <p class="price-card-title">Precios · Prices · Hotelería Cat B (4★)</p>
+
+          <div class="price-row">
+            <div class="price-season">
+              <strong>Temporada baja</strong>
+              Nov 2026 – Mar 2027
+            </div>
+            <div class="price-amount">
+              <span class="amount">$1,250</span>
+              <span class="pax">por persona</span>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <div class="price-season">
+              <strong>Temporada alta</strong>
+              Abr – Oct 2026
+            </div>
+            <div class="price-amount">
+              <span class="amount">$1,290</span>
+              <span class="pax">por persona</span>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <div class="price-season">
+              <strong>Habitación individual</strong>
+              Suplemento single
+            </div>
+            <div class="price-amount">
+              <span class="amount">$1,790</span>
+              <span class="pax">por persona</span>
+            </div>
+          </div>
+
+          <div class="price-upgrade">
+            <div class="label">
+              <strong>Cat C · Cat D (4★S / 5★)</strong>
+              Hoteles superiores
+            </div>
+            <a href="https://wa.me/17869776948?text=Hola%2C%20me%20interesa%20Perlas%20de%20Turqu%C3%ADa%20en%20categor%C3%ADa%20superior" target="_blank" class="price-consult">Consultar</a>
+          </div>
+
+          <p class="price-note">Precio por persona en habitación doble · Precios en USD · Descuento disponible para pagos en efectivo o transferencia · No incluye vuelos internacionales</p>
+        </div>
+
         <div class="cta-card">
-          <h3>¿Listo para La Ruta de los Sultanes?</h3>
-          <p>Salida garantizada todos los lunes del año. Escríbenos y te enviamos disponibilidad y precios en minutos.</p>
-          <a href="https://wa.me/17869776948?text=Hola%2C%20me%20interesa%20La%20Ruta%20de%20los%20Sultanes%20-%20Turqu%C3%ADa%2010%20d%C3%ADas" target="_blank" class="btn-wa">
+          <h3>¿Listo para viajar a Turquía?</h3>
+          <p>Salida garantizada cada lunes. Escríbenos y te enviamos disponibilidad y precios en minutos.</p>
+          <a href="https://wa.me/17869776948?text=Hola%2C%20me%20interesa%20el%20programa%20Perlas%20de%20Turqu%C3%ADa%2010%20d%C3%ADas" target="_blank" class="btn-wa">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             Consultar disponibilidad
           </a>
@@ -289,15 +409,18 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
         <div class="sidebar-card">
           <h3>El viaje incluye</h3>
           <ul class="incl-list">
-            <li>4 noches Estambul con desayuno (hotel 4★)</li>
-            <li>2 noches Capadocia media pensión (hotel 5★)</li>
-            <li>1 noche Pamukkale media pensión (hotel 5★)</li>
-            <li>2 noches Kusadasi media pensión (hotel 5★)</li>
-            <li>Transporte en autobús turístico grupal</li>
+            <li>4 noches en Estambul con desayuno (hotel Cat B 4★)</li>
+            <li>2 noches en Capadocia en media pensión</li>
+            <li>1 noche en Pamukkale en media pensión</li>
+            <li>2 noches en Kuşadası en media pensión</li>
+            <li>Crucero por el Bósforo + Fener & Balat (de regalo)</li>
+            <li>City Tour completo Estambul con almuerzo</li>
+            <li>9 desayunos · 1 almuerzo · 5 cenas</li>
+            <li>Guía profesional de habla española</li>
+            <li>Autobús de lujo con aire acondicionado</li>
             <li>Traslados aeropuerto · hotel · aeropuerto</li>
-            <li>Guía de habla hispana todo el recorrido</li>
-            <li>Visitas y entradas según itinerario</li>
-            <li>9 desayunos · 5 cenas</li>
+            <li>Entradas a museos según itinerario</li>
+            <li>Propinas en hoteles</li>
           </ul>
         </div>
 
@@ -305,12 +428,17 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
           <h3>No incluye</h3>
           <ul class="incl-list excl-list">
             <li>Vuelos internacionales</li>
-            <li>Propinas guía: $45 USD por persona</li>
-            <li>Visas (si se requieren)</li>
-            <li>Vuelo en globo aerostático (opcional)</li>
-            <li>Excursiones opcionales</li>
-            <li>Extras no mencionados</li>
+            <li>Impuestos hoteleros: $50 USD (pago en efectivo al guía al llegar)</li>
+            <li>Almuerzos durante el recorrido por Anatolia</li>
+            <li>Bebidas</li>
+            <li>Propinas al guía y conductor</li>
+            <li>Excursiones opcionales (globo, isla de Quíos)</li>
+            <li>Seguro de viaje</li>
+            <li>Gastos personales</li>
           </ul>
+          <p style="margin-top:16px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-soft);line-height:1.7;border-top:1px solid var(--line);padding-top:14px;">
+            <strong style="color:var(--terra-deep);">Nota:</strong> Los pagos no incluidos (impuestos hoteleros $50 USD) deberán ser abonados en efectivo al guía al momento de la llegada en Turquía.
+          </p>
         </div>
 
       </div>
@@ -318,6 +446,7 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer>
   <div class="wrap">
     <div class="foot-bot">
@@ -327,13 +456,7 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
   </div>
 </footer>
 
-<script>
-function toggle(btn){
-  btn.classList.toggle('open');
-  btn.nextElementSibling.classList.toggle('open');
-}
-</script>
-<!-- BOTÓN FLOTANTE WHATSAPP -->
+<!-- Floating WhatsApp -->
 <style>
 .wa-float{position:fixed;bottom:28px;right:28px;z-index:9999;display:flex;align-items:center;text-decoration:none;filter:drop-shadow(0 4px 16px rgba(37,211,102,0.35));transition:transform .3s cubic-bezier(.2,.7,.3,1),filter .3s ease}
 .wa-float:hover{transform:translateY(-3px) scale(1.04);filter:drop-shadow(0 8px 24px rgba(37,211,102,0.5))}
@@ -342,9 +465,16 @@ function toggle(btn){
 .wa-float__icon{width:58px;height:58px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 20px rgba(37,211,102,0.4)}
 .wa-float__icon svg{width:30px;height:30px}
 </style>
-<a class="wa-float" href="https://wa.me/17869776948?text=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20los%20viajes%20de%20Altamira%20Travel" target="_blank" rel="noopener" aria-label="WhatsApp">
+<a class="wa-float" href="https://wa.me/17869776948?text=Hola%2C%20me%20interesa%20el%20programa%20Perlas%20de%20Turqu%C3%ADa%2010%20d%C3%ADas" target="_blank" rel="noopener" aria-label="WhatsApp">
   <span class="wa-float__bubble">¿Hablamos por WhatsApp? 👋</span>
   <span class="wa-float__icon"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
 </a>
+
+<script>
+function toggle(btn){
+  btn.classList.toggle('open');
+  btn.nextElementSibling.classList.toggle('open');
+}
+</script>
 </body>
 </html>
