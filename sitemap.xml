@@ -51,6 +51,21 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://altamiratravel.com/privacidad.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://altamiratravel.com/reembolsos.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://altamiratravel.com/entrega.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://altamiratravel.com/terminos.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de Privacidad — Altamira Travel</title>
+<meta name="description" content="Cómo Altamira Travel recopila, usa y protege tus datos personales.">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream: oklch(0.972 0.012 78);
+  --ink: oklch(0.245 0.014 58);
+  --ink-soft: oklch(0.42 0.02 60);
+  --line: oklch(0.86 0.014 76);
+  --terra: oklch(0.575 0.115 46);
+  --terra-deep: oklch(0.48 0.11 42);
+  --paper: oklch(0.99 0.006 80);
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans: "Hanken Grotesk", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --maxw: 860px;
+  --pad: clamp(20px, 5vw, 64px);
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{ font-family:var(--sans); background:var(--cream); color:var(--ink); -webkit-font-smoothing:antialiased; line-height:1.55; }
+a{ color:var(--terra-deep); text-decoration:none; }
+a:hover{ text-decoration:underline; }
+.wrap{ max-width:var(--maxw); margin:0 auto; padding-inline:var(--pad); }
+
+.nav{ position:fixed; top:0; left:0; right:0; z-index:100; background:color-mix(in oklab,var(--cream) 92%,transparent); backdrop-filter:blur(12px); box-shadow:0 1px 0 var(--line); padding:12px 0; }
+.nav-row{ display:flex; align-items:center; justify-content:space-between; gap:24px; max-width:1280px; margin:0 auto; padding-inline:var(--pad); }
+.brand{ display:flex; align-items:center; gap:10px; font-family:var(--serif); }
+.brand .mark{ width:28px; height:28px; border-radius:50%; background:var(--terra); display:grid; place-items:center; flex:none; }
+.brand .mark::after{ content:""; width:10px; height:10px; border-radius:50%; border:2px solid var(--cream); }
+.brand .name{ font-size:22px; letter-spacing:.14em; font-weight:600; text-transform:uppercase; color:var(--ink); }
+.brand .name b{ color:var(--terra-deep); }
+
+.page-hero{ padding:clamp(100px,14vh,130px) 0 clamp(36px,5vh,56px); border-bottom:1px solid var(--line); }
+.overline{ font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--terra-deep); display:inline-flex; align-items:center; gap:.7em; margin-bottom:18px; }
+.overline::before{ content:""; width:26px; height:1px; background:var(--terra); }
+.page-hero h1{ font-family:var(--serif); font-size:clamp(36px,5vw,60px); font-weight:500; line-height:1.06; }
+.page-hero .sub{ font-size:15px; color:var(--ink-soft); margin-top:14px; font-family:var(--mono); letter-spacing:.04em; }
+
+.toc{ background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:28px 32px; margin-block:48px; }
+.toc h3{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:16px; }
+.toc ol{ list-style:none; display:flex; flex-direction:column; gap:8px; counter-reset:toc; }
+.toc li{ counter-increment:toc; display:flex; gap:12px; font-size:14px; }
+.toc li::before{ content:counter(toc,decimal-leading-zero); font-family:var(--mono); font-size:11px; color:var(--terra); padding-top:2px; flex:none; }
+.toc a{ color:var(--ink); transition:color .2s; }
+.toc a:hover{ color:var(--terra-deep); text-decoration:none; }
+
+.tc-section{ padding-block:40px; border-bottom:1px solid var(--line); scroll-margin-top:80px; }
+.tc-section:last-of-type{ border-bottom:none; }
+.tc-section h2{ font-family:var(--serif); font-size:clamp(22px,2.5vw,30px); font-weight:500; margin-bottom:18px; color:var(--ink); }
+.tc-section p{ font-size:15px; color:var(--ink-soft); line-height:1.78; margin-bottom:14px; }
+.tc-section p:last-child{ margin-bottom:0; }
+.tc-section ul, .tc-section ol{ padding-left:20px; display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+.tc-section li{ font-size:15px; color:var(--ink-soft); line-height:1.7; }
+.tc-section strong{ color:var(--ink); font-weight:600; }
+
+.lang-switch{ display:flex; gap:12px; align-items:center; }
+.lang-btn{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; padding:6px 14px; border-radius:100px; border:1px solid var(--line); background:transparent; cursor:pointer; color:var(--ink-soft); transition:all .25s; }
+.lang-btn.active{ background:var(--terra); color:var(--paper); border-color:var(--terra); }
+
+footer{ background:var(--paper); border-top:1px solid var(--line); padding-block:36px 24px; margin-top:60px; }
+.foot-bot{ display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; font-size:13px; color:var(--ink-soft); font-family:var(--mono); max-width:1280px; margin:0 auto; padding-inline:var(--pad); }
+.btn-back{ color:var(--terra-deep); transition:color .2s; }
+.btn-back:hover{ text-decoration:none; color:var(--terra); }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-row">
+    <a href="/" class="brand"><span class="mark"></span><span class="name">Alta<b>mira</b></span></a>
+    <a href="/" class="btn-back" style="font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;">← Volver al inicio</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="wrap">
+    <span class="overline">Política de Privacidad</span>
+    <h1>Política de Privacidad</h1>
+    <p class="sub">Última actualización: 16 de junio de 2026 · Altamira Travel, marca de Altamira Group LLC</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section class="tc-section" id="info">
+<h2>1. Información que recopilamos</h2>
+<p>Recopilamos la información que nos proporcionas voluntariamente al solicitar una cotización, reservar un viaje o contactarnos, incluyendo:</p><ul><li>Nombre completo, correo electrónico y número de teléfono.</li><li>Información de pasaporte y datos de viajeros, necesarios para procesar reservas con nuestros proveedores en destino.</li><li>Preferencias de viaje y solicitudes especiales.</li><li>Información de pago, procesada de forma segura por procesadores externos certificados (no almacenamos datos completos de tarjetas en nuestros servidores).</li></ul>
+</section>
+
+<section class="tc-section" id="uso">
+<h2>2. Cómo usamos tu información</h2>
+<p>Utilizamos tus datos únicamente para:</p><ul><li>Procesar y gestionar tus reservas de viaje.</li><li>Comunicarnos contigo sobre tu viaje, cotizaciones y novedades que hayas solicitado.</li><li>Cumplir con requisitos legales y de nuestros proveedores.</li><li>Mejorar nuestros servicios.</li></ul><p>No vendemos ni alquilamos tu información personal a terceros bajo ninguna circunstancia.</p>
+</section>
+
+<section class="tc-section" id="comparte">
+<h2>3. Con quién compartimos tu información</h2>
+<p>Compartimos tus datos únicamente con las partes necesarias para ejecutar tu viaje:</p><ul><li>Operadores turísticos y proveedores de servicios en destino (hoteles, transportistas, guías).</li><li>Procesadores de pago certificados, para gestionar transacciones de forma segura.</li><li>Autoridades, cuando la ley lo exija.</li></ul><p>Todos nuestros socios están obligados a proteger tu información conforme a esta política.</p>
+</section>
+
+<section class="tc-section" id="cookies">
+<h2>4. Cookies</h2>
+<p>Nuestro sitio utiliza cookies técnicas básicas para su funcionamiento. No utilizamos cookies de seguimiento publicitario invasivo. Puedes configurar tu navegador para rechazar cookies, aunque algunas funciones del sitio podrían verse afectadas.</p>
+</section>
+
+<section class="tc-section" id="seguridad">
+<h2>5. Seguridad de los datos</h2>
+<p>Implementamos medidas razonables de seguridad para proteger tu información. Las transacciones de pago se procesan a través de plataformas certificadas con cifrado. Ningún sistema es 100% infalible, pero trabajamos para mantener tus datos seguros.</p>
+</section>
+
+<section class="tc-section" id="derechos">
+<h2>6. Tus derechos</h2>
+<p>Tienes derecho a acceder, corregir o solicitar la eliminación de tus datos personales. Para ejercer estos derechos, escríbenos a <a href='mailto:hola@altamiratravel.com'>hola@altamiratravel.com</a>.</p>
+</section>
+
+<section class="tc-section" id="contacto">
+<h2>7. Contacto</h2>
+<p>Si tienes preguntas sobre esta Política de Privacidad, contáctanos:</p><p><strong>Altamira Travel</strong><br>Correo: <a href='mailto:hola@altamiratravel.com'>hola@altamiratravel.com</a><br>Teléfono: +1 (888) 855-1889<br>WhatsApp: +1 (786) 977-6948</p>
+</section>
+
+</div>
+
+<footer>
+  <div class="foot-bot">
+    <span>© 2026 Altamira Travel · Altamira Group LLC · Todos los derechos reservados</span>
+    <a href="/" class="btn-back">← Volver al inicio</a>
+  </div>
+</footer>
+
+<style>
+.wa-float{position:fixed;bottom:28px;right:28px;z-index:9999;display:flex;align-items:center;text-decoration:none;filter:drop-shadow(0 4px 16px rgba(37,211,102,0.35));transition:transform .3s cubic-bezier(.2,.7,.3,1),filter .3s ease}
+.wa-float:hover{transform:translateY(-3px) scale(1.04)}
+.wa-float__bubble{background:#fff;color:#1a1a1a;font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:13px;font-weight:500;padding:10px 16px;border-radius:24px 0 0 24px;white-space:nowrap;opacity:0;max-width:0;overflow:hidden;transition:opacity .35s ease,max-width .35s ease;box-shadow:-2px 0 12px rgba(0,0,0,.08)}
+.wa-float:hover .wa-float__bubble{opacity:1;max-width:220px;padding:10px 16px}
+.wa-float__icon{width:58px;height:58px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 20px rgba(37,211,102,0.4)}
+.wa-float__icon svg{width:30px;height:30px}
+</style>
+<a class="wa-float" href="https://wa.me/17869776948?text=Hola%2C%20tengo%20una%20consulta" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <span class="wa-float__bubble">¿Hablamos por WhatsApp? 👋</span>
+  <span class="wa-float__icon"><svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
+</a>
+</body>
+</html>
