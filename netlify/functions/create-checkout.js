@@ -52,7 +52,26 @@ exports.handler = async (event) => {
         },
         quantity: 1,
       }],
-      // Guardamos los detalles para que el webhook arme la factura
+      // ✅ Factura formal automática (Stripe la crea, numera y envía al pagar)
+      invoice_creation: {
+        enabled: true,
+        invoice_data: {
+          description: 'Servicios de viaje · Altamira Travel',
+          custom_fields: [
+            cliente ? { name: 'Cliente', value: cliente } : null,
+            fechas ? { name: 'Fechas del viaje', value: fechas } : null,
+            pax ? { name: 'Pasajeros', value: String(pax) } : null,
+          ].filter(Boolean),
+          footer:
+            'Servicios no reembolsables ni endosables. Al confirmar el pago, el cliente acepta ' +
+            'los Términos, la Política de Reembolsos y el Acuerdo de Reserva de Altamira Travel ' +
+            '(altamiratravel.com). Una vez confirmada la reserva, los servicios se bloquean y ' +
+            'prepagan con nuestros proveedores en destino, por lo que no admiten devolución ni ' +
+            'transferencia. Se recomienda contratar un seguro de viaje. Los cambios de horario o ' +
+            'cancelaciones de aerolíneas son responsabilidad exclusiva de la aerolínea. ' +
+            'Gracias por viajar con Altamira Travel.',
+        },
+      },
       metadata: {
         concepto: concepto,
         cliente: cliente || '',
