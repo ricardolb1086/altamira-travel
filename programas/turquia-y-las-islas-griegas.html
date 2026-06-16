@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turquía y las Islas Griegas · 15 Días — Altamira Travel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:oklch(0.972 0.012 78);--cream-2:oklch(0.945 0.016 76);--ink:oklch(0.245 0.014 58);
+  --ink-soft:oklch(0.42 0.02 60);--line:oklch(0.86 0.014 76);--terra:oklch(0.575 0.115 46);
+  --terra-deep:oklch(0.48 0.11 42);--paper:oklch(0.99 0.006 80);
+  --serif:"Cormorant Garamond",Georgia,serif;--sans:"Hanken Grotesk",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;--maxw:1280px;--pad:clamp(20px,5vw,64px);
+}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55}
+img{display:block;max-width:100%}a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:color-mix(in oklab,var(--cream) 90%,transparent);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line);padding:12px 0}
+.nav-row{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--serif)}
+.brand .mark{width:30px;height:30px;border-radius:50%;background:var(--terra);display:grid;place-items:center;flex:none}
+.brand .mark::after{content:"";width:11px;height:11px;border-radius:50%;border:2px solid var(--cream)}
+.brand .name{font-size:25px;letter-spacing:.14em;font-weight:600;text-transform:uppercase;color:var(--ink)}
+.brand .name b{color:var(--terra-deep)}
+.btn{display:inline-flex;align-items:center;gap:.6em;font-family:var(--sans);font-weight:600;font-size:14px;padding:12px 24px;border-radius:100px;border:1px solid transparent;cursor:pointer;transition:all .3s}
+.btn-solid{background:var(--ink);color:var(--cream)}.btn-solid:hover{background:var(--terra-deep)}
+.prog-hero{position:relative;height:72vh;min-height:480px;display:flex;align-items:flex-end;padding-bottom:clamp(40px,6vh,72px);margin-top:57px}
+.prog-hero-img{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?auto=format&fit=crop&w=2000&q=80') center 60%/cover}
+.prog-hero-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,12,8,.15) 0%,rgba(18,12,8,.72) 100%)}
+.prog-hero-inner{position:relative;z-index:2}
+.prog-tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.8);display:flex;align-items:center;gap:.7em;margin-bottom:16px}
+.prog-tag::before{content:"";width:26px;height:1px;background:var(--terra)}
+.prog-hero h1{font-family:var(--serif);font-size:clamp(38px,5.5vw,72px);font-weight:500;color:var(--paper);line-height:1.05;text-wrap:balance}
+.prog-hero h1 em{font-style:italic;color:oklch(0.85 0.08 50)}
+.prog-stats{background:var(--ink)}
+.prog-stats-row{display:grid;grid-template-columns:repeat(4,1fr)}
+.pstat{padding:28px var(--pad);border-right:1px solid oklch(0.34 0.018 58);text-align:center}
+.pstat:last-child{border-right:none}
+.pstat .val{font-family:var(--serif);font-size:clamp(22px,2.2vw,30px);color:var(--paper);font-weight:500}
+.pstat .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:oklch(0.65 0.01 78);margin-top:6px}
+.prog-body{padding-block:clamp(60px,9vh,100px)}
+.prog-grid{display:grid;grid-template-columns:1fr 380px;gap:clamp(32px,5vw,80px);align-items:start}
+.prog-section{margin-bottom:56px}
+.prog-label{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--terra-deep);margin-bottom:18px;display:flex;align-items:center;gap:.7em}
+.prog-label::before{content:"";width:26px;height:1px;background:var(--terra)}
+.prog-section h2{font-family:var(--serif);font-size:clamp(28px,3vw,42px);font-weight:500;line-height:1.1;margin-bottom:20px}
+.itin-day{border-top:1px solid var(--line)}
+.itin-day:last-child{border-bottom:1px solid var(--line)}
+.itin-toggle{width:100%;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:18px;padding:20px 0;text-align:left}
+.itin-toggle .day-n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--terra-deep);flex:none;width:52px}
+.itin-toggle .day-title{font-family:var(--serif);font-size:20px;font-weight:500;color:var(--ink);flex:1}
+.itin-toggle .arr{font-size:18px;color:var(--terra);transition:transform .3s;flex:none}
+.itin-toggle.open .arr{transform:rotate(180deg)}
+.itin-content{display:none;padding:0 0 22px 70px}
+.itin-content.open{display:block}
+.itin-content p{color:var(--ink-soft);font-size:15.5px;line-height:1.7;margin-bottom:8px}
+.itin-content .meals{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--terra-deep);margin-top:12px}
+.itin-badge{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:100px;margin-bottom:10px}
+.badge-turquia{background:oklch(0.575 0.115 46 / .12);color:var(--terra-deep)}
+.badge-grecia{background:oklch(0.5 0.1 240 / .12);color:oklch(0.35 0.1 240)}
+.prog-sidebar{position:sticky;top:80px}
+.sidebar-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:32px;margin-bottom:20px}
+.sidebar-card h3{font-family:var(--serif);font-size:22px;margin-bottom:18px}
+.incl-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.incl-list li{display:flex;align-items:flex-start;gap:10px;font-size:14.5px;color:var(--ink-soft);line-height:1.5}
+.incl-list li::before{content:"✓";color:var(--terra);font-weight:700;flex:none;margin-top:1px}
+.excl-list li::before{content:"✕";color:var(--ink-soft)}
+.cta-card{background:var(--ink);border-radius:12px;padding:32px;text-align:center}
+.cta-card p{color:oklch(0.72 0.012 78);font-size:14px;margin-bottom:24px;line-height:1.6}
+.cta-card h3{font-family:var(--serif);font-size:24px;color:var(--paper);margin-bottom:12px}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;background:#25D366;color:#fff;font-family:var(--sans);font-weight:700;font-size:15px;padding:16px 24px;border-radius:100px;transition:all .3s}
+.btn-wa:hover{background:#1ebe5d;transform:translateY(-2px)}
+.btn-back{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);display:inline-flex;align-items:center;gap:8px;margin-bottom:36px;transition:color .2s}
+.price-card{background:var(--cream-2);border:1px solid var(--line);border-radius:12px;padding:28px;margin-bottom:20px}
+.price-card-title{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:20px}
+.price-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line)}
+.price-row:last-of-type{border-bottom:none;padding-bottom:0}
+.price-row:first-of-type{padding-top:0}
+.price-season{font-size:13.5px;color:var(--ink-soft);line-height:1.4}
+.price-season strong{display:block;color:var(--ink);font-weight:600;font-size:14px}
+.price-amount{text-align:right;flex:none}
+.price-amount .amount{font-family:var(--serif);font-size:28px;font-weight:500;color:var(--ink);line-height:1}
+.price-amount .pax{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase;display:block;margin-top:3px}
+.price-note{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink-soft);margin-top:14px;line-height:1.6;opacity:.8}
+.price-holiday{background:oklch(0.575 0.115 46 / .08);border:1px solid oklch(0.575 0.115 46 / .2);border-radius:8px;padding:12px 14px;margin-top:16px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--terra-deep);line-height:1.6}
+.price-upgrade{display:flex;align-items:center;justify-content:space-between;padding:14px 0 0}
+.price-upgrade .label{font-size:13.5px;color:var(--ink-soft)}
+.price-upgrade .label strong{display:block;color:var(--ink);font-weight:600;font-size:14px}
+.price-consult{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--terra-deep);border:1px solid var(--terra);border-radius:100px;padding:6px 14px;transition:all .25s}
+.price-consult:hover{background:var(--terra);color:var(--paper)}
+.op-note{background:oklch(0.575 0.115 46 / .07);border-left:3px solid var(--terra);border-radius:0 8px 8px 0;padding:14px 18px;margin-top:24px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--terra-deep);line-height:1.7}
+.seasonal-note{background:oklch(0.5 0.1 240 / .06);border:1px solid oklch(0.5 0.1 240 / .2);border-radius:8px;padding:14px 16px;margin-bottom:20px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:oklch(0.35 0.1 240);line-height:1.7}
+footer{background:var(--paper);border-top:1px solid var(--line);padding-block:48px 28px}
+.foot-bot{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-soft);font-family:var(--mono);letter-spacing:.02em}
+@media(max-width:900px){.prog-grid{grid-template-columns:1fr}.prog-sidebar{position:static}.prog-stats-row{grid-template-columns:repeat(2,1fr)}.pstat:nth-child(2){border-right:none}.pstat:nth-child(-n+2){border-bottom:1px solid oklch(0.34 0.018 58)}}
+@media(max-width:560px){.prog-stats-row{grid-template-columns:1fr}.pstat{border-right:none;border-bottom:1px solid oklch(0.34 0.018 58)}.itin-content{padding-left:0}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-row">
+    <a href="/" class="brand"><span class="mark"></span><span class="name">Alta<b>mira</b></span></a>
+    <div style="display:flex;gap:14px;align-items:center;">
+      <a href="tel:+18888551889" style="font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);">1-888-855-1889</a>
+      <a href="https://wa.me/17869776948?text=Hola%2C%20me%20interesa%20Turqu%C3%ADa%20y%20las%20Islas%20Griegas" target="_blank" class="btn btn-solid">Reservar →</a>
+    </div>
+  </div>
+</nav>
+
+<section class="prog-hero">
+  <div class="prog-hero-img"></div>
+  <div class="prog-hero-scrim"></div>
+  <div class="wrap prog-hero-inner">
+    <p class="prog-tag">Turquía · Grecia</p>
+    <h1>Turquía y las<br><em>Islas Griegas</em></h1>
+  </div>
+</section>
+
+<div class="prog-stats">
+  <div class="wrap" style="padding:0;">
+    <div class="prog-stats-row">
+      <div class="pstat"><div class="val">15</div><div class="lbl">Días · 14 Noches</div></div>
+      <div class="pstat"><div class="val">Sábados</div><div class="lbl">Abr – Oct 2026</div></div>
+      <div class="pstat"><div class="val">14D · 4C</div><div class="lbl">Desayunos + Cenas</div></div>
+      <div class="pstat"><div class="val">ESP</div><div class="lbl">Guía en español</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="prog-body">
+  <div class="wrap">
+    <a href="/" class="btn-back">← Volver a destinos</a>
+    <div class="prog-grid">
+
+      <div>
+        <div class="prog-section">
+          <p class="prog-label">El viaje</p>
+          <h2>Estambul · Ankara · Capadocia · Pamukkale · Éfeso · Samos · Mykonos · Santorini · Atenas</h2>
+          <p style="color:var(--ink-soft);font-size:16px;line-height:1.7;">El viaje de tu vida: lo mejor de Turquía combinado con las islas más icónicas de Grecia. Del Bósforo a Capadocia, de Éfeso a Santorini — 15 días atravesando dos de las culturas más fascinantes del Mediterráneo. Un programa que muy pocas agencias ofrecen combinado, con ferry entre islas y guía en español todo el recorrido.</p>
+        </div>
+
+        <div class="seasonal-note">
+          ✦ Programa estacional — opera de abril a octubre 2026. Disponibilidad en hoteles y ferrys en Grecia sujeta a confirmación previa. Consulta fechas disponibles.
+        </div>
+
+        <div class="prog-section">
+          <p class="prog-label">Itinerario día a día</p>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 1</span>
+              <span class="day-title">Llegada a Estambul</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-turquia">Turquía</span>
+              <p>Llegada y asistencia en el aeropuerto de Estambul. Traslado al hotel y alojamiento.</p>
+              <p class="meals">Sin alimento incluido</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 2</span>
+              <span class="day-title">Estambul · Crucero por el Bósforo + Fener & Balat ★ Regalo</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-turquia">Turquía</span>
+              <p>Día completo de regalo. Bazar Egipcio. Crucero por el Bósforo con vistas al Palacio de Dolmabahçe y la Fortaleza de Rumeli Hisarı. Tarde en Fener & Balat: casas de colores, café turco y el Patriarcado Ecuménico de Constantinopla.</p>
+              <p class="meals">Desayuno y almuerzo incluidos ★ Excursión de regalo</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 3</span>
+              <span class="day-title">Estambul · City Tour completo</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-turquia">Turquía</span>
+              <p>Santa Sofía, Palacio Topkapi, Mezquita Azul, Hipódromo Romano y Gran Bazar. El mejor día completo de Estambul con almuerzo incluido.</p>
+              <p class="meals">Desayuno y almuerzo incluidos</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 4</span>
+              <span class="day-title">Estambul · Ankara · Capadocia</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-turquia">Turquía</span>
+              <p>Salida en autobús de lujo hacia Ankara cruzando las montañas de Bolu. Visita al Mausoleo de Atatürk, fundador de la República Turca. Continuamos hacia Capadocia pasando por el Lago Salado.</p>
+              <p class="meals">Desayuno y cena incluidos</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 5</span>
+              <span class="day-title">Capadocia · Tour completo</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-turquia">Turquía</span>
+              <p><strong style="color:var(--terra-deep);">Opcional al amanecer:</strong> Globo aerostático sobre las chimeneas de hadas (precio bajo consulta).</p>
+              <p>Göreme, Uçhisar, Valle del Amor, Avanos, ciudad subterránea y talleres de alfombras y ónix.</p>
+              <p class="meals">Desayuno y cena incluidos</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 6</span>
+              <span class="day-title">Capadocia · Ruta de la Seda · Pamukkale</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-turquia">Turquía</span>
+              <p>Caravansarai en la antigua Ruta de la Seda. Llegada a Pamukkale.</p>
+              <p class="meals">Desayuno y cena incluidos</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 7</span>
+              <span class="day-title">Pamukkale · Hierápolis · Éfeso · Kuşadası</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-turquia">Turquía</span>
+              <p>Pamukkale — las icónicas piscinas blancas de travertino. Hierápolis, ciudad antigua del período bizantino. Casa de la Virgen María. Éfeso — la ciudad antigua mejor conservada de Asia Menor con la Biblioteca de Celso y el gran Teatro.</p>
+              <p class="meals">Desayuno y cena incluidos</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 8</span>
+              <span class="day-title">Kuşadası · Ferry a Samos</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-grecia">Grecia</span>
+              <p>Desayuno. Traslado al puerto y embarque en ferry hacia la isla griega de Samos. Una de las más frondosas y hermosas del mar Egeo. Tarde libre para explorar la isla.</p>
+              <p class="meals">Desayuno incluido</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 9</span>
+              <span class="day-title">Samos · Ferry a Mykonos</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-grecia">Grecia</span>
+              <p>Desayuno. Ferry de 5 horas hacia Mykonos — la isla más cosmopolita de las Cícladas, famosa por sus callejuelas blancas, molinos de viento y vida nocturna.</p>
+              <p class="meals">Desayuno incluido</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 10</span>
+              <span class="day-title">Mykonos · Día libre</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-grecia">Grecia</span>
+              <p>Desayuno. Día libre para disfrutar Mykonos: playas, gastronomía griega, las icónicas casas blancas y los famosos molinos al atardecer.</p>
+              <p class="meals">Desayuno incluido</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 11</span>
+              <span class="day-title">Mykonos · Ferry a Santorini</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-grecia">Grecia</span>
+              <p>Desayuno. Ferry rápido de 3 horas hacia Santorini — la isla volcánica más fotogénica del mundo, con sus cúpulas azules colgadas sobre el acantilado.</p>
+              <p class="meals">Desayuno incluido</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 12</span>
+              <span class="day-title">Santorini · Día libre</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-grecia">Grecia</span>
+              <p>Desayuno. Día libre en Santorini: los pueblos de Oia y Fira, playas de arena negra, blanca y roja, y la posibilidad de visitar el volcán sumergido. El atardecer de Oia — uno de los más hermosos del mundo.</p>
+              <p class="meals">Desayuno incluido</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 13</span>
+              <span class="day-title">Santorini · Ferry a Atenas</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-grecia">Grecia</span>
+              <p>Desayuno. Traslado al puerto. Ferry de 8 horas al Pireo, puerto de Atenas. Llegada y traslado al hotel en la capital griega.</p>
+              <p class="meals">Desayuno incluido</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 14</span>
+              <span class="day-title">Atenas · City Tour</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-grecia">Grecia</span>
+              <p>Desayuno. Visita de Atenas: el Estadio Panathinaikó, Arco de Adriano, Parlamento y el Cambio de Guardia en la Plaza Syntagma. La Acrópolis — Los Propileos, el templo de Atenea Nike, el Erecteión y el majestuoso Partenón. Tarde libre.</p>
+              <p class="meals">Desayuno incluido</p>
+            </div>
+          </div>
+
+          <div class="itin-day">
+            <button class="itin-toggle" onclick="toggle(this)">
+              <span class="day-n">Día 15</span>
+              <span class="day-title">Atenas · Ciudad de origen</span>
+              <span class="arr">▾</span>
+            </button>
+            <div class="itin-content">
+              <span class="itin-badge badge-grecia">Grecia</span>
+              <p>Desayuno. Traslado al aeropuerto de Atenas para el vuelo de regreso a su ciudad de origen. Fin de nuestros servicios.</p>
+              <p class="meals">Desayuno incluido</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="op-note">★ Por razones operativas, el orden de las visitas podrá variar. La disponibilidad en hoteles y ferrys en Grecia está sujeta a confirmación previa. El contenido del programa siempre se mantiene completo.</div>
+      </div>
+
+      <div class="prog-sidebar">
+
+        <div class="price-card">
+          <p class="price-card-title">Precios · Prices · Cat B (Turquía 4★S · Grecia 4★)</p>
+
+          <div class="price-row">
+            <div class="price-season"><strong>Abr / May / Oct 2026</strong>Temporada media</div>
+            <div class="price-amount"><span class="amount">$3,110</span><span class="pax">por persona</span></div>
+          </div>
+
+          <div class="price-row">
+            <div class="price-season"><strong>Jun / Sep 2026</strong>Temporada alta</div>
+            <div class="price-amount"><span class="amount">$3,310</span><span class="pax">por persona</span></div>
+          </div>
+
+          <div class="price-row">
+            <div class="price-season"><strong>Jul / Ago 2026</strong>Temporada pico</div>
+            <div class="price-amount"><span class="amount">$3,410</span><span class="pax">por persona</span></div>
+          </div>
+
+          <div class="price-holiday">
+            ✦ Port taxes (impuestos de ferry Grecia): <strong>$199 USD</strong> por persona · No incluidos en el precio base
+          </div>
+
+          <div class="price-upgrade" style="margin-top:14px;">
+            <div class="label"><strong>Cat C (Turquía 5★ · Grecia 5★)</strong>Hoteles superiores</div>
+            <a href="https://wa.me/17869776948?text=Hola%2C%20me%20interesa%20Turqu%C3%ADa%20y%20las%20Islas%20Griegas%20en%20categor%C3%ADa%20superior" target="_blank" class="price-consult">Consultar</a>
+          </div>
+
+          <p class="price-note">Precio por persona en habitación doble · Precios en USD · Descuento para pago en efectivo o transferencia · No incluye vuelos internacionales</p>
+        </div>
+
+        <div class="cta-card">
+          <h3>El viaje de tu vida</h3>
+          <p>Turquía + Grecia en 15 días. Salidas garantizadas cada sábado de abril a octubre. Plazas limitadas — consulta disponibilidad.</p>
+          <a href="https://wa.me/17869776948?text=Hola%2C%20me%20interesa%20el%20programa%20Turqu%C3%ADa%20y%20las%20Islas%20Griegas%2015%20d%C3%ADas" target="_blank" class="btn-wa">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Consultar disponibilidad
+          </a>
+        </div>
+
+        <div class="sidebar-card">
+          <h3>El viaje incluye</h3>
+          <ul class="incl-list">
+            <li>3 noches Estambul con desayuno (Cat B 4★S)</li>
+            <li>1 noche Ankara con desayuno</li>
+            <li>2 noches Capadocia en media pensión</li>
+            <li>1 noche Pamukkale en media pensión</li>
+            <li>1 noche Kuşadası en media pensión</li>
+            <li>1 noche Samos · 2 noches Mykonos · 2 noches Santorini · 2 noches Atenas (con desayuno, Cat B 4★)</li>
+            <li>Crucero por el Bósforo + Fener & Balat (de regalo)</li>
+            <li>City Tour completo Estambul con almuerzo</li>
+            <li>City Tour Atenas (regular en español)</li>
+            <li>Ferry: Kuşadası/Samos · Samos/Mykonos · Mykonos/Santorini · Santorini/Pireo</li>
+            <li>14 desayunos · 1 almuerzo · 4 cenas</li>
+            <li>Guía profesional de habla española en Turquía</li>
+            <li>Autobús de lujo con aire acondicionado</li>
+            <li>Traslados aeropuertos y puertos según itinerario</li>
+            <li>Entradas a museos según itinerario</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-card">
+          <h3>No incluye</h3>
+          <ul class="incl-list excl-list">
+            <li>Vuelos internacionales</li>
+            <li>Port taxes (impuestos de ferry Grecia): $199 USD por persona</li>
+            <li>Impuestos hoteleros Turquía: $50 USD (efectivo al guía al llegar)</li>
+            <li>City tax Grecia: €3-10 por habitación por noche según categoría</li>
+            <li>Almuerzos en Turquía y Grecia</li>
+            <li>Bebidas y gastos personales</li>
+            <li>Propinas al guía, conductor y personal</li>
+            <li>Excursiones opcionales (globo, volcán Santorini)</li>
+            <li>Seguro de viaje</li>
+            <li>Maleteros en puertos y hoteles de Grecia</li>
+          </ul>
+          <p style="margin-top:16px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-soft);line-height:1.7;border-top:1px solid var(--line);padding-top:14px;">
+            <strong style="color:var(--terra-deep);">Nota:</strong> Disponibilidad en hoteles y ferrys en Grecia sujeta a confirmación previa. Se recomienda reservar con anticipación para las temporadas de julio y agosto.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer><div class="wrap"><div class="foot-bot"><span>© 2026 Altamira Travel · Altamira Group LLC</span><a href="/" style="color:var(--terra-deep);">← Volver al inicio</a></div></div></footer>
+
+<style>.wa-float{position:fixed;bottom:28px;right:28px;z-index:9999;display:flex;align-items:center;text-decoration:none;filter:drop-shadow(0 4px 16px rgba(37,211,102,0.35));transition:transform .3s cubic-bezier(.2,.7,.3,1),filter .3s ease}.wa-float:hover{transform:translateY(-3px) scale(1.04)}.wa-float__bubble{background:#fff;color:#1a1a1a;font-family:"Hanken Grotesk",sans-serif;font-size:13px;font-weight:500;padding:10px 16px;border-radius:24px 0 0 24px;white-space:nowrap;opacity:0;max-width:0;overflow:hidden;transition:opacity .35s ease,max-width .35s ease;box-shadow:-2px 0 12px rgba(0,0,0,.08)}.wa-float:hover .wa-float__bubble{opacity:1;max-width:220px;padding:10px 16px}.wa-float__icon{width:58px;height:58px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 20px rgba(37,211,102,0.4)}.wa-float__icon svg{width:30px;height:30px}</style>
+<a class="wa-float" href="https://wa.me/17869776948?text=Hola%2C%20me%20interesa%20el%20programa%20Turqu%C3%ADa%20y%20las%20Islas%20Griegas%2015%20d%C3%ADas" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <span class="wa-float__bubble">¿Hablamos por WhatsApp? 👋</span>
+  <span class="wa-float__icon"><svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
+</a>
+<script>function toggle(btn){btn.classList.toggle('open');btn.nextElementSibling.classList.toggle('open')}</script>
+</body>
+</html>
