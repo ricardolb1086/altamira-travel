@@ -213,6 +213,38 @@ footer{background:var(--paper);border-top:1px solid var(--line);padding-block:48
           </div>
       </div>
       <div class="op-note">★ Por razones operativas, el orden de las visitas podrá variar según el día de llegada. El contenido del programa siempre se mantiene completo.</div>
+
+        <!-- MAPA VERTICAL + LÍNEA DE VIAJE -->
+        <style>
+          .route-split{ margin-top:56px; display:grid; grid-template-columns:300px 1fr; gap:clamp(28px,4vw,56px); align-items:start; }
+          .route-map-v{ border-radius:14px; overflow:hidden; border:1px solid var(--line); box-shadow:0 8px 32px rgba(0,0,0,.12); }
+          .route-map-v img{ width:100%; display:block; }
+          .route-timeline{ position:relative; padding-left:28px; }
+          .route-timeline::before{ content:""; position:absolute; left:7px; top:8px; bottom:8px; width:2px; background:linear-gradient(180deg,var(--terra) 0%,var(--line) 100%); }
+          .route-stop{ position:relative; padding-bottom:26px; }
+          .route-stop:last-child{ padding-bottom:0; }
+          .route-stop::before{ content:""; position:absolute; left:-25px; top:5px; width:14px; height:14px; border-radius:50%; background:var(--cream); border:2px solid var(--terra); }
+          .route-stop h4{ font-family:var(--serif); font-size:20px; font-weight:500; color:var(--ink); margin-bottom:4px; }
+          .route-stop p{ font-size:14px; color:var(--ink-soft); line-height:1.55; }
+          @media(max-width:760px){ .route-split{ grid-template-columns:1fr; } .route-map-v{ max-width:340px; margin:0 auto; } }
+        </style>
+
+        <div style="margin-top:56px;">
+          <p class="prog-label">La ruta · The route</p>
+          <div class="route-split">
+            <div class="route-map-v">
+              <img src="/img/reino-nabateo-map.jpg" alt="Mapa de la ruta — Reino Nabateo · Jerash, Amman, Madaba, Mar Muerto, Petra, Wadi Rum">
+            </div>
+            <div class="route-timeline">
+              <div class="route-stop"><h4>Jerash</h4><p>La Pompeya de Oriente — una de las ciudades romanas mejor conservadas del mundo, con su Arco de Triunfo y la Plaza Ovalada.</p></div>
+              <div class="route-stop"><h4>Amman</h4><p>La capital: la Ciudadela, el Teatro Romano y el Castillo de Ajlun de la época de los Cruzados.</p></div>
+              <div class="route-stop"><h4>Madaba · Monte Nebo</h4><p>El mapa-mosaico bizantino más antiguo de Tierra Santa y la montaña desde donde Moisés divisó la tierra prometida.</p></div>
+              <div class="route-stop"><h4>Mar Muerto</h4><p>El punto más bajo de la Tierra. Flotación en sus aguas minerales y el legendario barro negro curativo.</p></div>
+              <div class="route-stop"><h4>Petra</h4><p>La ciudad rosa de los Nabateos esculpida en la roca. El Tesoro, las Tumbas Reales y la Pequeña Petra.</p></div>
+              <div class="route-stop"><h4>Wadi Rum</h4><p>El desierto de Lawrence de Arabia. Excursión en 4x4 por las arenas rosadas y noche en campamento beduino.</p></div>
+            </div>
+          </div>
+        </div>
     </div>
 
     <div class="prog-sidebar">
