@@ -362,6 +362,7 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
 .circuit-dur{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:oklch(0.82 0.02 78); margin-bottom:12px; }
 .circuit-cta{ font-family:var(--sans); font-size:11.5px; font-weight:600; color:var(--paper); display:inline-flex; align-items:center; gap:6px; opacity:0; transform:translateY(6px); transition:all .35s ease; border-bottom:1px solid rgba(255,255,255,.38); padding-bottom:2px; width:fit-content; }
 .circuit:hover .circuit-cta{ opacity:1; transform:translateY(0); }
+.circuit-cta::after{ content:""; position:absolute; inset:0; z-index:3; }
 
 /* ====================================================== EMAIL CAPTURE */
 .capture{ background:var(--ink); padding-block:clamp(60px,9vh,100px); text-align:center; }
