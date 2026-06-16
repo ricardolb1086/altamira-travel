@@ -3,5 +3,8 @@ Allow: /
 Disallow: /admin/
 Disallow: /preview-logo.html
 Disallow: /tarjeta-presentacion.html
+Disallow: /pago.html
+Disallow: /pago-exitoso.html
+Disallow: /pago-cancelado.html
 
 Sitemap: https://altamiratravel.com/sitemap.xml

@@ -1,0 +1,9 @@
+{
+  "name": "altamira-travel",
+  "version": "1.0.0",
+  "description": "Altamira Travel - sitio + funciones de pago Stripe",
+  "private": true,
+  "dependencies": {
+    "stripe": "^16.12.0"
+  }
+}

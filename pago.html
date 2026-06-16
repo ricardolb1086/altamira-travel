@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generar cobro — Altamira Travel</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:oklch(0.972 0.012 78);--cream-2:oklch(0.945 0.016 76);--ink:oklch(0.245 0.014 58);
+  --ink-soft:oklch(0.42 0.02 60);--line:oklch(0.86 0.014 76);--terra:oklch(0.575 0.115 46);
+  --terra-deep:oklch(0.48 0.11 42);--paper:oklch(0.99 0.006 80);
+  --serif:"Cormorant Garamond",Georgia,serif;--sans:"Hanken Grotesk",system-ui,sans-serif;--mono:"IBM Plex Mono",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:40px 20px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:clamp(28px,5vw,48px);max-width:520px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,.06)}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.brand .mark{width:30px;height:30px;border-radius:50%;background:var(--terra);display:grid;place-items:center}
+.brand .mark::after{content:"";width:11px;height:11px;border-radius:50%;border:2px solid var(--cream)}
+.brand .name{font-family:var(--serif);font-size:22px;letter-spacing:.14em;font-weight:500;text-transform:uppercase}
+.brand .name b{color:var(--terra-deep)}
+h1{font-family:var(--serif);font-size:30px;font-weight:500;margin-bottom:6px}
+.sub{font-size:14px;color:var(--ink-soft);margin-bottom:28px}
+label{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px;margin-top:18px}
+input{width:100%;padding:13px 16px;border:1px solid var(--line);border-radius:10px;background:var(--cream);font-family:var(--sans);font-size:15px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+input:focus{border-color:var(--terra);box-shadow:0 0 0 3px oklch(0.575 0.115 46 / .12)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.btn{width:100%;margin-top:26px;background:var(--ink);color:var(--cream);border:none;border-radius:100px;padding:16px;font-family:var(--sans);font-weight:700;font-size:15px;cursor:pointer;transition:background .3s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:hover{background:var(--terra-deep)}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.result{display:none;margin-top:24px;padding:20px;background:var(--cream-2);border:1px solid var(--line);border-radius:12px}
+.result.show{display:block}
+.result-label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--terra-deep);margin-bottom:10px}
+.result-link{font-family:var(--mono);font-size:12px;color:var(--ink);word-break:break-all;background:var(--paper);padding:12px;border-radius:8px;border:1px solid var(--line);margin-bottom:14px}
+.result-actions{display:flex;gap:10px;flex-wrap:wrap}
+.mini-btn{flex:1;min-width:140px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px;border-radius:100px;font-family:var(--sans);font-weight:600;font-size:13px;cursor:pointer;border:none;text-decoration:none}
+.mini-btn.copy{background:var(--ink);color:var(--cream)}
+.mini-btn.wa{background:#25D366;color:#fff}
+.error{display:none;margin-top:16px;padding:12px 16px;background:oklch(0.6 0.13 25 / .1);border:1px solid oklch(0.6 0.13 25 / .3);border-radius:8px;color:oklch(0.5 0.13 25);font-size:13px}
+.error.show{display:block}
+.lock-note{font-family:var(--mono);font-size:10px;color:var(--ink-soft);text-align:center;margin-top:20px;opacity:.6;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand"><span class="mark"></span><span class="name">Alta<b>mira</b></span></div>
+  <h1>Generar cobro</h1>
+  <p class="sub">Crea un link de pago seguro con checkbox de términos. Envíalo al cliente por WhatsApp.</p>
+
+  <form id="form">
+    <label>Concepto del viaje *</label>
+    <input type="text" id="concepto" placeholder="Egipto Faraónico · 8 días" required>
+
+    <div class="row">
+      <div>
+        <label>Monto USD *</label>
+        <input type="number" id="monto" placeholder="1190" min="1" step="0.01" required>
+      </div>
+      <div>
+        <label>Código *</label>
+        <input type="password" id="passcode" placeholder="••••" required>
+      </div>
+    </div>
+
+    <label>Nombre del cliente (opcional)</label>
+    <input type="text" id="cliente" placeholder="Juan Pérez">
+
+    <label>Email del cliente (opcional)</label>
+    <input type="email" id="email" placeholder="cliente@email.com">
+
+    <button type="submit" class="btn" id="submit">Generar link de pago →</button>
+  </form>
+
+  <div class="error" id="error"></div>
+
+  <div class="result" id="result">
+    <div class="result-label">✓ Link generado · Envíalo al cliente</div>
+    <div class="result-link" id="link"></div>
+    <div class="result-actions">
+      <button class="mini-btn copy" id="copy">📋 Copiar link</button>
+      <a class="mini-btn wa" id="wa" target="_blank">💬 Enviar por WhatsApp</a>
+    </div>
+  </div>
+
+  <p class="lock-note">🔒 Página privada · El cobro se procesa de forma segura por Stripe<br>con checkbox de términos obligatorio y autenticación 3D Secure.</p>
+</div>
+
+<script>
+const form = document.getElementById('form');
+const submit = document.getElementById('submit');
+const errorEl = document.getElementById('error');
+const resultEl = document.getElementById('result');
+const linkEl = document.getElementById('link');
+const copyBtn = document.getElementById('copy');
+const waBtn = document.getElementById('wa');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  errorEl.classList.remove('show');
+  resultEl.classList.remove('show');
+  submit.disabled = true;
+  submit.textContent = 'Generando...';
+
+  const payload = {
+    concepto: document.getElementById('concepto').value.trim(),
+    monto: document.getElementById('monto').value.trim(),
+    cliente: document.getElementById('cliente').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    passcode: document.getElementById('passcode').value.trim(),
+  };
+
+  try {
+    const res = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Error generando el link');
+
+    linkEl.textContent = data.url;
+    const msg = encodeURIComponent(
+      `Hola${payload.cliente ? ' ' + payload.cliente : ''} 👋 Aquí está tu link de pago seguro para *${payload.concepto}* con Altamira Travel:\n\n${data.url}\n\nGracias por viajar con nosotros ✈️`
+    );
+    waBtn.href = `https://wa.me/?text=${msg}`;
+    resultEl.classList.add('show');
+  } catch (err) {
+    errorEl.textContent = err.message;
+    errorEl.classList.add('show');
+  } finally {
+    submit.disabled = false;
+    submit.textContent = 'Generar link de pago →';
+  }
+});
+
+copyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(linkEl.textContent);
+  copyBtn.textContent = '✓ Copiado';
+  setTimeout(() => { copyBtn.textContent = '📋 Copiar link'; }, 2000);
+});
+</script>
+</body>
+</html>
