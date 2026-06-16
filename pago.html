@@ -72,6 +72,17 @@ input:focus{border-color:var(--terra);box-shadow:0 0 0 3px oklch(0.575 0.115 46 
     <label>Email del cliente (opcional)</label>
     <input type="email" id="email" placeholder="cliente@email.com">
 
+    <div class="row">
+      <div>
+        <label>Fechas del viaje (opcional)</label>
+        <input type="text" id="fechas" placeholder="15 - 26 ene 2027">
+      </div>
+      <div>
+        <label>N° pasajeros (opcional)</label>
+        <input type="number" id="pax" placeholder="2" min="1">
+      </div>
+    </div>
+
     <button type="submit" class="btn" id="submit">Generar link de pago →</button>
   </form>
 
@@ -110,6 +121,8 @@ form.addEventListener('submit', async (e) => {
     monto: document.getElementById('monto').value.trim(),
     cliente: document.getElementById('cliente').value.trim(),
     email: document.getElementById('email').value.trim(),
+    fechas: document.getElementById('fechas').value.trim(),
+    pax: document.getElementById('pax').value.trim(),
     passcode: document.getElementById('passcode').value.trim(),
   };
 

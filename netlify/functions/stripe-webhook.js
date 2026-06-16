@@ -33,9 +33,22 @@ exports.handler = async (event) => {
       const total = session.amount_total; // en centavos
       const moneda = session.currency;
 
-      // Recuperar el concepto de la línea comprada
-      const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 1 });
-      const concepto = lineItems.data[0]?.description || 'Servicios de viaje Altamira Travel';
+      // Detalles del viaje desde la metadata
+      const md = session.metadata || {};
+      const concepto = md.concepto || 'Servicios de viaje Altamira Travel';
+      const detalleViaje = [
+        md.fechas ? `Fechas del viaje: ${md.fechas}` : null,
+        md.pax ? `${md.pax} pasajero(s)` : null,
+      ].filter(Boolean).join(' · ');
+
+      // Términos que protegen contra chargebacks (firmes y razonables)
+      const TERMINOS =
+        'Servicios no reembolsables ni endosables. Al confirmar el pago, el cliente acepta ' +
+        'los Términos, la Política de Reembolsos y el Acuerdo de Reserva de Altamira Travel ' +
+        '(altamiratravel.com). Una vez confirmada la reserva, los servicios se bloquean y ' +
+        'prepagan con nuestros proveedores en destino, por lo que no admiten devolución ni ' +
+        'transferencia. Se recomienda contratar un seguro de viaje. Los cambios de horario o ' +
+        'cancelaciones de aerolíneas son responsabilidad exclusiva de la aerolínea.';
 
       if (!email) {
         console.log('Sin email del cliente, no se puede facturar');
@@ -56,7 +69,7 @@ exports.handler = async (event) => {
         customer: customer.id,
         amount: total,
         currency: moneda,
-        description: concepto,
+        description: detalleViaje ? `${concepto} — ${detalleViaje}` : concepto,
       });
 
       const invoice = await stripe.invoices.create({
@@ -64,8 +77,10 @@ exports.handler = async (event) => {
         collection_method: 'send_invoice',
         days_until_due: 1,
         auto_advance: false,
-        description: 'Factura por servicios de viaje · Altamira Travel',
-        footer: 'Gracias por viajar con Altamira Travel · altamiratravel.com',
+        description: detalleViaje
+          ? `Servicios de viaje · Altamira Travel · ${detalleViaje}`
+          : 'Servicios de viaje · Altamira Travel',
+        footer: TERMINOS + '\n\nGracias por viajar con Altamira Travel · altamiratravel.com',
       });
 
       // 3. Finalizar y marcar como pagada (el pago ya ocurrió)

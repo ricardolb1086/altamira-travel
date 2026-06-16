@@ -15,7 +15,7 @@ exports.handler = async (event) => {
 
   try {
     const data = JSON.parse(event.body || '{}');
-    const { concepto, monto, cliente, email, passcode } = data;
+    const { concepto, monto, cliente, email, passcode, fechas, pax } = data;
 
     // ── Seguridad: passcode para que solo tú puedas generar links ──
     if (process.env.ADMIN_PASSCODE && passcode !== process.env.ADMIN_PASSCODE) {
@@ -42,12 +42,23 @@ exports.handler = async (event) => {
           currency: 'usd',
           product_data: {
             name: concepto,
-            description: cliente ? `Reserva a nombre de ${cliente}` : undefined,
+            description: [
+              cliente ? `Reserva a nombre de ${cliente}` : null,
+              fechas ? `Fechas del viaje: ${fechas}` : null,
+              pax ? `${pax} pasajero(s)` : null,
+            ].filter(Boolean).join(' · ') || undefined,
           },
           unit_amount: Math.round(montoNum * 100), // Stripe usa centavos
         },
         quantity: 1,
       }],
+      // Guardamos los detalles para que el webhook arme la factura
+      metadata: {
+        concepto: concepto,
+        cliente: cliente || '',
+        fechas: fechas || '',
+        pax: pax || '',
+      },
       // ✅ Checkbox OBLIGATORIO de Términos (registra aceptación con fecha/hora)
       consent_collection: {
         terms_of_service: 'required',
