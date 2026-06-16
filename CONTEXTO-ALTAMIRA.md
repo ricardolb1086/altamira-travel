@@ -53,10 +53,11 @@ Antes operaba como "Brandon" en Travel Viajes USA — tengo cartera de clientes 
 - 12 posts de backlog ya escritos (copy + descripción imagen)
 
 ## Pendientes (en orden)
+0. **PRÓXIMA SESIÓN (mañana):** Cargar 2 programas de Japón (destino muy de moda, alto volumen de búsqueda) + escribir un blog/artículo sobre Japón. Estrategia: blog atrae tráfico SEO, programa convierte. Ricardo trae los datos de los 2 circuitos (operador, itinerario, precios). Aplicar misma fórmula: nombre Altamira, operador invisible, precio único sin "desde", mapa ilustrado Higgsfield. Japón serán Altamira Originals (badge ●). El blog inaugura la sección "El Diario" (que hoy son solo tarjetas placeholder sin páginas reales detrás).
 1. Precio de Turquía → agregar a su página
 2. Mapa ilustrado de Turquía (estilo igual al de Egipto, hecho en ChatGPT)
 3. ~~Número WhatsApp corporativo~~ ✅ Resuelto — +1 (786) 977-6948 activo en sitio
-4. SEO: meta títulos/descripciones, Google Business Profile, Google Search Console
+4. ~~SEO: meta títulos/descripciones~~ ✅ Resuelto (meta tags + OG + sitemap + Search Console verificado + sitemap enviado). Falta: Google Business Profile (esperando dirección Miami o configurar como "área de servicio") + blog de contenido.
 5. Reel viral: Higgsfield (plan PLUS $49) para clips + ElevenLabs para voz + CapCut (gratis) para editar
 6. Reactivar clientes antiguos vía WhatsApp/email bajo marca Altamira
 7. SOT Florida (requiere surety bond $25k, ~$300/año) y California CST — Ricardo los tramita
