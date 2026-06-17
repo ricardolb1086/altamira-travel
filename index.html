@@ -294,36 +294,57 @@ section.block{ padding-block: clamp(72px, 11vh, 140px); }
 .cta .overline{ color: var(--paper); }
 .cta .overline::before{ background: var(--paper); }
 
-/* ====================================================== URGENCY BAND */
-.urgency-band{background:var(--ink);border-bottom:3px solid var(--terra);overflow:hidden;}
-.urgency-inner{display:flex;align-items:stretch;}
+/* ====================================================== URGENCY TICKER */
+.urgency-band{background:var(--ink);border-bottom:3px solid var(--terra);overflow:hidden;position:relative;}
+.urgency-inner{display:flex;align-items:stretch;height:62px;}
 .urgency-label{
   background:var(--terra);color:var(--paper);
   font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
-  padding:0 24px;display:flex;align-items:center;gap:9px;white-space:nowrap;flex:none;
+  padding:0 22px;display:flex;align-items:center;gap:9px;white-space:nowrap;flex:none;
+  z-index:2;position:relative;
+  box-shadow:6px 0 18px rgba(0,0,0,.4);
 }
 .urgency-label .udot{width:7px;height:7px;border-radius:50%;background:var(--paper);animation:ublink 2s infinite;}
 @keyframes ublink{0%,100%{opacity:1;}50%{opacity:.25;}}
-.urgency-scroll{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;flex:1;}
-.urgency-scroll::-webkit-scrollbar{display:none;}
+/* ticker track */
+.urgency-track{flex:1;overflow:hidden;position:relative;}
+.urgency-track::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:40px;
+  background:linear-gradient(to right,var(--ink),transparent);z-index:2;
+}
+.urgency-track::after{
+  content:"";position:absolute;right:0;top:0;bottom:0;width:60px;
+  background:linear-gradient(to left,var(--ink),transparent);z-index:2;
+}
+.urgency-tape{
+  display:flex;align-items:center;
+  animation:ticker 32s linear infinite;
+  width:max-content;
+  height:100%;
+}
+.urgency-tape:hover{animation-play-state:paused;}
+@keyframes ticker{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
 .urgency-item{
-  display:flex;align-items:center;gap:16px;
-  padding:0 26px;border-right:1px solid oklch(0.32 0.018 58);
-  text-decoration:none;flex:none;transition:background .22s;cursor:pointer;
+  display:inline-flex;align-items:center;gap:20px;
+  padding:0 32px;border-right:1px solid oklch(0.32 0.018 58);
+  text-decoration:none;flex:none;transition:background .22s;
+  height:100%;
 }
 .urgency-item:hover{background:oklch(0.30 0.018 58);}
-.urgency-item-body{display:flex;flex-direction:column;gap:3px;padding:15px 0;}
 .urgency-dest{font-family:var(--serif);font-size:16px;font-weight:500;color:var(--paper);line-height:1;white-space:nowrap;}
 .urgency-dest em{font-style:italic;color:oklch(0.80 0.08 50);}
-.urgency-date{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:oklch(0.62 0.04 60);}
-.urgency-price{font-family:var(--serif);font-size:20px;font-weight:500;color:var(--terra);white-space:nowrap;line-height:1;}
-.urgency-price small{font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:oklch(0.52 0.04 60);margin-left:3px;display:block;margin-top:2px;}
-.urgency-arr{color:var(--terra);font-size:14px;margin-left:2px;flex:none;}
+.urgency-date{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:oklch(0.58 0.04 60);white-space:nowrap;}
+.urgency-price{font-family:var(--serif);font-size:21px;font-weight:500;color:var(--terra);white-space:nowrap;line-height:1;}
+.urgency-price small{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:oklch(0.50 0.04 60);margin-left:3px;}
+.urgency-sep{color:oklch(0.38 0.018 58);font-size:18px;flex:none;padding:0 8px;}
 @media(max-width:900px){
-  .urgency-label{padding:0 16px;font-size:9.5px;}
-  .urgency-item{padding:0 18px;}
+  .urgency-label{padding:0 14px;font-size:9px;}
   .urgency-dest{font-size:14px;}
-  .urgency-price{font-size:17px;}
+  .urgency-price{font-size:18px;}
+  .urgency-item{padding:0 22px;}
 }
 
 /* ====================================================== FOOTER */
@@ -588,83 +609,85 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
   <div class="scroll-cue"><span class="dot"></span> Scroll to explore</div>
 </header>
 
-<!-- ============ URGENCY BAND — PRÓXIMAS SALIDAS ============ -->
+<!-- ============ URGENCY TICKER — PRÓXIMAS SALIDAS ============ -->
 <div class="urgency-band">
   <div class="urgency-inner">
-    <div class="urgency-label">
-      <span class="udot"></span>PRÓXIMAS SALIDAS
-    </div>
-    <div class="urgency-scroll">
-      <a class="urgency-item" href="/programas/egipto-faraonico.html">
-        <div class="urgency-item-body">
-          <div class="urgency-dest">Egipto <em>Faraónico</em></div>
-          <div class="urgency-date">9 días · El Cairo · Luxor · Asuán</div>
-        </div>
-        <div>
-          <div class="urgency-price">$1,150<small>por persona</small></div>
-        </div>
-        <div class="urgency-arr">→</div>
-      </a>
-      <a class="urgency-item" href="/programas/la-ruta-de-los-sultanes.html">
-        <div class="urgency-item-body">
-          <div class="urgency-dest">La Ruta de <em>los Sultanes</em></div>
-          <div class="urgency-date">10 días · Estambul · Capadocia · Pamukkale</div>
-        </div>
-        <div>
-          <div class="urgency-price">$1,250<small>por persona</small></div>
-        </div>
-        <div class="urgency-arr">→</div>
-      </a>
-      <a class="urgency-item" href="/programas/jordania-esencial.html">
-        <div class="urgency-item-body">
-          <div class="urgency-dest">Jordania <em>Esencial</em></div>
-          <div class="urgency-date">6 días · Petra · Wadi Rum · Mar Muerto</div>
-        </div>
-        <div>
-          <div class="urgency-price">$1,400<small>por persona</small></div>
-        </div>
-        <div class="urgency-arr">→</div>
-      </a>
-      <a class="urgency-item" href="/programas/el-corazon-de-turquia.html">
-        <div class="urgency-item-body">
-          <div class="urgency-dest">El Corazón de <em>Turquía</em></div>
-          <div class="urgency-date">7 días · Estambul · Capadocia</div>
-        </div>
-        <div>
-          <div class="urgency-price">$1,290<small>por persona</small></div>
-        </div>
-        <div class="urgency-arr">→</div>
-      </a>
-      <a class="urgency-item" href="/programas/el-reino-de-jordania-al-completo.html">
-        <div class="urgency-item-body">
-          <div class="urgency-dest">El Reino <em>al Completo</em></div>
-          <div class="urgency-date">8 días · Petra · Wadi Rum · Aqaba</div>
-        </div>
-        <div>
-          <div class="urgency-price">$1,560<small>por persona</small></div>
-        </div>
-        <div class="urgency-arr">→</div>
-      </a>
-      <a class="urgency-item" href="/programas/turquia-y-las-islas-griegas.html">
-        <div class="urgency-item-body">
-          <div class="urgency-dest">Turquía y <em>las Islas Griegas</em></div>
-          <div class="urgency-date">15 días · Estambul · Santorini · Atenas</div>
-        </div>
-        <div>
-          <div class="urgency-price">$3,110<small>por persona</small></div>
-        </div>
-        <div class="urgency-arr">→</div>
-      </a>
-      <a class="urgency-item" href="/programas/reino-nabateo.html" style="border-right:none;">
-        <div class="urgency-item-body">
-          <div class="urgency-dest">Reino <em>Nabateo</em></div>
-          <div class="urgency-date">8 días · Amman · Petra · Wadi Rum</div>
-        </div>
-        <div>
-          <div class="urgency-price">$1,400<small>por persona</small></div>
-        </div>
-        <div class="urgency-arr">→</div>
-      </a>
+    <div class="urgency-label"><span class="udot"></span>PRÓXIMAS SALIDAS</div>
+    <div class="urgency-track">
+      <div class="urgency-tape" id="urgencyTape">
+        <!-- SET 1 -->
+        <a class="urgency-item" href="/programas/egipto-faraonico.html">
+          <div><div class="urgency-dest">Egipto <em>Faraónico</em></div><div class="urgency-date">9 días · El Cairo · Luxor · Asuán</div></div>
+          <div class="urgency-price">$1,150<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+        <a class="urgency-item" href="/programas/la-ruta-de-los-sultanes.html">
+          <div><div class="urgency-dest">La Ruta de <em>los Sultanes</em></div><div class="urgency-date">10 días · Estambul · Capadocia · Pamukkale</div></div>
+          <div class="urgency-price">$1,250<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+        <a class="urgency-item" href="/programas/jordania-esencial.html">
+          <div><div class="urgency-dest">Jordania <em>Esencial</em></div><div class="urgency-date">6 días · Petra · Wadi Rum · Mar Muerto</div></div>
+          <div class="urgency-price">$1,400<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+        <a class="urgency-item" href="/programas/el-corazon-de-turquia.html">
+          <div><div class="urgency-dest">El Corazón de <em>Turquía</em></div><div class="urgency-date">7 días · Estambul · Capadocia</div></div>
+          <div class="urgency-price">$1,290<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+        <a class="urgency-item" href="/programas/el-reino-de-jordania-al-completo.html">
+          <div><div class="urgency-dest">El Reino <em>al Completo</em></div><div class="urgency-date">8 días · Petra · Wadi Rum · Aqaba</div></div>
+          <div class="urgency-price">$1,560<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+        <a class="urgency-item" href="/programas/turquia-y-las-islas-griegas.html">
+          <div><div class="urgency-dest">Turquía y <em>las Islas Griegas</em></div><div class="urgency-date">15 días · Estambul · Santorini · Atenas</div></div>
+          <div class="urgency-price">$3,110<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+        <a class="urgency-item" href="/programas/reino-nabateo.html">
+          <div><div class="urgency-dest">Reino <em>Nabateo</em></div><div class="urgency-date">8 días · Amman · Petra · Wadi Rum</div></div>
+          <div class="urgency-price">$1,400<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+        <!-- SET 2 — copia exacta para loop infinito -->
+        <a class="urgency-item" href="/programas/egipto-faraonico.html">
+          <div><div class="urgency-dest">Egipto <em>Faraónico</em></div><div class="urgency-date">9 días · El Cairo · Luxor · Asuán</div></div>
+          <div class="urgency-price">$1,150<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+        <a class="urgency-item" href="/programas/la-ruta-de-los-sultanes.html">
+          <div><div class="urgency-dest">La Ruta de <em>los Sultanes</em></div><div class="urgency-date">10 días · Estambul · Capadocia · Pamukkale</div></div>
+          <div class="urgency-price">$1,250<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+        <a class="urgency-item" href="/programas/jordania-esencial.html">
+          <div><div class="urgency-dest">Jordania <em>Esencial</em></div><div class="urgency-date">6 días · Petra · Wadi Rum · Mar Muerto</div></div>
+          <div class="urgency-price">$1,400<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+        <a class="urgency-item" href="/programas/el-corazon-de-turquia.html">
+          <div><div class="urgency-dest">El Corazón de <em>Turquía</em></div><div class="urgency-date">7 días · Estambul · Capadocia</div></div>
+          <div class="urgency-price">$1,290<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+        <a class="urgency-item" href="/programas/el-reino-de-jordania-al-completo.html">
+          <div><div class="urgency-dest">El Reino <em>al Completo</em></div><div class="urgency-date">8 días · Petra · Wadi Rum · Aqaba</div></div>
+          <div class="urgency-price">$1,560<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+        <a class="urgency-item" href="/programas/turquia-y-las-islas-griegas.html">
+          <div><div class="urgency-dest">Turquía y <em>las Islas Griegas</em></div><div class="urgency-date">15 días · Estambul · Santorini · Atenas</div></div>
+          <div class="urgency-price">$3,110<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+        <a class="urgency-item" href="/programas/reino-nabateo.html">
+          <div><div class="urgency-dest">Reino <em>Nabateo</em></div><div class="urgency-date">8 días · Amman · Petra · Wadi Rum</div></div>
+          <div class="urgency-price">$1,400<small>p/p</small></div>
+        </a>
+        <span class="urgency-sep">✦</span>
+      </div>
     </div>
   </div>
 </div>
