@@ -295,7 +295,7 @@ section.block{ padding-block: clamp(72px, 11vh, 140px); }
 .cta .overline::before{ background: var(--paper); }
 
 /* ====================================================== URGENCY TICKER */
-.urgency-band{background:var(--ink);border-bottom:3px solid var(--terra);overflow:hidden;position:relative;}
+.urgency-band{background:oklch(0.26 0.07 245);border-bottom:3px solid var(--terra);overflow:hidden;position:relative;}
 .urgency-inner{display:flex;align-items:stretch;height:62px;}
 .urgency-label{
   background:var(--terra);color:var(--paper);
@@ -329,17 +329,17 @@ section.block{ padding-block: clamp(72px, 11vh, 140px); }
 }
 .urgency-item{
   display:inline-flex;align-items:center;gap:20px;
-  padding:0 32px;border-right:1px solid oklch(0.32 0.018 58);
+  padding:0 32px;border-right:1px solid oklch(0.32 0.05 240);
   text-decoration:none;flex:none;transition:background .22s;
   height:100%;
 }
-.urgency-item:hover{background:oklch(0.30 0.018 58);}
+.urgency-item:hover{background:oklch(0.30 0.06 243);}
 .urgency-dest{font-family:var(--serif);font-size:16px;font-weight:500;color:var(--paper);line-height:1;white-space:nowrap;}
-.urgency-dest em{font-style:italic;color:oklch(0.80 0.08 50);}
-.urgency-date{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:oklch(0.58 0.04 60);white-space:nowrap;}
-.urgency-price{font-family:var(--serif);font-size:21px;font-weight:500;color:var(--terra);white-space:nowrap;line-height:1;}
-.urgency-price small{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:oklch(0.50 0.04 60);margin-left:3px;}
-.urgency-sep{color:oklch(0.38 0.018 58);font-size:18px;flex:none;padding:0 8px;}
+.urgency-dest em{font-style:italic;color:oklch(0.82 0.08 70);}
+.urgency-date{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:oklch(0.62 0.04 230);white-space:nowrap;}
+.urgency-price{font-family:var(--serif);font-size:21px;font-weight:500;color:oklch(0.88 0.10 70);white-space:nowrap;line-height:1;}
+.urgency-price small{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:oklch(0.58 0.04 230);margin-left:3px;}
+.urgency-sep{color:oklch(0.42 0.05 240);font-size:18px;flex:none;padding:0 8px;}
 @media(max-width:900px){
   .urgency-label{padding:0 14px;font-size:9px;}
   .urgency-dest{font-size:14px;}
