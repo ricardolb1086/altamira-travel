@@ -76,19 +76,36 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
 <nav class="nav">
   <div class="nav-row">
     <a href="/" class="brand"><span class="mark"></span><span class="name">Alta<b>mira</b></span></a>
-    <a href="/" class="btn-back" style="font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;">← Volver al inicio</a>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="showLang('es')">ES</button>
+      <button class="lang-btn" onclick="showLang('en')">EN</button>
+    </div>
   </div>
 </nav>
 
 <div class="page-hero">
   <div class="wrap">
-    <span class="overline">Política de Privacidad</span>
-    <h1>Política de Privacidad</h1>
-    <p class="sub">Última actualización: 16 de junio de 2026 · Altamira Travel, marca de Altamira Group LLC</p>
+    <span class="overline" id="hero-overline">Política de Privacidad</span>
+    <h1 id="hero-title">Política de Privacidad</h1>
+    <p class="sub">Última actualización: 22 de junio de 2026 · Altamira Travel · Altamira Group LLC</p>
   </div>
 </div>
 
+<script>
+function showLang(lang){
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.lang-btn['+(lang==='es'?'':'')+'onclick*="\''+lang+'\'"]').classList.add('active');
+  document.getElementById('content-es').style.display=lang==='es'?'':'none';
+  document.getElementById('content-en').style.display=lang==='en'?'':'none';
+  document.getElementById('hero-overline').textContent=lang==='es'?'Política de Privacidad':'Privacy Policy';
+  document.getElementById('hero-title').textContent=lang==='es'?'Política de Privacidad':'Privacy Policy';
+}
+</script>
+
 <div class="wrap">
+
+<!-- ══ ESPAÑOL ══ -->
+<div id="content-es">
 
 <section class="tc-section" id="info">
 <h2>1. Información que recopilamos</h2>
@@ -124,6 +141,78 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
 <h2>7. Contacto</h2>
 <p>Si tienes preguntas sobre esta Política de Privacidad, contáctanos:</p><p><strong>Altamira Travel</strong><br>Correo: <a href='mailto:hola@altamiratravel.com'>hola@altamiratravel.com</a><br>Teléfono: +1 (888) 855-1889<br>WhatsApp: +1 (786) 977-9648</p>
 </section>
+
+<section class="tc-section" id="sms-privacidad">
+<h2>8. Política de Privacidad SMS</h2>
+<p>El consentimiento por SMS y los números de teléfono recopilados con fines de comunicación por SMS <strong>no serán compartidos con ningún tercero ni afiliado con fines de marketing.</strong></p>
+</section>
+
+</div><!-- /content-es -->
+
+<!-- ══ ENGLISH ══ -->
+<div id="content-en" style="display:none">
+
+<section class="tc-section">
+<h2>1. Information We Collect</h2>
+<p>We collect information you voluntarily provide when requesting a quote, booking a trip, or contacting us, including:</p>
+<ul>
+  <li>Full name, email address, and phone number.</li>
+  <li>Passport information and traveler details, required to process bookings with our destination providers.</li>
+  <li>Travel preferences and special requests.</li>
+  <li>Payment information, securely processed by certified third-party processors (we do not store full card details on our servers).</li>
+</ul>
+</section>
+
+<section class="tc-section">
+<h2>2. How We Use Your Information</h2>
+<p>We use your data solely to:</p>
+<ul>
+  <li>Process and manage your travel bookings.</li>
+  <li>Communicate with you about your trip, quotes, and updates you have requested.</li>
+  <li>Comply with legal and provider requirements.</li>
+  <li>Improve our services.</li>
+</ul>
+<p>We do not sell or rent your personal information to third parties under any circumstances.</p>
+</section>
+
+<section class="tc-section">
+<h2>3. Who We Share Your Information With</h2>
+<p>We share your data only with parties necessary to fulfill your trip:</p>
+<ul>
+  <li>Tour operators and destination service providers (hotels, transportation, guides).</li>
+  <li>Certified payment processors, to handle transactions securely.</li>
+  <li>Authorities, when required by law.</li>
+</ul>
+<p>All our partners are required to protect your information in accordance with this policy.</p>
+</section>
+
+<section class="tc-section">
+<h2>4. Cookies</h2>
+<p>Our website uses basic technical cookies for its operation. We do not use invasive advertising tracking cookies. You can configure your browser to reject cookies, although some site features may be affected.</p>
+</section>
+
+<section class="tc-section">
+<h2>5. Data Security</h2>
+<p>We implement reasonable security measures to protect your information. Payment transactions are processed through certified platforms with encryption. No system is 100% foolproof, but we work to keep your data secure.</p>
+</section>
+
+<section class="tc-section">
+<h2>6. Your Rights</h2>
+<p>You have the right to access, correct, or request the deletion of your personal data. To exercise these rights, write to us at <a href='mailto:hola@altamiratravel.com'>hola@altamiratravel.com</a>.</p>
+</section>
+
+<section class="tc-section">
+<h2>7. Contact</h2>
+<p>If you have questions about this Privacy Policy, contact us:</p>
+<p><strong>Altamira Travel · Altamira Group LLC</strong><br>Email: <a href='mailto:hola@altamiratravel.com'>hola@altamiratravel.com</a><br>Phone: +1 (888) 855-1889<br>WhatsApp: +1 (786) 977-9648</p>
+</section>
+
+<section class="tc-section">
+<h2>8. SMS Privacy Policy</h2>
+<p>SMS Consent and phone numbers collected for SMS communication purposes <strong>will not be shared with any third party or affiliates for marketing purposes.</strong></p>
+</section>
+
+</div><!-- /content-en -->
 
 </div>
 
