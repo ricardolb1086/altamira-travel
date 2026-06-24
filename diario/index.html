@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Diario de Viaje | Altamira Travel</title>
+<meta name="description" content="Guías de destino, itinerarios y consejos de viaje para la comunidad hispana en USA. Europa, Asia, Medio Oriente, Américas y más.">
+<link rel="canonical" href="https://altamiratravel.com/diario/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="El Diario de Viaje | Altamira Travel">
+<meta property="og:description" content="Guías, itinerarios y consejos de viaje en español para la comunidad hispana en Estados Unidos.">
+<meta property="og:url" content="https://altamiratravel.com/diario/">
+<meta property="og:site_name" content="Altamira Travel">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:oklch(0.972 0.012 78);--ink:oklch(0.245 0.014 58);--ink-soft:oklch(0.42 0.02 60);--line:oklch(0.86 0.014 76);--terra:oklch(0.575 0.115 46);--terra-deep:oklch(0.48 0.11 42);--paper:oklch(0.99 0.006 80);--serif:"Cormorant Garamond",Georgia,serif;--sans:"Hanken Grotesk",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;--maxw:1280px;--pad:clamp(20px,5vw,64px);}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{font-family:var(--sans);background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;}a{color:inherit;text-decoration:none;}.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad);}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:color-mix(in oklab,var(--cream) 90%,transparent);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line);padding:12px 0;}
+.nav-row{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);}
+.brand .mark{width:30px;height:30px;border-radius:50%;background:var(--terra);display:grid;place-items:center;flex:none;}
+.brand .mark::after{content:"";width:11px;height:11px;border-radius:50%;border:2px solid var(--cream);}
+.brand .name{font-size:25px;letter-spacing:.14em;font-weight:600;text-transform:uppercase;color:var(--ink);}
+.brand .name b{color:var(--terra-deep);}
+.btn{display:inline-flex;align-items:center;gap:.6em;font-family:var(--sans);font-weight:600;font-size:14px;padding:12px 24px;border-radius:100px;border:1px solid transparent;cursor:pointer;transition:all .3s;text-decoration:none;}
+.btn-solid{background:var(--ink);color:var(--cream);}.btn-solid:hover{background:var(--terra-deep);}
+
+/* Hero */
+.hero{padding-top:clamp(120px,16vh,160px);padding-bottom:clamp(48px,6vw,80px);border-bottom:1px solid var(--line);}
+.hero .overline{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--terra-deep);display:block;margin-bottom:20px;}
+.hero h1{font-family:var(--serif);font-size:clamp(48px,7vw,96px);font-weight:500;line-height:1.0;letter-spacing:-.02em;margin-bottom:20px;}
+.hero h1 em{font-style:italic;color:var(--terra-deep);}
+.hero p{font-size:clamp(16px,1.2vw,20px);color:var(--ink-soft);max-width:560px;line-height:1.65;}
+
+/* Filters */
+.filters{padding:32px 0 0;display:flex;gap:10px;flex-wrap:wrap;}
+.filter-btn{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:8px 16px;border-radius:100px;border:1px solid var(--line);background:transparent;color:var(--ink-soft);cursor:pointer;transition:all .2s;}
+.filter-btn:hover,.filter-btn.active{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+
+/* Grid */
+.grid-section{padding:clamp(48px,6vw,80px) 0;}
+.section-label{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--terra-deep);padding-bottom:24px;border-bottom:1px solid var(--line);margin-bottom:36px;}
+.posts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:36px;}
+.post-card{display:block;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:var(--paper);transition:transform .3s,box-shadow .3s;}
+.post-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px oklch(0.2 0.02 60 / 0.12);}
+.post-card-img{width:100%;height:200px;object-fit:cover;display:block;}
+.post-card-img-placeholder{width:100%;height:200px;background:var(--line);display:flex;align-items:center;justify-content:center;}
+.post-card-body{padding:24px;}
+.post-card .tag{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--terra-deep);display:block;margin-bottom:10px;}
+.post-card h3{font-family:var(--serif);font-size:22px;font-weight:500;line-height:1.2;color:var(--ink);margin-bottom:10px;}
+.post-card p{font-size:14px;color:var(--ink-soft);line-height:1.6;}
+
+/* CTA */
+.cta-band{background:var(--ink);color:var(--cream);padding:clamp(48px,6vw,80px) 0;text-align:center;margin-top:40px;}
+.cta-band .overline{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--terra);display:block;margin-bottom:16px;}
+.cta-band h2{font-family:var(--serif);font-size:clamp(32px,4vw,56px);font-weight:500;color:var(--cream);margin-bottom:16px;}
+.cta-band h2 em{font-style:italic;color:var(--terra);}
+.cta-band p{color:oklch(0.72 0.01 60);font-size:18px;margin-bottom:32px;line-height:1.65;}
+.btn-terra{background:var(--terra);color:white;}.btn-terra:hover{background:var(--terra-deep);}
+
+footer{background:var(--paper);border-top:1px solid var(--line);padding-block:48px 28px;}
+.footer-cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+.footer-brand .name{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;}
+.footer-brand .name b{color:var(--terra-deep);}
+.footer-brand p{font-size:14px;color:var(--ink-soft);line-height:1.65;max-width:300px;}
+footer h4{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--terra-deep);margin-bottom:16px;}
+footer ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+footer ul li a{font-size:14px;color:var(--ink-soft);transition:color .2s;}
+footer ul li a:hover{color:var(--terra);}
+.footer-bottom{border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-bottom p{font-size:13px;color:var(--ink-soft);}
+@media(max-width:768px){.footer-cols{grid-template-columns:1fr;gap:32px;}.posts-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <div class="nav-row">
+      <a href="/" class="brand"><div class="mark"></div><span class="name">ALTA<b>MIRA</b></span></a>
+      <a href="/contacto.html" class="btn btn-solid">Cotizar viaje →</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="overline">El diario</span>
+    <h1>Apuntes del <em>camino.</em></h1>
+    <p>Guías de destino, itinerarios y consejos de viaje escritos en español para la comunidad hispana en Estados Unidos.</p>
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterPosts('all')">Todos (82)</button>
+      <button class="filter-btn" onclick="filterPosts('europa')">Europa</button>
+      <button class="filter-btn" onclick="filterPosts('asia')">Asia</button>
+      <button class="filter-btn" onclick="filterPosts('africa')">África &amp; Medio Oriente</button>
+      <button class="filter-btn" onclick="filterPosts('americas')">Américas</button>
+      <button class="filter-btn" onclick="filterPosts('consejos')">Consejos</button>
+      <button class="filter-btn" onclick="filterPosts('inspiracion')">Inspiración</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ORIGINALES -->
+  <section class="grid-section" data-cat="all">
+    <div class="section-label">Artículos destacados</div>
+    <div class="posts-grid">
+      <a class="post-card" href="/diario/cuando-visitar-las-islas-griegas.html" data-cat="europa">
+        <img class="post-card-img" src="https://images.pexels.com/photos/1010657/pexels-photo-1010657.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Santorini">
+        <div class="post-card-body"><span class="tag">Guía · 6 min</span><h3>Cuándo visitar las islas griegas</h3><p>Mes a mes: clima, multitudes y las ventanas de calma que vale la pena buscar.</p></div>
+      </a>
+      <a class="post-card" href="/diario/diez-dias-por-japon.html" data-cat="asia">
+        <img class="post-card-img" src="https://images.pexels.com/photos/1440476/pexels-photo-1440476.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Japón">
+        <div class="post-card-body"><span class="tag">Itinerario · 9 min</span><h3>Diez días por Japón</h3><p>Un ritmo de ciudad y calma, del neón de Tokio a los templos de Kioto.</p></div>
+      </a>
+      <a class="post-card" href="/diario/el-valor-del-viaje-pausado.html" data-cat="inspiracion">
+        <img class="post-card-img" src="https://images.pexels.com/photos/3278215/pexels-photo-3278215.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Viaje pausado">
+        <div class="post-card-body"><span class="tag">Inspiración · 5 min</span><h3>El valor del viaje pausado</h3><p>Por qué menos paradas y estancias más largas crean los viajes que recuerdas.</p></div>
+      </a>
+      <a class="post-card" href="/diario/circuitos-europa-todo-incluido-desde-usa.html" data-cat="europa consejos">
+        <img class="post-card-img" src="https://images.pexels.com/photos/699466/pexels-photo-699466.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Europa">
+        <div class="post-card-body"><span class="tag">Guía · 7 min</span><h3>Circuitos Europa todo incluido desde USA</h3><p>Qué incluye, qué no incluye, y cómo elegir el circuito correcto.</p></div>
+      </a>
+      <a class="post-card" href="/diario/viajar-europa-en-grupo-organizado.html" data-cat="europa consejos">
+        <img class="post-card-img" src="https://images.pexels.com/photos/3278215/pexels-photo-3278215.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Grupo organizado">
+        <div class="post-card-body"><span class="tag">Consejos · 6 min</span><h3>Viajar a Europa en grupo organizado</h3><p>Ventajas, desventajas y por qué el grupo pequeño marca la diferencia.</p></div>
+      </a>
+      <a class="post-card" href="/diario/corea-del-sur-y-japon-en-un-solo-viaje.html" data-cat="asia">
+        <img class="post-card-img" src="https://images.pexels.com/photos/1440476/pexels-photo-1440476.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Corea y Japón">
+        <div class="post-card-body"><span class="tag">Itinerario · 8 min</span><h3>Corea del Sur y Japón en un solo viaje</h3><p>18 días, el ferry PanStar y dos culturas que no se parecen en nada.</p></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- EUROPA -->
+  <section class="grid-section" data-cat="europa">
+    <div class="section-label">Europa — Guías de destino</div>
+    <div class="posts-grid">
+      <a class="post-card" href="/diario/guia-paris-primera-vez.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/699466/pexels-photo-699466.jpeg?auto=compress&cs=tinysrgb&w=600" alt="París"><div class="post-card-body"><span class="tag">Guía · 7 min</span><h3>Guía de París para primera vez</h3><p>Qué ver, dónde comer y cuándo ir a la ciudad más visitada del mundo.</p></div></a>
+      <a class="post-card" href="/diario/roma-en-4-dias.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1797158/pexels-photo-1797158.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Roma"><div class="post-card-body"><span class="tag">Itinerario · 6 min</span><h3>Roma en 4 días: lo esencial</h3><p>El Coliseo, el Vaticano, Trastevere y el mejor gelato de la Ciudad Eterna.</p></div></a>
+      <a class="post-card" href="/diario/barcelona-que-ver-y-hacer.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Barcelona"><div class="post-card-body"><span class="tag">Guía · 6 min</span><h3>Barcelona: qué ver y qué hacer</h3><p>Gaudí, el Born, la Barceloneta y la gastronomía catalana que no te puedes perder.</p></div></a>
+      <a class="post-card" href="/diario/amsterdam-canales-tulipanes.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1796736/pexels-photo-1796736.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Ámsterdam"><div class="post-card-body"><span class="tag">Guía · 5 min</span><h3>Ámsterdam: canales, tulipanes y mucho más</h3><p>Los mejores museos, los canales del siglo XVII y los barrios que los turistas no ven.</p></div></a>
+      <a class="post-card" href="/diario/viena-ciudad-imperial.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1128408/pexels-photo-1128408.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Viena"><div class="post-card-body"><span class="tag">Guía · 6 min</span><h3>Viena, la ciudad imperial</h3><p>Palacios barrocos, cafés centenarios y música clásica en la ciudad más habitable del mundo.</p></div></a>
+      <a class="post-card" href="/diario/praga-la-ciudad-dorada.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/2346216/pexels-photo-2346216.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Praga"><div class="post-card-body"><span class="tag">Guía · 5 min</span><h3>Praga, la ciudad dorada</h3><p>El centro histórico medieval mejor conservado de Europa y la mejor cerveza del mundo.</p></div></a>
+      <a class="post-card" href="/diario/lisboa-encanto-atlantico.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1534560/pexels-photo-1534560.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Lisboa"><div class="post-card-body"><span class="tag">Guía · 6 min</span><h3>Lisboa y su encanto atlántico</h3><p>Fado, pasteles de nata, tranvías históricos y miradores con vistas al Tajo.</p></div></a>
+      <a class="post-card" href="/diario/atenas-historia-y-modernidad.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1010657/pexels-photo-1010657.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Atenas"><div class="post-card-body"><span class="tag">Guía · 5 min</span><h3>Atenas: historia y modernidad</h3><p>La Acrópolis, el Partenón y una metrópolis llena de energía y gastronomía.</p></div></a>
+      <a class="post-card" href="/diario/berlin-arte-historia-gastronomia.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1128416/pexels-photo-1128416.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Berlín"><div class="post-card-body"><span class="tag">Guía · 6 min</span><h3>Berlín: arte, historia y gastronomía</h3><p>La capital de la reunificación europea y el arte callejero más vibrante del mundo.</p></div></a>
+      <a class="post-card" href="/diario/suiza-naturaleza-relojes.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/691668/pexels-photo-691668.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Suiza"><div class="post-card-body"><span class="tag">Guía · 6 min</span><h3>Suiza: naturaleza, relojes y quesos</h3><p>Glaciares, lagos turquesa, aldeas alpinas y el aire más limpio que respirarás.</p></div></a>
+      <a class="post-card" href="/diario/florencia-cuna-del-renacimiento.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1701595/pexels-photo-1701595.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Florencia"><div class="post-card-body"><span class="tag">Guía · 6 min</span><h3>Florencia, cuna del Renacimiento</h3><p>Los Uffizi, el David de Miguel Ángel y la cúpula de Brunelleschi.</p></div></a>
+      <a class="post-card" href="/diario/venecia-la-ciudad-flotante.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1796715/pexels-photo-1796715.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Venecia"><div class="post-card-body"><span class="tag">Guía · 5 min</span><h3>Venecia, la ciudad flotante</h3><p>118 islas, 400 puentes y una arquitectura que desafía al agua y al tiempo.</p></div></a>
+      <a class="post-card" href="/diario/madrid-capital-vibrante.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/3757144/pexels-photo-3757144.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Madrid"><div class="post-card-body"><span class="tag">Guía · 6 min</span><h3>Madrid, la capital más vibrante</h3><p>Museos de clase mundial, tapas infinitas y una energía que no para.</p></div></a>
+      <a class="post-card" href="/diario/sevilla-flamenco-y-tapas.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Sevilla"><div class="post-card-body"><span class="tag">Guía · 5 min</span><h3>Sevilla: flamenco, tapas y pasión</h3><p>La ciudad más española de España con naranjos en flor y tapas gratuitas.</p></div></a>
+      <a class="post-card" href="/diario/budapest-perla-del-danubio.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1314310/pexels-photo-1314310.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Budapest"><div class="post-card-body"><span class="tag">Guía · 5 min</span><h3>Budapest, la perla del Danubio</h3><p>Termas, castillos, el Danubio iluminado y bares en ruinas únicos en el mundo.</p></div></a>
+      <a class="post-card" href="/diario/dubrovnik-perla-del-adriatico.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/2416653/pexels-photo-2416653.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dubrovnik"><div class="post-card-body"><span class="tag">Guía · 5 min</span><h3>Dubrovnik, perla del Adriático</h3><p>La ciudad amurallada más perfecta de Europa y escenario de Juego de Tronos.</p></div></a>
+      <a class="post-card" href="/diario/porto-vino-y-azulejos.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1534560/pexels-photo-1534560.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Porto"><div class="post-card-body"><span class="tag">Guía · 5 min</span><h3>Porto: vino, azulejos y río Duero</h3><p>La ciudad más auténtica de Portugal con estación de azulejos y bodegas de Oporto.</p></div></a>
+      <a class="post-card" href="/diario/edimburgo-castillos-y-whisky.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1486222/pexels-photo-1486222.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Edimburgo"><div class="post-card-body"><span class="tag">Guía · 6 min</span><h3>Edimburgo: castillos, whisky y las Highlands</h3><p>El castillo volcánico, el Royal Mile y las Highlands más dramáticas de Europa.</p></div></a>
+      <a class="post-card" href="/diario/munich-cerveza-y-baviera.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1560932/pexels-photo-1560932.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Múnich"><div class="post-card-body"><span class="tag">Guía · 5 min</span><h3>Múnich: cerveza, Baviera y los Alpes</h3><p>Oktoberfest, castillos de cuento y los Alpes a una hora de distancia.</p></div></a>
+      <a class="post-card" href="/diario/santorini-suenos-de-grecia.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1010657/pexels-photo-1010657.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Santorini"><div class="post-card-body"><span class="tag">Guía · 5 min</span><h3>Santorini: sueños de Grecia</h3><p>Cúpulas azules, caldera volcánica y atardeceres que detienen el tiempo.</p></div></a>
+      <a class="post-card" href="/diario/londres-capital-del-mundo.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Londres"><div class="post-card-body"><span class="tag">Guía · 7 min</span><h3>Londres, la capital del mundo</h3><p>Museos gratuitos de clase mundial, el Támesis y el West End teatral.</p></div></a>
+      <a class="post-card" href="/diario/islandia-auroras-boreales-y-fiordos.html" data-cat="europa"><img class="post-card-img" src="https://images.pexels.com/photos/1933239/pexels-photo-1933239.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Islandia"><div class="post-card-body"><span class="tag">Guía · 7 min</span><h3>Islandia: auroras boreales y fiordos</h3><p>Geiseres, glaciares, volcanes y el paisaje más dramático de Europa.</p></div></a>
+    </div>
+  </section>
+
+  <!-- ASIA -->
+  <section class="grid-section" data-cat="asia">
+    <div class="section-label">Asia</div>
+    <div class="posts-grid">
+      <a class="post-card" href="/diario/tailandia-templos-playas-bangkok.html" data-cat="asia"><img class="post-card-img" src="https://images.pexels.com/photos/1007426/pexels-photo-1007426.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tailandia"><div class="post-card-body"><span class="tag">Guía · 7 min</span><h3>Tailandia: templos, playas y Bangkok</h3><p>El Grand Palace, las playas del sur y los templos de Chiang Mai.</p></div></a>
+      <a class="post-card" href="/diario/bali-isla-de-los-dioses.html" data-cat="asia"><img class="post-card-img" src="https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Bali"><div class="post-card-body"><span class="tag">Guía · 6 min</span><h3>Bali, la isla de los dioses</h3><p>Arrozales en terrazas, templos hinduistas y surf en Uluwatu.</p></div></a>
+      <a class="post-card" href="/diario/vietnam-de-norte-a-sur.html" data-cat="asia"><img class="post-card-img" src="https://images.pexels.com/photos/1850619/pexels-photo-1850619.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Vietnam"><div class="post-card-body"><span class="tag">Guía · 7 min</span><h3>Vietnam de norte a sur</h3><p>Hanoi, la Bahía de Halong, Hội An y Ho Chi Minh en un solo viaje.</p></div></a>
+      <a class="post-card" href="/diario/singapur-ciudad-del-futuro.html" data-cat="asia"><img class="post-card-img" src="https://images.pexels.com/photos/777059/pexels-photo-777059.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Singapur"><div class="post-card-body"><span class="tag">Guía · 5 min</span><h3>Singapur, ciudad del futuro</h3><p>Gardens by the Bay, hawker centres y la gastronomía más diversa del mundo.</p></div></a>
+      <a class="post-card" href="/diario/china-gran-muralla-y-mas.html" data-cat="asia"><img class="post-card-img" src="https://images.pexels.com/photos/1010657/pexels-photo-1010657.jpeg?auto=compress&cs=tinysrgb&w=600" alt="China"><div class="post-card-body"><span class="tag">Guía · 7 min</span><h3>China: la Gran Muralla y mucho más</h3><p>Pekín, Xi'an y Shanghái — tres ciudades que cuentan 5,000 años de historia.</p></div></a>
+      <a class="post-card" href="/diario/india-colores-y-contrastes.html" data-cat="asia"><img class="post-card-img" src="https://images.pexels.com/photos/1603650/pexels-photo-1603650.jpeg?auto=compress&cs=tinysrgb&w=600" alt="India"><div class="post-card-body"><span class="tag">Guía · 7 min</span><h3>India: colores, contrastes y espiritualidad</h3><p>El Taj Mahal, los ghats de Varanasi y los palacios de Rajastán.</p></div></a>
+      <a class="post-card" href="/diario/nepal-trekking-himalaya.html" data-cat="asia"><img class="post-card-img" src="https://images.pexels.com/photos/933054/pexels-photo-933054.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Nepal"><div class="post-card-body"><span class="tag">Aventura · 6 min</span><h3>Nepal y el trekking en el Himalaya</h3><p>El Campo Base del Everest, Katmandú y los stupas budistas.</p></div></a>
+      <a class="post-card" href="/diario/camboya-angkor-wat.html" data-cat="asia"><img class="post-card-img" src="https://images.pexels.com/photos/2166710/pexels-photo-2166710.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Camboya"><div class="post-card-body"><span class="tag">Cultura · 5 min</span><h3>Camboya y la maravilla de Angkor Wat</h3><p>El complejo religioso más grande del mundo y la civilización jemer.</p></div></a>
+      <a class="post-card" href="/diario/hong-kong-entre-tradicion-y-rascacielos.html" data-cat="asia"><img class="post-card-img" src="https://images.pexels.com/photos/1707215/pexels-photo-1707215.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hong Kong"><div class="post-card-body"><span class="tag">Guía · 5 min</span><h3>Hong Kong: entre tradición y rascacielos</h3><p>Victoria Peak, los mercados nocturnos y el dim sum más auténtico.</p></div></a>
+      <a class="post-card" href="/diario/maldivas-el-paraiso-existe.html" data-cat="asia"><img class="post-card-img" src="https://images.pexels.com/photos/1320684/pexels-photo-1320684.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Maldivas"><div class="post-card-body"><span class="tag">Lujo · 5 min</span><h3>Maldivas: el paraíso existe</h3><p>Bungalows sobre el agua, corales de colores y el mejor destino de luna de miel.</p></div></a>
+      <a class="post-card" href="/diario/filipinas-islas-y-naturaleza.html" data-cat="asia"><img class="post-card-img" src="https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Filipinas"><div class="post-card-body"><span class="tag">Naturaleza · 6 min</span><h3>Filipinas: islas, naturaleza y hospitalidad</h3><p>7,641 islas, Palawan y las playas más blancas del Sudeste Asiático.</p></div></a>
+      <a class="post-card" href="/diario/japon-tips-practicos-viajero.html" data-cat="asia"><img class="post-card-img" src="https://images.pexels.com/photos/1440476/pexels-photo-1440476.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Japón tips"><div class="post-card-body"><span class="tag">Consejos · 6 min</span><h3>Japón: tips prácticos para el viajero</h3><p>El JR Pass, los onsen, la etiqueta y lo que no debes hacer en Japón.</p></div></a>
+    </div>
+  </section>
+
+  <!-- MEDIO ORIENTE Y AFRICA -->
+  <section class="grid-section" data-cat="africa">
+    <div class="section-label">África &amp; Medio Oriente</div>
+    <div class="posts-grid">
+      <a class="post-card" href="/diario/egipto-las-piramides-y-el-nilo.html" data-cat="africa"><img class="post-card-img" src="https://images.pexels.com/photos/71241/pexels-photo-71241.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Egipto"><div class="post-card-body"><span class="tag">Cultura · 7 min</span><h3>Egipto: las pirámides y el Nilo</h3><p>Las pirámides de Giza, el Valle de los Reyes y un crucero por el Nilo.</p></div></a>
+      <a class="post-card" href="/diario/jordania-petra-y-mar-muerto.html" data-cat="africa"><img class="post-card-img" src="https://images.pexels.com/photos/1631665/pexels-photo-1631665.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Jordania"><div class="post-card-body"><span class="tag">Cultura · 6 min</span><h3>Jordania: Petra y el Mar Muerto</h3><p>La ciudad rosa esculpida en la roca y el punto más bajo de la Tierra.</p></div></a>
+      <a class="post-card" href="/diario/marruecos-medinas-desierto.html" data-cat="africa"><img class="post-card-img" src="https://images.pexels.com/photos/2082103/pexels-photo-2082103.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Marruecos"><div class="post-card-body"><span class="tag">Guía · 6 min</span><h3>Marruecos: medinas, desierto y té de menta</h3><p>Los zocos de Marrakech, el Sáhara y la ciudad azul de Chefchaouén.</p></div></a>
+      <a class="post-card" href="/diario/dubai-lujo-y-modernidad.html" data-cat="africa"><img class="post-card-img" src="https://images.pexels.com/photos/823696/pexels-photo-823696.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dubai"><div class="post-card-body"><span class="tag">Lujo · 5 min</span><h3>Dubai: lujo, modernidad y desierto</h3><p>El Burj Khalifa, los centros comerciales más grandes del mundo y safari en las dunas.</p></div></a>
+      <a class="post-card" href="/diario/turquia-entre-europa-y-asia.html" data-cat="africa"><img class="post-card-img" src="https://images.pexels.com/photos/1549326/pexels-photo-1549326.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Turquía"><div class="post-card-body"><span class="tag">Guía · 7 min</span><h3>Turquía: entre Europa y Asia</h3><p>Estambul, Capadocia con globos y las playas turquesas del Mediterráneo.</p></div></a>
+      <a class="post-card" href="/diario/israel-tierra-santa.html" data-cat="africa"><img class="post-card-img" src="https://images.pexels.com/photos/3290068/pexels-photo-3290068.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Israel"><div class="post-card-body"><span class="tag">Cultura · 6 min</span><h3>Israel: tierra santa y moderna</h3><p>Jerusalén, el Muro Occidental, la Cúpula de la Roca y Tel Aviv.</p></div></a>
+      <a class="post-card" href="/diario/sudafrica-safari-y-ciudad-del-cabo.html" data-cat="africa"><img class="post-card-img" src="https://images.pexels.com/photos/631317/pexels-photo-631317.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Sudáfrica"><div class="post-card-body"><span class="tag">Aventura · 7 min</span><h3>Sudáfrica: safari y Ciudad del Cabo</h3><p>Los Big Five en Kruger y una de las ciudades más hermosas del mundo.</p></div></a>
+      <a class="post-card" href="/diario/kenya-el-gran-safari-africano.html" data-cat="africa"><img class="post-card-img" src="https://images.pexels.com/photos/631317/pexels-photo-631317.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Kenya"><div class="post-card-body"><span class="tag">Aventura · 6 min</span><h3>Kenya: el gran safari africano</h3><p>La Gran Migración del Masai Mara, el espectáculo natural más impresionante del planeta.</p></div></a>
+      <a class="post-card" href="/diario/tanzania-serengeti-y-kilimanjaro.html" data-cat="africa"><img class="post-card-img" src="https://images.pexels.com/photos/59989/pexels-photo-59989.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tanzania"><div class="post-card-body"><span class="tag">Aventura · 6 min</span><h3>Tanzania: Serengeti y Kilimanjaro</h3><p>El Serengeti, el Cráter de Ngorongoro y las playas de Zanzíbar.</p></div></a>
+      <a class="post-card" href="/diario/oman-arabia-autentica.html" data-cat="africa"><img class="post-card-img" src="https://images.pexels.com/photos/1631665/pexels-photo-1631665.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Omán"><div class="post-card-body"><span class="tag">Guía · 5 min</span><h3>Omán: la Arabia auténtica</h3><p>Desiertos de dunas naranjas, wadis esmeralda y hospitalidad árabe sin igual.</p></div></a>
+    </div>
+  </section>
+
+  <!-- AMÉRICAS -->
+  <section class="grid-section" data-cat="americas">
+    <div class="section-label">Américas</div>
+    <div class="posts-grid">
+      <a class="post-card" href="/diario/peru-machu-picchu-y-cusco.html" data-cat="americas"><img class="post-card-img" src="https://images.pexels.com/photos/2356045/pexels-photo-2356045.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Perú"><div class="post-card-body"><span class="tag">Cultura · 7 min</span><h3>Perú: Machu Picchu y Cusco</h3><p>Una de las Nuevas Siete Maravillas del Mundo y la capital del Imperio Inca.</p></div></a>
+      <a class="post-card" href="/diario/argentina-buenos-aires-patagonia.html" data-cat="americas"><img class="post-card-img" src="https://images.pexels.com/photos/3586966/pexels-photo-3586966.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Argentina"><div class="post-card-body"><span class="tag">Guía · 7 min</span><h3>Argentina: Buenos Aires y la Patagonia</h3><p>El tango, los filetes más legendarios del mundo y el Glaciar Perito Moreno.</p></div></a>
+      <a class="post-card" href="/diario/colombia-cartagena-medellin.html" data-cat="americas"><img class="post-card-img" src="https://images.pexels.com/photos/2166898/pexels-photo-2166898.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Colombia"><div class="post-card-body"><span class="tag">Guía · 6 min</span><h3>Colombia: Cartagena y Medellín</h3><p>La ciudad colonial más hermosa del Caribe y la ciudad más transformada de América.</p></div></a>
+      <a class="post-card" href="/diario/mexico-historia-playas-cultura.html" data-cat="americas"><img class="post-card-img" src="https://images.pexels.com/photos/2934277/pexels-photo-2934277.jpeg?auto=compress&cs=tinysrgb&w=600" alt="México"><div class="post-card-body"><span class="tag">Guía · 7 min</span><h3>México: historia, playas y gastronomía</h3><p>Teotihuacán, las playas del Caribe y la gastronomía Patrimonio UNESCO.</p></div></a>
+      <a class="post-card" href="/diario/brasil-rio-y-amazonas.html" data-cat="americas"><img class="post-card-img" src="https://images.pexels.com/photos/2868242/pexels-photo-2868242.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Brasil"><div class="post-card-body"><span class="tag">Guía · 7 min</span><h3>Brasil: Río de Janeiro y el Amazonas</h3><p>El Cristo Redentor, el Carnaval y el pulmón verde del planeta.</p></div></a>
+      <a class="post-card" href="/diario/costa-rica-naturaleza-pura.html" data-cat="americas"><img class="post-card-img" src="https://images.pexels.com/photos/2859169/pexels-photo-2859169.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Costa Rica"><div class="post-card-body"><span class="tag">Naturaleza · 6 min</span><h3>Costa Rica: naturaleza pura</h3><p>El 28% del territorio protegido y la mayor biodiversidad por km² del mundo.</p></div></a>
+      <a class="post-card" href="/diario/chile-atacama-torres-del-paine.html" data-cat="americas"><img class="post-card-img" src="https://images.pexels.com/photos/1659438/pexels-photo-1659438.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Chile"><div class="post-card-body"><span class="tag">Aventura · 6 min</span><h3>Chile: Atacama y Torres del Paine</h3><p>El desierto más árido del mundo y las torres de granito más dramáticas de la Patagonia.</p></div></a>
+    </div>
+  </section>
+
+  <!-- CONSEJOS -->
+  <section class="grid-section" data-cat="consejos">
+    <div class="section-label">Planificación &amp; Consejos</div>
+    <div class="posts-grid">
+      <a class="post-card" href="/diario/como-planificar-viaje-europa-desde-usa.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Planificación"><div class="post-card-body"><span class="tag">Planificación · 8 min</span><h3>Cómo planificar un viaje a Europa desde USA</h3><p>Paso a paso: cuándo reservar, vuelos, hoteles, presupuesto y documentos.</p></div></a>
+      <a class="post-card" href="/diario/mejor-epoca-viajar-europa.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Mejor época"><div class="post-card-body"><span class="tag">Planificación · 6 min</span><h3>¿Cuál es la mejor época para viajar a Europa?</h3><p>Temporada alta vs. temporada baja: clima, precios y multitudes mes a mes.</p></div></a>
+      <a class="post-card" href="/diario/cuanto-cuesta-viajar-europa.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Presupuesto"><div class="post-card-body"><span class="tag">Presupuesto · 7 min</span><h3>¿Cuánto cuesta viajar a Europa desde USA?</h3><p>Desglose honesto de vuelos, hoteles, comidas y presupuesto extra.</p></div></a>
+      <a class="post-card" href="/diario/visa-schengen-hispanos-usa.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Visa Schengen"><div class="post-card-body"><span class="tag">Trámites · 6 min</span><h3>Visa Schengen: guía para hispanos en USA</h3><p>¿Necesitas visa Schengen? La respuesta depende de tu pasaporte.</p></div></a>
+      <a class="post-card" href="/diario/equipaje-perfecto-viaje-europa.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Equipaje"><div class="post-card-body"><span class="tag">Consejos · 5 min</span><h3>El equipaje perfecto para un viaje a Europa</h3><p>Qué llevar y qué dejar en casa para dos semanas sin exceso de peso.</p></div></a>
+      <a class="post-card" href="/diario/seguro-de-viaje-que-cubrir.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Seguro de viaje"><div class="post-card-body"><span class="tag">Consejos · 5 min</span><h3>Seguro de viaje: qué debe cubrir sí o sí</h3><p>El gasto que más se evita y más se necesita cuando algo sale mal.</p></div></a>
+      <a class="post-card" href="/diario/tour-organizado-vs-viaje-independiente.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tour vs independiente"><div class="post-card-body"><span class="tag">Consejos · 6 min</span><h3>Tour organizado vs. viaje independiente</h3><p>Comparativa honesta para decidir qué tipo de viajero eres.</p></div></a>
+      <a class="post-card" href="/diario/viajar-en-familia-con-ninos-europa.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Familias"><div class="post-card-body"><span class="tag">Familias · 6 min</span><h3>Viajar en familia con niños a Europa</h3><p>Los destinos más amigables para niños y cómo manejar los vuelos largos.</p></div></a>
+      <a class="post-card" href="/diario/luna-de-miel-en-europa.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Luna de miel"><div class="post-card-body"><span class="tag">Parejas · 6 min</span><h3>Luna de miel en Europa: los destinos más románticos</h3><p>París, Santorini, Venecia, Positano y Dubrovnik para tu primer viaje como casados.</p></div></a>
+      <a class="post-card" href="/diario/viaje-mayores-60-anos.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="60+"><div class="post-card-body"><span class="tag">Viajeros mayores · 6 min</span><h3>Viajar a los 60+: consejos prácticos</h3><p>Seguro médico, ritmo del viaje y por qué el tour organizado es tu mejor aliado.</p></div></a>
+      <a class="post-card" href="/diario/propinas-en-europa-guia-completa.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Propinas"><div class="post-card-body"><span class="tag">Consejos · 5 min</span><h3>Propinas en Europa: guía completa por país</h3><p>¿Hay que dar propina en Europa? La respuesta varía completamente según el país.</p></div></a>
+      <a class="post-card" href="/diario/transporte-en-europa-tren-bus-avion.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Transporte"><div class="post-card-body"><span class="tag">Consejos · 6 min</span><h3>Transporte en Europa: tren, bus o avión</h3><p>Cuándo usar el tren de alta velocidad, el vuelo low cost o el Flixbus.</p></div></a>
+      <a class="post-card" href="/diario/gastronomia-europea-que-comer.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Gastronomía"><div class="post-card-body"><span class="tag">Gastronomía · 7 min</span><h3>Gastronomía europea: qué comer en cada país</h3><p>De la pizza napolitana al bacalao portugués — guía de platos imprescindibles.</p></div></a>
+      <a class="post-card" href="/diario/fotografiar-europa-tips.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Fotografía"><div class="post-card-body"><span class="tag">Fotografía · 5 min</span><h3>Cómo fotografiar Europa como un profesional</h3><p>La hora dorada, los mejores puntos de vista y los errores que cometen los turistas.</p></div></a>
+      <a class="post-card" href="/diario/apps-viajero-europa.html" data-cat="consejos"><img class="post-card-img" src="https://images.pexels.com/photos/1051077/pexels-photo-1051077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Apps"><div class="post-card-body"><span class="tag">Tecnología · 5 min</span><h3>Las mejores apps para viajar a Europa</h3><p>Navegación, traducción, transporte y restaurantes — la lista definitiva.</p></div></a>
+    </div>
+  </section>
+
+  <!-- INSPIRACIÓN -->
+  <section class="grid-section" data-cat="inspiracion">
+    <div class="section-label">Inspiración &amp; Marca</div>
+    <div class="posts-grid">
+      <a class="post-card" href="/diario/por-que-viajar-en-grupo-organizado.html" data-cat="inspiracion"><img class="post-card-img" src="https://images.pexels.com/photos/3278215/pexels-photo-3278215.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Grupo"><div class="post-card-body"><span class="tag">Reflexión · 5 min</span><h3>Por qué viajar en grupo organizado cambia todo</h3><p>Lo que el viaje independiente rara vez ofrece: conexión humana real.</p></div></a>
+      <a class="post-card" href="/diario/el-viaje-que-siempre-postergaste.html" data-cat="inspiracion"><img class="post-card-img" src="https://images.pexels.com/photos/3278215/pexels-photo-3278215.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Postergar"><div class="post-card-body"><span class="tag">Inspiración · 4 min</span><h3>El viaje que siempre postergaste</h3><p>Hay un viaje en tu cabeza desde hace años. Este artículo es para ti.</p></div></a>
+      <a class="post-card" href="/diario/viajar-desde-usa-siendo-hispano.html" data-cat="inspiracion"><img class="post-card-img" src="https://images.pexels.com/photos/3278215/pexels-photo-3278215.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hispano USA"><div class="post-card-body"><span class="tag">Reflexión · 5 min</span><h3>Viajar desde USA siendo hispano: ventajas únicas</h3><p>El español como superpoder y la doble identidad cultural como ventaja.</p></div></a>
+      <a class="post-card" href="/diario/como-elegir-agencia-de-viajes.html" data-cat="inspiracion"><img class="post-card-img" src="https://images.pexels.com/photos/3278215/pexels-photo-3278215.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Agencia"><div class="post-card-body"><span class="tag">Consejos · 5 min</span><h3>Cómo elegir una agencia de viajes confiable</h3><p>Las señales de alerta y lo que debe tener una agencia seria.</p></div></a>
+      <a class="post-card" href="/diario/viajar-con-altamira-experiencia.html" data-cat="inspiracion"><img class="post-card-img" src="https://images.pexels.com/photos/3278215/pexels-photo-3278215.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Altamira"><div class="post-card-body"><span class="tag">Altamira · 4 min</span><h3>Viajar con Altamira: una experiencia diferente</h3><p>El servicio en español, los grupos pequeños y el guía que hace la diferencia.</p></div></a>
+      <a class="post-card" href="/diario/destinos-menos-conocidos-europa.html" data-cat="inspiracion europa"><img class="post-card-img" src="https://images.pexels.com/photos/3278215/pexels-photo-3278215.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Destinos secretos"><div class="post-card-body"><span class="tag">Inspiración · 5 min</span><h3>Destinos menos conocidos de Europa</h3><p>Kotor, Ghent, Sintra y Plovdiv — los secretos mejor guardados del continente.</p></div></a>
+      <a class="post-card" href="/diario/momentos-que-cambian-la-vida.html" data-cat="inspiracion"><img class="post-card-img" src="https://images.pexels.com/photos/3278215/pexels-photo-3278215.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Momentos"><div class="post-card-body"><span class="tag">Reflexión · 4 min</span><h3>Los momentos que cambian la vida cuando viajas</h3><p>No se planifican, no se compran y se recuerdan décadas después.</p></div></a>
+      <a class="post-card" href="/diario/preparar-mentalmente-viaje-largo.html" data-cat="inspiracion consejos"><img class="post-card-img" src="https://images.pexels.com/photos/3278215/pexels-photo-3278215.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Preparación mental"><div class="post-card-body"><span class="tag">Bienestar · 4 min</span><h3>Cómo prepararse mentalmente para un viaje largo</h3><p>El jet lag, la desconexión del trabajo y llegar en modo disfrute.</p></div></a>
+      <a class="post-card" href="/diario/regalar-un-viaje-a-tus-hijos.html" data-cat="inspiracion"><img class="post-card-img" src="https://images.pexels.com/photos/3278215/pexels-photo-3278215.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Regalo viaje"><div class="post-card-body"><span class="tag">Familias · 5 min</span><h3>Por qué regalar un viaje es el mejor regalo</h3><p>Las experiencias hacen más felices que las cosas — la ciencia lo confirma.</p></div></a>
+    </div>
+  </section>
+
+</div>
+
+<div class="cta-band">
+  <div class="wrap">
+    <span class="overline">Altamira Travel</span>
+    <h2>¿Tu próximo viaje <em>te espera</em>?</h2>
+    <p>Nuestros especialistas diseñan el viaje perfecto para ti. Sin estrés, en español, con todo incluido.</p>
+    <a href="/contacto.html" class="btn btn-terra">Cotizar mi viaje →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <div class="name">ALTA<b>MIRA</b></div>
+        <p>Agencia de viajes para la comunidad hispana en Estados Unidos. Circuitos organizados a Europa, Asia, Medio Oriente y más.</p>
+      </div>
+      <div>
+        <h4>Destinos</h4>
+        <ul>
+          <li><a href="/europa.html">Europa</a></li>
+          <li><a href="/asia.html">Asia</a></li>
+          <li><a href="/medio-oriente.html">Medio Oriente</a></li>
+          <li><a href="/americas.html">Américas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="tel:+17869779648">+1 (786) 977-9648</a></li>
+          <li><a href="tel:+18888551889">+1 (888) 855-1889</a></li>
+          <li><a href="/contacto.html">Cotizar viaje</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Altamira Group LLC. Todos los derechos reservados.</p>
+      <p>+1 (888) 855-1889 · +1 (786) 977-9648</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function filterPosts(cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.grid-section').forEach(section => {
+    if (cat === 'all') {
+      section.style.display = '';
+      section.querySelectorAll('.post-card').forEach(c => c.style.display = '');
+    } else {
+      const sectionCat = section.getAttribute('data-cat');
+      if (sectionCat === 'all' || sectionCat === cat) {
+        section.style.display = '';
+        section.querySelectorAll('.post-card').forEach(card => {
+          card.style.display = card.getAttribute('data-cat')?.includes(cat) ? '' : 'none';
+        });
+        const visible = [...section.querySelectorAll('.post-card')].some(c => c.style.display !== 'none');
+        if (!visible) section.style.display = 'none';
+      } else {
+        section.style.display = 'none';
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>
