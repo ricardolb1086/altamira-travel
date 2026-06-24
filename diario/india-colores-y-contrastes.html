@@ -60,7 +60,17 @@ footer ul li a{font-size:14px;color:var(--ink-soft);}
 .footer-bottom{border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
 .footer-bottom p{font-size:13px;color:var(--ink-soft);}
 @media(max-width:768px){.footer-cols{grid-template-columns:1fr;gap:32px;}}
-</style></head><body><nav class="nav"><div class="wrap"><div class="nav-row">
+</style>
+<style>
+.related-posts{padding:48px 0 0;}
+.related-posts .related-label{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--terra-deep);display:block;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line);}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;}
+.related-card{display:block;padding:20px;border:1px solid var(--line);border-radius:8px;background:var(--paper);transition:border-color .2s,transform .2s;}
+.related-card:hover{border-color:var(--terra);transform:translateY(-3px);}
+.related-card span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--terra-deep);display:block;margin-bottom:8px;}
+.related-card strong{font-family:var(--serif);font-size:18px;font-weight:500;color:var(--ink);line-height:1.3;display:block;}
+</style>
+</head><body><nav class="nav"><div class="wrap"><div class="nav-row">
 <a href="/" class="brand"><div class="mark"></div><span class="name">ALTA<b>MIRA</b></span></a>
 <a href="/contacto.html" class="btn btn-solid">Cotizar viaje →</a>
 </div></div></nav>
@@ -76,7 +86,25 @@ footer ul li a{font-size:14px;color:var(--ink-soft);}
     <h2>Varanasi: la ciudad más antigua</h2>
     <p><strong>Varanasi</strong> es una de las ciudades habitadas más antiguas del mundo y el lugar más sagrado del hinduismo. Los ghats (escalinatas) junto al río Ganges donde se realizan cremaciones y rituales de purificación son una experiencia que ninguna foto puede capturar completamente.</p>
     <div class="highlight"><p><strong>Consejo práctico:</strong> India puede ser intensa para el primer viajero. Un tour organizado con guía en español es la mejor manera de aprovecharla — el guía local navega la logística, los idiomas y los contextos culturales por ti.</p></div>
-<div class="art-cta"><span class="overline">Altamira Travel</span><h2>¿Listo para <em>vivirlo</em>?</h2>
+
+  <div class="related-posts">
+    <span class="related-label">Sigue leyendo</span>
+    <div class="related-grid">
+      <a class="related-card" href="/diario/nepal-trekking-himalaya.html">
+        <span>También te interesa</span>
+        <strong>Nepal y el trekking en el Himalaya</strong>
+      </a>
+      <a class="related-card" href="/diario/tailandia-templos-playas-bangkok.html">
+        <span>También te interesa</span>
+        <strong>Tailandia: templos, playas y Bangkok</strong>
+      </a>
+      <a class="related-card" href="/diario/seguro-de-viaje-que-cubrir.html">
+        <span>También te interesa</span>
+        <strong>Seguro de viaje: qué debe cubrir</strong>
+      </a>
+    </div>
+  </div>
+  <div class="art-cta"><span class="overline">Altamira Travel</span><h2>¿Listo para <em>vivirlo</em>?</h2>
 <p>Nuestros especialistas diseñan el viaje perfecto para ti. Sin estrés, en español, con todo incluido.</p>
 <a href="/contacto.html" class="btn btn-terra">Cotizar mi viaje →</a></div>
 </div></article><footer><div class="wrap"><div class="footer-cols">

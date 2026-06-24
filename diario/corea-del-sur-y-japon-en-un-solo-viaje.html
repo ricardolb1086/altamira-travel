@@ -37,6 +37,16 @@
 footer{background:var(--paper);border-top:1px solid var(--line);padding-block:48px 28px;margin-top:80px;}.footer-cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px;}.footer-brand .name{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;}.footer-brand .name b{color:var(--terra-deep);}.footer-brand p{font-size:14px;color:var(--ink-soft);line-height:1.65;max-width:300px;}footer h4{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--terra-deep);margin-bottom:16px;}footer ul{list-style:none;display:flex;flex-direction:column;gap:10px;}footer ul li a{font-size:14px;color:var(--ink-soft);transition:color .2s;}footer ul li a:hover{color:var(--terra);}.footer-bottom{border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}.footer-bottom p{font-size:13px;color:var(--ink-soft);}
 @media(max-width:768px){.footer-cols{grid-template-columns:1fr;gap:32px;}.footer-bottom{flex-direction:column;text-align:center;}.route-step{grid-template-columns:1fr;gap:8px;}}
 </style>
+
+<style>
+.related-posts{padding:48px 0 0;}
+.related-posts .related-label{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--terra-deep);display:block;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line);}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;}
+.related-card{display:block;padding:20px;border:1px solid var(--line);border-radius:8px;background:var(--paper);transition:border-color .2s,transform .2s;}
+.related-card:hover{border-color:var(--terra);transform:translateY(-3px);}
+.related-card span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--terra-deep);display:block;margin-bottom:8px;}
+.related-card strong{font-family:var(--serif);font-size:18px;font-weight:500;color:var(--ink);line-height:1.3;display:block;}
+</style>
 </head>
 <body>
 <nav class="nav"><div class="wrap"><div class="nav-row"><a href="/" class="brand"><div class="mark"></div><span class="name">ALTA<b>MIRA</b></span></a><a href="/contacto.html" class="btn btn-solid">Cotizar viaje →</a></div></div></nav>
@@ -168,7 +178,25 @@ footer{background:var(--paper);border-top:1px solid var(--line);padding-block:48
       <li>Shinjuku de noche — Omoide Yokocho y Golden Gai</li>
     </ul>
 
-    <div class="art-cta">
+    
+  <div class="related-posts">
+    <span class="related-label">Sigue leyendo</span>
+    <div class="related-grid">
+      <a class="related-card" href="/diario/diez-dias-por-japon.html">
+        <span>También te interesa</span>
+        <strong>Diez días por Japón</strong>
+      </a>
+      <a class="related-card" href="/diario/japon-tips-practicos-viajero.html">
+        <span>También te interesa</span>
+        <strong>Japón: tips prácticos para el viajero</strong>
+      </a>
+      <a class="related-card" href="/diario/china-gran-muralla-y-mas.html">
+        <span>También te interesa</span>
+        <strong>China: la Gran Muralla y mucho más</strong>
+      </a>
+    </div>
+  </div>
+  <div class="art-cta">
       <span class="overline">El viaje asiático más completo</span>
       <h2>Corea del Sur & Japón<br><em>con guía en español</em></h2>
       <p>18 días · 9 destinos · Ferry PanStar incluido · Grupos pequeños · Guía hispanohablante en cada país. El programa más ambicioso de Altamira Travel.</p>

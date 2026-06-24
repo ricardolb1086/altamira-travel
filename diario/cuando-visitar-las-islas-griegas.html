@@ -94,6 +94,16 @@ footer ul li a:hover{color:var(--terra);}
 .footer-bottom p{font-size:13px;color:var(--ink-soft);}
 @media(max-width:768px){.footer-cols{grid-template-columns:1fr;gap:32px;}.footer-bottom{flex-direction:column;text-align:center;}.month-table{font-size:13px;}.month-table th,.month-table td{padding:8px;}}
 </style>
+
+<style>
+.related-posts{padding:48px 0 0;}
+.related-posts .related-label{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--terra-deep);display:block;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line);}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;}
+.related-card{display:block;padding:20px;border:1px solid var(--line);border-radius:8px;background:var(--paper);transition:border-color .2s,transform .2s;}
+.related-card:hover{border-color:var(--terra);transform:translateY(-3px);}
+.related-card span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--terra-deep);display:block;margin-bottom:8px;}
+.related-card strong{font-family:var(--serif);font-size:18px;font-weight:500;color:var(--ink);line-height:1.3;display:block;}
+</style>
 </head>
 <body>
 
@@ -202,7 +212,25 @@ footer ul li a:hover{color:var(--terra);}
 
     <p>Para una primera visita, <strong>10 a 14 días</strong> es lo ideal. Permite visitar 3 o 4 islas sin sentir que estás corriendo. Un itinerario sólido para primera vez: <strong>Atenas (2 noches) → Santorini (3 noches) → Naxos o Paros (2 noches) → Mykonos (2 noches) → Atenas (salida)</strong>. Cubre lo esencial sin apresurar.</p>
 
-    <div class="art-cta">
+    
+  <div class="related-posts">
+    <span class="related-label">Sigue leyendo</span>
+    <div class="related-grid">
+      <a class="related-card" href="/diario/santorini-suenos-de-grecia.html">
+        <span>También te interesa</span>
+        <strong>Santorini: sueños de Grecia</strong>
+      </a>
+      <a class="related-card" href="/diario/atenas-historia-y-modernidad.html">
+        <span>También te interesa</span>
+        <strong>Atenas: historia y modernidad</strong>
+      </a>
+      <a class="related-card" href="/diario/mejor-epoca-viajar-europa.html">
+        <span>También te interesa</span>
+        <strong>Mejor época para viajar a Europa</strong>
+      </a>
+    </div>
+  </div>
+  <div class="art-cta">
       <span class="overline">¿Listo para ir a Grecia?</span>
       <h2>Armamos tu viaje a las <em>islas griegas</em></h2>
       <p>Grupos privados con guía en español, fechas flexibles y todo organizado. Habla con nosotros y te contamos cómo funciona.</p>

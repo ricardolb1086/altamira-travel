@@ -96,6 +96,16 @@ footer ul li a:hover{color:var(--terra);}
 .footer-bottom p{font-size:13px;color:var(--ink-soft);}
 @media(max-width:768px){.footer-cols{grid-template-columns:1fr;gap:32px;}.footer-bottom{flex-direction:column;text-align:center;}}
 </style>
+
+<style>
+.related-posts{padding:48px 0 0;}
+.related-posts .related-label{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--terra-deep);display:block;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line);}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;}
+.related-card{display:block;padding:20px;border:1px solid var(--line);border-radius:8px;background:var(--paper);transition:border-color .2s,transform .2s;}
+.related-card:hover{border-color:var(--terra);transform:translateY(-3px);}
+.related-card span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--terra-deep);display:block;margin-bottom:8px;}
+.related-card strong{font-family:var(--serif);font-size:18px;font-weight:500;color:var(--ink);line-height:1.3;display:block;}
+</style>
 </head>
 <body>
 
@@ -230,7 +240,25 @@ footer ul li a:hover{color:var(--terra);}
       <li><strong>Total estimado sin vuelos:</strong> USD 3,500 – 4,500 por persona</li>
     </ul>
 
-    <div class="art-cta">
+    
+  <div class="related-posts">
+    <span class="related-label">Sigue leyendo</span>
+    <div class="related-grid">
+      <a class="related-card" href="/diario/corea-del-sur-y-japon-en-un-solo-viaje.html">
+        <span>También te interesa</span>
+        <strong>Corea del Sur y Japón en un solo viaje</strong>
+      </a>
+      <a class="related-card" href="/diario/japon-tips-practicos-viajero.html">
+        <span>También te interesa</span>
+        <strong>Japón: tips prácticos para el viajero</strong>
+      </a>
+      <a class="related-card" href="/diario/bali-isla-de-los-dioses.html">
+        <span>También te interesa</span>
+        <strong>Bali, la isla de los dioses</strong>
+      </a>
+    </div>
+  </div>
+  <div class="art-cta">
       <span class="overline">¿Quieres ir a Japón?</span>
       <h2>Organizamos tu viaje a <em>Japón</em> con guía en español</h2>
       <p>Grupos privados, guía hispanohablante, hoteles seleccionados y todo el transporte incluido. Sin estrés, sin improvisar.</p>
