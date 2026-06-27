@@ -1,10 +1,65 @@
+# robots.txt — altamiratravel.com
+# Actualizado: 2026-06-27
+
+# ——————————————————————————————————————————
+# TODOS LOS ROBOTS
+# ——————————————————————————————————————————
 User-agent: *
 Allow: /
+
+# Directorios de contenido público (explícito para nuevos crawlers)
+Allow: /ciudades/
+Allow: /programas/
+Allow: /diario/
+Allow: /blog/
+
+# Panel de administración CMS (Sveltia)
 Disallow: /admin/
+
+# Páginas internas / utilidades (sin valor SEO)
 Disallow: /preview-logo.html
 Disallow: /tarjeta-presentacion.html
+Disallow: /entrega.html
+
+# Flujo de pago (páginas transaccionales, no indexar)
 Disallow: /pago.html
 Disallow: /pago-exitoso.html
 Disallow: /pago-cancelado.html
 
+# ——————————————————————————————————————————
+# GOOGLEBOT — sin restricciones adicionales
+# ——————————————————————————————————————————
+User-agent: Googlebot
+Allow: /
+
+# ——————————————————————————————————————————
+# BINGBOT — sin restricciones adicionales
+# ——————————————————————————————————————————
+User-agent: Bingbot
+Allow: /
+
+# ——————————————————————————————————————————
+# BOTS DE IA — bloquear scraping de contenido
+# ——————————————————————————————————————————
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+# ——————————————————————————————————————————
+# SITEMAP
+# ——————————————————————————————————————————
 Sitemap: https://altamiratravel.com/sitemap.xml
