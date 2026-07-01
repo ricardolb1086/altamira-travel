@@ -523,12 +523,12 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
 .circuit-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform 1.1s cubic-bezier(.2,.7,.3,1); }
 .circuit:hover .circuit-img{ transform:scale(1.07); }
 .circuit-scrim{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(18,12,8,.12) 0%, rgba(18,12,8,.72) 100%); z-index:1; }
-.circuit-body{ position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:flex-end; padding:48px 18px 20px; }
-.circuit-badge{ font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--paper); background:rgba(18,12,8,.62); border:1px solid rgba(255,255,255,.28); backdrop-filter:blur(4px); padding:4px 10px; border-radius:100px; position:absolute; top:14px; left:14px; z-index:3; }
+.circuit-body{ position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:flex-end; padding:20px 18px; }
+.circuit-badge{ font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--paper); background:rgba(18,12,8,.62); border:1px solid rgba(255,255,255,.28); backdrop-filter:blur(4px); padding:4px 10px; border-radius:100px; display:inline-block; margin-bottom:9px; width:fit-content; }
 .circuit-badge.guaranteed{ border-color:rgba(255,255,255,.45); }
 .circuit-badge.value{ color:oklch(0.95 0.07 78); border-color:oklch(0.72 0.1 78 / .45); }
 .circuit-name{ font-family:var(--serif); font-size:clamp(17px,1.6vw,24px); font-weight:500; color:var(--paper); line-height:1.1; margin-bottom:6px; }
-.circuit-dur{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:oklch(0.82 0.02 78); margin-bottom:12px; }
+.circuit-dur{ font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:oklch(0.82 0.02 78); margin-bottom:12px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 .circuit-cta{ font-family:var(--sans); font-size:11.5px; font-weight:600; color:var(--paper); display:inline-flex; align-items:center; gap:6px; opacity:0; transform:translateY(6px); transition:all .35s ease; border-bottom:1px solid rgba(255,255,255,.38); padding-bottom:2px; width:fit-content; }
 .circuit:hover .circuit-cta{ opacity:1; transform:translateY(0); }
 .circuit-price{ font-family:var(--serif); font-size:22px; font-weight:500; color:var(--paper); margin-bottom:10px; line-height:1; }
@@ -1259,7 +1259,7 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
 
       <!-- 7. Europa de Punta a Punta -->
       <div class="circuit">
-        <img class="circuit-img" src="https://images.pexels.com/photos/1486222/pexels-photo-1486222.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Londres" loading="lazy">
+        <img class="circuit-img" src="https://images.unsplash.com/photo-1529655683826-aba9b3e77383?auto=format&fit=crop&w=1200&q=80" alt="Londres" loading="lazy">
         <div class="circuit-scrim"></div>
         <div class="circuit-body">
           <span class="circuit-badge value">◎ Mejor valor</span>
@@ -1337,7 +1337,7 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
 
       <!-- 13. Europa de Norte a Sur -->
       <div class="circuit">
-        <img class="circuit-img" src="https://images.pexels.com/photos/3722818/pexels-photo-3722818.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Ámsterdam" loading="lazy">
+        <img class="circuit-img" src="https://images.pexels.com/photos/2570063/pexels-photo-2570063.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Frankfurt" loading="lazy">
         <div class="circuit-scrim"></div>
         <div class="circuit-body">
           <span class="circuit-badge value">◎ Mejor valor</span>
