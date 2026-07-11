@@ -664,5 +664,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 (function(){const els=document.querySelectorAll('.rv');if(!els.length)return;const io=new IntersectionObserver((e)=>{e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});els.forEach(el=>io.observe(el));})();
 (function(){document.querySelectorAll('.faq-item').forEach(item=>{const btn=item.querySelector('.faq-q');btn.addEventListener('click',()=>{const isOpen=item.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(o=>{o.classList.remove('open');o.querySelector('.faq-q').setAttribute('aria-expanded','false');});if(!isOpen){item.classList.add('open');btn.setAttribute('aria-expanded','true');}});});})();
 </script>
+<script src="/js/tracking.js" defer></script>
 </body>
 </html>
