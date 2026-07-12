@@ -1,7 +1,6 @@
 /**
  * Altamira Travel — Tracking Utility
  * Todos los eventos van via dataLayer → GTM → GA4 + Meta Pixel
- * NO modificar ni duplicar el PageView existente.
  */
 
 (function () {
@@ -39,7 +38,9 @@
   // ── 1. WhatsApp clicks ────────────────────────────────────────────
   function initWhatsAppTracking() {
     document.addEventListener('click', function (e) {
-      var link = e.target.closest('a[href*="wa.me"]');
+      var link = e.target.closest(
+        'a[href*="wa.me"], a[href*="api.whatsapp.com"], a[href*="web.whatsapp.com"]'
+      );
       if (!link) return;
 
       var programMeta = getProgramMeta();
@@ -105,35 +106,11 @@
     });
   }
 
-  // ── 4. Buscador ───────────────────────────────────────────────────
-  function initSearchTracking() {
-    var searchInput = document.getElementById('search-input') ||
-                      document.querySelector('[data-search-input]') ||
-                      document.querySelector('input[type="search"]');
-    if (!searchInput) return;
-
-    var searchForm = searchInput.closest('form') || searchInput.parentElement;
-
-    searchForm.addEventListener('submit', function (e) {
-      var term = searchInput.value.trim();
-      if (!term) return;
-
-      var results = document.querySelectorAll('[data-search-result]');
-
-      trackEvent('search', {
-        search_term: term,
-        results_count: results.length,
-        page_path: window.location.pathname,
-      });
-    });
-  }
-
   // ── Init ──────────────────────────────────────────────────────────
   function init() {
     initWhatsAppTracking();
     initFormTracking();
     initViewItemTracking();
-    initSearchTracking();
   }
 
   if (document.readyState === 'loading') {
