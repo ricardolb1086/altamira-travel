@@ -171,6 +171,7 @@ em.it{ font-style: italic; color: var(--terra-deep); }
   padding: 18px 0;
 }
 .nav.solid{ background: color-mix(in oklab, var(--cream) 90%, transparent); backdrop-filter: blur(12px) saturate(1.2); box-shadow: 0 1px 0 var(--line); padding: 12px 0; }
+.nav .wrap{ padding-inline-start: clamp(10px, 1.5vw, 28px); }
 .nav-row{ display:flex; align-items:center; justify-content:space-between; gap: 24px; }
 .brand{ display:flex; align-items:baseline; gap:10px; font-family: var(--serif); }
 .brand .mark{
@@ -182,8 +183,8 @@ em.it{ font-style: italic; color: var(--terra-deep); }
 .brand .mark::after{ content:""; width:11px; height:11px; border-radius:50%; border:2px solid var(--cream); }
 .brand .name{ font-size: 25px; letter-spacing: .14em; font-weight:600; text-transform: uppercase; }
 .brand .name b{ font-weight:600; color: var(--terra-deep); }
-.nav-links{ display:flex; gap: 30px; list-style:none; }
-.nav-links a{ font-size: 14px; font-weight: 500; color: var(--ink-soft); position: relative; padding: 4px 0; transition: color .3s; }
+.nav-links{ display:flex; gap: 20px; list-style:none; }
+.nav-links a{ font-size: 14px; font-weight: 500; color: var(--ink-soft); position: relative; padding: 4px 0; transition: color .3s; white-space: nowrap; }
 .nav-links a::after{ content:""; position:absolute; left:0; bottom:-2px; width:0; height:1px; background: var(--terra); transition: width .3s; }
 .nav-links a:hover{ color: var(--ink); }
 .nav-links a:hover::after{ width:100%; }
@@ -604,7 +605,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <ul class="nav-links">
       <li><a href="/destinos.html">Destinations</a></li>
       <li><a href="#experiences">Experiences</a></li>
-      <li><a href="#values">Why Altamira</a></li>
+      <li><a href="#values">Why Altamira?</a></li>
       <li><a href="#journal">Journal</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -1759,7 +1760,7 @@ setInterval(()=>show((qi+1)%qlist().length), 6500);
   const M=[
     ['.nav-links a',0,0,'Destinations','Destinos'],
     ['.nav-links a',1,0,'Experiences','Experiencias'],
-    ['.nav-links a',2,0,'Why Altamira','Por qué Altamira'],
+    ['.nav-links a',2,0,'Why Altamira?','¿Por qué Altamira?'],
     ['.nav-links a',3,0,'Journal','Diario'],
     ['.nav-links a',4,0,'Contact','Contacto'],
     ['.burger',null,0,'Menu','Menú'],
