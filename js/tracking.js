@@ -54,12 +54,21 @@
       else if (link.closest('footer')) location = 'footer';
       else if (link.closest('.circuit-cta') || link.closest('.circuit-card')) location = 'waiting_list';
 
+      // Fallback: si la página no tiene meta program-name,
+      // leer el nombre desde la tarjeta del circuito (Originals en index)
+      var programName = programMeta.program_name;
+      if (!programName) {
+        var card = link.closest('.circuit');
+        var nameEl = card ? card.querySelector('.circuit-name') : null;
+        if (nameEl) programName = nameEl.textContent.trim();
+      }
+
       trackEvent('click_whatsapp', {
         button_location: location,
         page_path: pageMeta.page_path,
         page_title: pageMeta.page_title,
         destination_country: programMeta.destination_country,
-        program_name: programMeta.program_name,
+        program_name: programName,
         language: pageMeta.language,
       });
     });
