@@ -27,8 +27,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 body{font-family:var(--sans);background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:40px 20px}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:clamp(28px,5vw,48px);max-width:520px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,.06)}
 .brand{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.brand .mark{width:30px;height:30px;border-radius:50%;background:var(--terra);display:grid;place-items:center}
-.brand .mark::after{content:"";width:11px;height:11px;border-radius:50%;border:2px solid var(--cream)}
+.brand .mark{ display:none; }.brand-simbolo{ height:34px; width:auto; flex:none; align-self:center; }
+
 .brand .name{font-family:var(--serif);font-size:22px;letter-spacing:.14em;font-weight:500;text-transform:uppercase}
 .brand .name b{color:var(--terra-deep)}
 h1{font-family:var(--serif);font-size:30px;font-weight:500;margin-bottom:6px}
@@ -53,6 +53,11 @@ input:focus{border-color:var(--terra);box-shadow:0 0 0 3px oklch(0.575 0.115 46 
 .lock-note{font-family:var(--mono);font-size:10px;color:var(--ink-soft);text-align:center;margin-top:20px;opacity:.6;line-height:1.6}
 </style>
 <script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","xiuktztsa6");</script>
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" href="/favicon-32.png">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -61,7 +66,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 <div class="card">
-  <div class="brand"><span class="mark"></span><span class="name">Alta<b>mira</b></span></div>
+  <div class="brand"><img src="/images/simbolo-terra.png" class="brand-simbolo" alt="Altamira Travel"><span class="name">Alta<b>mira</b></span></div>
   <h1>Generar cobro</h1>
   <p class="sub">Crea un link de pago seguro con checkbox de términos. Envíalo al cliente por WhatsApp.</p>
 

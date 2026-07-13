@@ -39,8 +39,8 @@ a:hover{ text-decoration:underline; }
 .nav{ position:fixed; top:0; left:0; right:0; z-index:100; background:color-mix(in oklab,var(--cream) 92%,transparent); backdrop-filter:blur(12px); box-shadow:0 1px 0 var(--line); padding:12px 0; }
 .nav-row{ display:flex; align-items:center; justify-content:space-between; gap:24px; max-width:1280px; margin:0 auto; padding-inline:var(--pad); }
 .brand{ display:flex; align-items:center; gap:10px; font-family:var(--serif); }
-.brand .mark{ width:28px; height:28px; border-radius:50%; background:var(--terra); display:grid; place-items:center; flex:none; }
-.brand .mark::after{ content:""; width:10px; height:10px; border-radius:50%; border:2px solid var(--cream); }
+.brand .mark{ display:none; }.brand-simbolo{ height:34px; width:auto; flex:none; align-self:center; }
+
 .brand .name{ font-size:22px; letter-spacing:.14em; font-weight:600; text-transform:uppercase; color:var(--ink); }
 .brand .name b{ color:var(--terra-deep); }
 .page-hero{ padding:clamp(100px,14vh,130px) 0 clamp(36px,5vh,56px); border-bottom:1px solid var(--line); }
@@ -70,6 +70,11 @@ footer{ background:var(--paper); border-top:1px solid var(--line); padding-block
 .foot-bot{ display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; font-size:13px; color:var(--ink-soft); font-family:var(--mono); max-width:1280px; margin:0 auto; padding-inline:var(--pad); }
 </style>
 <script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","xiuktztsa6");</script>
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" href="/favicon-32.png">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -80,7 +85,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <nav class="nav">
   <div class="nav-row">
-    <a href="/" class="brand"><span class="mark"></span><span class="name">Alta<b>mira</b></span></a>
+    <a href="/" class="brand"><img src="/images/simbolo-terra.png" class="brand-simbolo" alt="Altamira Travel"><span class="name">Alta<b>mira</b></span></a>
     <div class="lang-switch">
       <button class="lang-btn" onclick="location.href='/terminos.html'">ES</button>
       <button class="lang-btn active" onclick="location.href='/terms.html'">EN</button>

@@ -14,6 +14,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>Agencia de Viajes Hispana en Philadelphia | Tours Grupales en Español | Altamira Travel</title>
 <meta name="description" content="Agencia de viajes hispana en Philadelphia. Circuitos grupales en español a Europa, Egipto, Turquía y Jordania. Atendemos a la comunidad latina de Kensington, North Philadelphia, Norris Square y South Philadelphia. Llama gratis al 888-855-1889.">
 <link rel="canonical" href="https://altamiratravel.com/ciudades/philadelphia.html">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" href="/favicon-32.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Agencia de Viajes Hispana en Miami | Altamira Travel">
 <meta property="og:description" content="Tours grupales en español desde Philadelphia. Europa, Egipto, Turquía y Jordania. Salida garantizada desde 2 pasajeros. Llama al 888-855-1889.">
@@ -175,8 +179,8 @@ em.it{ font-style: italic; color: var(--terra-deep); }
 .nav.solid{ background: color-mix(in oklab, var(--cream) 92%, transparent); backdrop-filter: blur(14px) saturate(1.2); box-shadow: 0 1px 0 var(--line); padding: 12px 0; }
 .nav-row{ display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .brand{ display: flex; align-items: center; gap: 10px; font-family: var(--serif); }
-.brand .mark{ width: 30px; height: 30px; border-radius: 50%; background: var(--terra); display: grid; place-items: center; flex: none; }
-.brand .mark::after{ content: ""; width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--cream); }
+.brand .mark{ display:none; }.brand-simbolo{ height:34px; width:auto; flex:none; align-self:center; filter: brightness(0) invert(1); transition: filter .4s; }.nav.solid .brand-simbolo{ filter: none; }
+
 .brand .name{ font-size: 25px; letter-spacing: .14em; font-weight: 600; text-transform: uppercase; }
 .brand .name b{ color: var(--terra-deep); }
 .nav-cta{ display: flex; align-items: center; gap: 14px; }
@@ -372,7 +376,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <nav class="nav" id="nav">
   <div class="wrap nav-row">
     <a href="/" class="brand" aria-label="Altamira Travel">
-      <span class="mark"></span>
+      <img src="/images/simbolo-terra.png" class="brand-simbolo" alt="Altamira Travel">
       <span class="name">Alta<b>mira</b></span>
     </a>
     <div class="nav-cta">
