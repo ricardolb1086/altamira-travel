@@ -468,11 +468,12 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
 .mobile-cta-bar.show{ transform: translateY(0); transition: transform .4s ease; }
 
 @media (max-width: 900px){
-  .nav-links, .nav-tel{ display:none; }
+  .nav-links, .nav-tel, .lang, .btn-cotizar, .burger{ display:none; }
   .nav-tel-mini{ display:inline-flex; }
-  .burger{ display:inline-flex; }
   .mobile-cta-bar{ display:flex; }
   body{ padding-bottom: 78px; /* evita que el footer quede debajo de la barra */ }
+  .hero{ padding-bottom: calc(78px + env(safe-area-inset-bottom) + clamp(24px,5vh,48px)); }
+  .hero-quicklinks{ display:none !important; }
   .strip-row{ grid-template-columns: repeat(2,1fr); }
   .stat:nth-child(2){ border-right:none; }
   .stat:nth-child(-n+2){ border-bottom:1px solid var(--line); }
@@ -642,7 +643,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="tel:+18888551889" class="btn btn-solid" style="background:var(--terra);border-color:var(--terra);font-size:15px;padding:16px 30px;">Cotizar mi viaje <span class="arr">→</span></a>
         <a href="/destinos.html" class="btn btn-ghost" style="border-color:rgba(255,255,255,.5);color:#fff;">Ver programas</a>
       </div>
-      <div style="margin-top:18px;display:flex;align-items:center;gap:10px;">
+      <div class="hero-quicklinks" style="margin-top:18px;display:flex;align-items:center;gap:10px;">
         <a href="tel:+18888551889" style="font-family:var(--mono);font-size:13px;letter-spacing:.06em;color:rgba(255,255,255,.85);display:inline-flex;align-items:center;gap:7px;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5a19.79 19.79 0 01-3-8.67A2 2 0 012.08 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l.91-.91a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
           1-888-855-1889 · Llamada gratuita
@@ -2009,6 +2010,11 @@ setInterval(()=>show((qi+1)%qlist().length), 6500);
   box-shadow: 0 4px 20px rgba(37,211,102,0.4);
 }
 .wa-float__icon svg{ width:30px; height:30px; }
+@media(max-width:900px){
+  .wa-float{ bottom: calc(78px + env(safe-area-inset-bottom) + 16px); right:16px; }
+  .wa-float__icon{ width:50px; height:50px; }
+  .wa-float__icon svg{ width:26px; height:26px; }
+}
 </style>
 
 <a class="wa-float"

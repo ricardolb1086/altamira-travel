@@ -342,7 +342,7 @@ footer{ background: var(--paper); border-top: 1px solid var(--line); padding-blo
 
 /* ── responsive ── */
 @media(max-width: 900px){
-  .nav-tel{ display: none; }
+  .nav-tel{display:none;}.nav-cta .btn{display:none;}
   .strip-row{ grid-template-columns: repeat(2, 1fr); }
   .stat:nth-child(2){ border-right: none; }
   .stat:nth-child(-n+2){ border-bottom: 1px solid var(--line); }
@@ -353,6 +353,7 @@ footer{ background: var(--paper); border-top: 1px solid var(--line); padding-blo
   .airport-img{ display: none; }
   .foot-top{ grid-template-columns: 1fr 1fr; }
   .mobile-cta{ display: flex; }
+  .hero-trust{ display:none !important; }.hero{ padding-bottom: calc(94px + env(safe-area-inset-bottom) + 20px) !important; }
   body{ padding-bottom: 76px; }
 }
 @media(max-width: 560px){

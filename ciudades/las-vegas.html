@@ -285,12 +285,13 @@ footer{background:var(--paper);border-top:1px solid var(--line);padding-block:64
 .rv.in{opacity:1;transform:none;}
 @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;}}
 @media(max-width:900px){
-  .nav-tel{display:none;}.strip-row{grid-template-columns:repeat(2,1fr);}
+  .nav-tel{display:none;}.nav-cta .btn{display:none;}.strip-row{grid-template-columns:repeat(2,1fr);}
   .stat:nth-child(2){border-right:none;}.stat:nth-child(-n+2){border-bottom:1px solid var(--line);}
   .prog-grid{grid-template-columns:repeat(2,1fr);}
   .why-grid{grid-template-columns:1fr;}.testi-grid{grid-template-columns:1fr;}
   .airports-inner{grid-template-columns:1fr;}.airport-img{display:none;}
-  .foot-top{grid-template-columns:1fr 1fr;}.mobile-cta{display:flex;}body{padding-bottom:76px;}
+  .foot-top{grid-template-columns:1fr 1fr;}.mobile-cta{display:flex;}
+.hero-trust{ display:none !important; }.hero{ padding-bottom: calc(94px + env(safe-area-inset-bottom) + 20px) !important; }body{padding-bottom:76px;}
 }
 @media(max-width:560px){
   .strip-row{grid-template-columns:1fr;}.stat{border-right:none;border-bottom:1px solid var(--line);}
