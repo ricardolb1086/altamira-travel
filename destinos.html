@@ -519,7 +519,11 @@ footer{ background: var(--paper); border-top:1px solid var(--line); padding-bloc
 
 /* ====================================================== ACREDITACIONES FOOTER */
 .foot-accred{ border-top:1px solid var(--line); padding-top:28px; margin-top:40px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
-.accred-badges{ display:flex; gap:10px; flex-wrap:wrap; }
+.accred-badges{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+.asta-badge{ display:flex; flex-direction:column; align-items:flex-start; gap:4px; }
+.asta-badge img{ height:34px; width:auto; display:block; }
+.asta-badge .asta-line{ font-family:var(--mono); font-size:9.5px; letter-spacing:.04em; color:var(--ink-soft); line-height:1.4; }
+.asta-badge .asta-line b{ color:var(--terra-deep); }
 .accred-chip{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); border:1px solid var(--line); border-radius:100px; padding:6px 14px; transition:all .25s; }
 .accred-chip:hover{ border-color:var(--terra); color:var(--terra-deep); }
 .accred-sot{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
@@ -1077,9 +1081,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- ACREDITACIONES Y SOT -->
     <div class="foot-accred">
       <div class="accred-badges">
-        <span class="accred-chip">ASTA Member</span>
+        <div class="asta-badge">
+          <img src="/img/asta-logo.png" alt="ASTA - American Society of Travel Advisors">
+          <span class="asta-line">Proud Member of the American Society of Travel Advisors</span>
+          <span class="asta-line"><b>ASTA Member No. 900407217</b></span>
+        </div>
         <span class="accred-chip">IATA</span>
-        <span class="accred-chip">USTOA</span>
         <span class="accred-chip">CLIA</span>
       </div>
       <div class="accred-sot">
