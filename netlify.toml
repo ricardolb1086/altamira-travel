@@ -2,12 +2,6 @@
   publish = "."
   functions = "netlify/functions"
 
-# Desactiva el "Pretty URLs" de Netlify (que redirige .html -> sin extensión).
-# Las reglas de _redirects hacen lo contrario (sin extensión -> .html, según el
-# canonical de cada página); dejar ambos activos crearía un bucle de redirección.
-[build.processing.html]
-  pretty_urls = false
-
 [functions]
   node_bundler = "esbuild"
 
