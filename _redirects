@@ -11,6 +11,8 @@
 /diario                           /diario/                301
 /programas/index.html             /programas/             301!
 /programas                        /programas/             301
+/en/index.html                    /en/                    301!
+/en                               /en/                    301
 
 # --- Páginas de primer nivel (4) ---
 /articulos                                          /articulos.html                                         301
@@ -155,4 +157,17 @@
 
 # --- Blog (1) ---
 /blog/mejor-agencia-viajes-hispana-usa              /blog/mejor-agencia-viajes-hispana-usa.html             301
+
+# --- Guías por intención de búsqueda (6) ---
+/guias/japon-desde-los-angeles                      /guias/japon-desde-los-angeles.html                     301
+/guias/egipto-desde-miami                           /guias/egipto-desde-miami.html                          301
+/guias/europa-para-hispanos-desde-houston           /guias/europa-para-hispanos-desde-houston.html          301
+/guias/turquia-desde-nueva-york                     /guias/turquia-desde-nueva-york.html                    301
+/guias/que-incluye-un-circuito-por-europa           /guias/que-incluye-un-circuito-por-europa.html          301
+/guias/pasaporte-latinoamericano-viviendo-en-usa    /guias/pasaporte-latinoamericano-viviendo-en-usa.html   301
+
+# --- Versión en inglés (3) ---
+/en/japan-trip-from-los-angeles                     /en/japan-trip-from-los-angeles.html                    301
+/en/egypt-tour-from-miami                           /en/egypt-tour-from-miami.html                          301
+/en/turkey-tour-from-new-york                       /en/turkey-tour-from-new-york.html                      301
 

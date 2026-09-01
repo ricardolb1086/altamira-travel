@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <!-- ============================================================
        PÁGINAS PRINCIPALES
        ============================================================ -->
   <url>
     <loc>https://altamiratravel.com/</loc>
-    <lastmod>2026-06-27</lastmod>
+    <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://altamiratravel.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://altamiratravel.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://altamiratravel.com/"/>
   </url>
   <url>
     <loc>https://altamiratravel.com/nosotros.html</loc>
@@ -807,12 +811,18 @@
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://altamiratravel.com/guias/japon-desde-los-angeles.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://altamiratravel.com/en/japan-trip-from-los-angeles.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://altamiratravel.com/guias/japon-desde-los-angeles.html"/>
   </url>
   <url>
     <loc>https://altamiratravel.com/guias/egipto-desde-miami.html</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://altamiratravel.com/guias/egipto-desde-miami.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://altamiratravel.com/en/egypt-tour-from-miami.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://altamiratravel.com/guias/egipto-desde-miami.html"/>
   </url>
   <url>
     <loc>https://altamiratravel.com/guias/europa-para-hispanos-desde-houston.html</loc>
@@ -825,6 +835,9 @@
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://altamiratravel.com/guias/turquia-desde-nueva-york.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://altamiratravel.com/en/turkey-tour-from-new-york.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://altamiratravel.com/guias/turquia-desde-nueva-york.html"/>
   </url>
   <url>
     <loc>https://altamiratravel.com/guias/que-incluye-un-circuito-por-europa.html</loc>
@@ -837,6 +850,46 @@
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+
+  <!-- ============================================================
+       VERSIÓN EN INGLÉS (hreflang es/en)
+       ============================================================ -->
+  <url>
+    <loc>https://altamiratravel.com/en/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://altamiratravel.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://altamiratravel.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://altamiratravel.com/"/>
+  </url>
+  <url>
+    <loc>https://altamiratravel.com/en/japan-trip-from-los-angeles.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://altamiratravel.com/guias/japon-desde-los-angeles.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://altamiratravel.com/en/japan-trip-from-los-angeles.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://altamiratravel.com/guias/japon-desde-los-angeles.html"/>
+  </url>
+  <url>
+    <loc>https://altamiratravel.com/en/egypt-tour-from-miami.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://altamiratravel.com/guias/egipto-desde-miami.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://altamiratravel.com/en/egypt-tour-from-miami.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://altamiratravel.com/guias/egipto-desde-miami.html"/>
+  </url>
+  <url>
+    <loc>https://altamiratravel.com/en/turkey-tour-from-new-york.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://altamiratravel.com/guias/turquia-desde-nueva-york.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://altamiratravel.com/en/turkey-tour-from-new-york.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://altamiratravel.com/guias/turquia-desde-nueva-york.html"/>
   </url>
 
   <!-- ============================================================
