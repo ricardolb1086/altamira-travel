@@ -800,6 +800,46 @@
   </url>
 
   <!-- ============================================================
+       GUÍAS POR INTENCIÓN DE BÚSQUEDA (destino + ciudad de salida)
+       ============================================================ -->
+  <url>
+    <loc>https://altamiratravel.com/guias/japon-desde-los-angeles.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://altamiratravel.com/guias/egipto-desde-miami.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://altamiratravel.com/guias/europa-para-hispanos-desde-houston.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://altamiratravel.com/guias/turquia-desde-nueva-york.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://altamiratravel.com/guias/que-incluye-un-circuito-por-europa.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://altamiratravel.com/guias/pasaporte-latinoamericano-viviendo-en-usa.html</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ============================================================
        PÁGINAS LEGALES E INSTITUCIONALES (priority 0.3–0.5)
        ============================================================ -->
   <url>
