@@ -26,8 +26,15 @@ Altamira Group LLC.
 
 ## Guías informativas
 - [Qué incluye un circuito por Europa](https://altamiratravel.com/guias/que-incluye-un-circuito-por-europa): qué cubre el precio y qué se paga aparte.
+- [Circuito en grupo o viajar por tu cuenta](https://altamiratravel.com/guias/circuito-en-grupo-o-viajar-por-tu-cuenta): tabla comparativa y en qué casos conviene cada opción.
 - [Viajar con pasaporte latinoamericano viviendo en EE.UU.](https://altamiratravel.com/guias/pasaporte-latinoamericano-viviendo-en-usa): requisitos de visa por pasaporte y destino.
 - [Visa Schengen para hispanos en USA](https://altamiratravel.com/diario/visa-schengen-hispanos-usa)
+
+## Categorías por región
+- [Circuitos por Europa](https://altamiratravel.com/europa)
+- [Circuitos por Asia](https://altamiratravel.com/asia): Japón, Corea, Tailandia, India.
+- [Circuitos por Medio Oriente y África](https://altamiratravel.com/medio-oriente): Egipto, Turquía, Jordania, Marruecos, Kenia.
+- [Circuitos por América Latina](https://altamiratravel.com/americas): Perú, Argentina, Colombia.
 
 ## Circuitos destacados
 - [Japón Majestuoso](https://altamiratravel.com/programas/japon-majestuoso): 7 días, Tokio y Osaka, tren bala incluido.
