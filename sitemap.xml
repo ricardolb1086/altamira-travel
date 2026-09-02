@@ -804,6 +804,14 @@
   </url>
 
   <!-- ============================================================
+       PÁGINAS DE CATEGORÍA (hub por región)
+       ============================================================ -->
+  <url><loc>https://altamiratravel.com/europa</loc><lastmod>2026-09-02</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://altamiratravel.com/asia</loc><lastmod>2026-09-02</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://altamiratravel.com/medio-oriente</loc><lastmod>2026-09-02</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://altamiratravel.com/americas</loc><lastmod>2026-09-02</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+
+  <!-- ============================================================
        GUÍAS POR INTENCIÓN DE BÚSQUEDA (destino + ciudad de salida)
        ============================================================ -->
   <url>
