@@ -849,13 +849,25 @@
   </url>
   <url>
     <loc>https://altamiratravel.com/guias/que-incluye-un-circuito-por-europa</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://altamiratravel.com/guias/que-incluye-un-circuito-por-europa"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://altamiratravel.com/en/what-a-europe-tour-includes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://altamiratravel.com/guias/que-incluye-un-circuito-por-europa"/>
   </url>
   <url>
     <loc>https://altamiratravel.com/guias/pasaporte-latinoamericano-viviendo-en-usa</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://altamiratravel.com/guias/pasaporte-latinoamericano-viviendo-en-usa"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://altamiratravel.com/en/traveling-on-a-latin-american-passport-in-the-us"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://altamiratravel.com/guias/pasaporte-latinoamericano-viviendo-en-usa"/>
+  </url>
+  <url>
+    <loc>https://altamiratravel.com/guias/circuito-en-grupo-o-viajar-por-tu-cuenta</loc>
+    <lastmod>2026-09-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -898,6 +910,24 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://altamiratravel.com/guias/turquia-desde-nueva-york"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://altamiratravel.com/en/turkey-tour-from-new-york"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://altamiratravel.com/guias/turquia-desde-nueva-york"/>
+  </url>
+  <url>
+    <loc>https://altamiratravel.com/en/what-a-europe-tour-includes</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://altamiratravel.com/guias/que-incluye-un-circuito-por-europa"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://altamiratravel.com/en/what-a-europe-tour-includes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://altamiratravel.com/guias/que-incluye-un-circuito-por-europa"/>
+  </url>
+  <url>
+    <loc>https://altamiratravel.com/en/traveling-on-a-latin-american-passport-in-the-us</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://altamiratravel.com/guias/pasaporte-latinoamericano-viviendo-en-usa"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://altamiratravel.com/en/traveling-on-a-latin-american-passport-in-the-us"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://altamiratravel.com/guias/pasaporte-latinoamericano-viviendo-en-usa"/>
   </url>
 
   <!-- ============================================================
