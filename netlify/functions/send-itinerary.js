@@ -36,6 +36,10 @@ function renderItinerary(data) {
   const attachments = [];
   let encodedSize = 0;
   const inlineImage = (dataUrl, id, filename) => {
+    if (/^https:\/\/[a-z0-9.-]+\/[^\s]+$/i.test(dataUrl || '')) {
+      attachments.push({ path: dataUrl, filename, content_disposition: 'inline', content_id: id });
+      return id;
+    }
     const match = /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(dataUrl || '');
     if (!match || attachments.length >= 7 || encodedSize + match[2].length > 4000000) return '';
     encodedSize += match[2].length;
