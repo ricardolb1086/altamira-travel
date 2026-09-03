@@ -1,0 +1,59 @@
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+exports.handler = async (event) => {
+  if (event.httpMethod !== 'POST') return response(405, { error: 'Método no permitido.' });
+  if (!process.env.RESEND_API_KEY || !process.env.ITINERARY_ACCESS_CODE) {
+    return response(503, { error: 'El envío por correo aún no está configurado en Netlify.' });
+  }
+  if (event.headers['x-altamira-code'] !== process.env.ITINERARY_ACCESS_CODE) {
+    return response(401, { error: 'El código privado no es correcto.' });
+  }
+  try {
+    const body = JSON.parse(event.body || '{}');
+    if (!EMAIL_PATTERN.test(body.to || '')) return response(400, { error: 'Escribe un correo válido.' });
+    if (!body.trip?.trip?.title) return response(400, { error: 'El itinerario no tiene nombre.' });
+    const safeTitle = escapeHTML(body.trip.trip.title);
+    const safeName = escapeHTML(body.recipientName || body.trip.trip.client || 'viajero');
+    const safeNote = escapeHTML(body.note || 'Preparamos esta propuesta especialmente para ti.').replace(/\n/g, '<br>');
+    const rendered = renderItinerary(body.trip);
+    const cover = rendered.coverCid ? `<img src="cid:${rendered.coverCid}" alt="${safeTitle}" style="width:100%;height:auto;display:block">` : '';
+    const emailHTML = `<!doctype html><html><body style="margin:0;background:#f4efe6;color:#2e2820;font-family:Arial,sans-serif"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 14px"><table role="presentation" width="640" style="max-width:640px;background:#fffdf8;border-collapse:collapse"><tr><td style="background:#2e2820;padding:34px 42px;color:#f7f0e5"><div style="font-family:Georgia,serif;font-size:22px;letter-spacing:3px">ALTA<span style="color:#c47646">MIRA</span> · TRAVEL</div><div style="font-size:11px;letter-spacing:2px;margin-top:8px;color:#d7c8b8">ITINERARIO PERSONALIZADO</div></td></tr>${cover?`<tr><td>${cover}</td></tr>`:''}<tr><td style="padding:42px"><p style="font-family:Georgia,serif;font-size:22px;margin:0 0 12px">Hola ${safeName},</p><p style="font-size:15px;line-height:1.7;color:#5f574e;margin:0 0 28px">${safeNote}</p><div style="border-top:1px solid #ded7ca;border-bottom:1px solid #ded7ca;padding:28px 0"><div style="font-size:10px;letter-spacing:2px;color:#a85e32">TU PRÓXIMO VIAJE</div><h1 style="font-family:Georgia,serif;font-weight:normal;font-size:42px;line-height:1;margin:9px 0 14px">${safeTitle}</h1><p style="color:#6b6258">${escapeHTML(body.trip.trip.route || '')}</p></div><div class="email-proposal" style="margin-top:30px">${rendered.html}</div><p style="font-size:13px;line-height:1.7;color:#655c53;margin-top:34px">Si deseas ajustar algún detalle, responde directamente a este correo. Será un placer diseñarlo contigo.</p></td></tr><tr><td style="background:#efe6da;padding:25px 42px;font-size:12px;color:#5f574e">Altamira Travel · Miami, Florida · <a href="https://altamiratravel.com" style="color:#a85e32">altamiratravel.com</a></td></tr></table></td></tr></table></body></html>`;
+    const resendResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST', headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: process.env.ITINERARY_FROM || 'Altamira Travel <itinerarios@altamiratravel.com>', to: [body.to], reply_to: process.env.ITINERARY_REPLY_TO || 'hola@altamiratravel.com', subject: `Tu itinerario Altamira · ${body.trip.trip.title}`, html: emailHTML, attachments: rendered.attachments })
+    });
+    const result = await resendResponse.json();
+    if (!resendResponse.ok) throw new Error(result.message || 'El proveedor de correo rechazó el envío.');
+    return response(200, { ok: true, id: result.id });
+  } catch (error) {
+    console.error('send-itinerary:', error.message);
+    return response(500, { error: 'No fue posible enviar el itinerario. Revisa la configuración e inténtalo nuevamente.' });
+  }
+};
+
+function escapeHTML(value = '') { return String(value).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+function renderItinerary(data) {
+  const attachments = [];
+  let encodedSize = 0;
+  const inlineImage = (dataUrl, id, filename) => {
+    const match = /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(dataUrl || '');
+    if (!match || attachments.length >= 7 || encodedSize + match[2].length > 4000000) return '';
+    encodedSize += match[2].length;
+    attachments.push({ content: match[2], filename, content_type: match[1], content_disposition: 'inline', content_id: id });
+    return id;
+  };
+  const coverCid = inlineImage(data.trip?.cover, 'altamira-cover', 'portada.jpg');
+  const days = (data.days || []).filter(day => day.title || day.activities || day.description).map((day, index) => {
+    const activities = lines(day.activities).map(item => `<li style="margin:0 0 7px">${escapeHTML(item)}</li>`).join('');
+    const meals = [day.breakfast && 'Desayuno', day.lunch && 'Almuerzo', day.dinner && 'Cena'].filter(Boolean).join(' · ');
+    const imageCid = inlineImage(day.image, `altamira-day-${index + 1}`, `dia-${index + 1}.jpg`);
+    return `<div style="border-top:1px solid #ded7ca;padding:22px 0"><div style="font-size:10px;letter-spacing:2px;color:#a85e32">DÍA ${index + 1}${day.date ? ` · ${escapeHTML(day.date)}` : ''}</div><h3 style="font-family:Georgia,serif;font-size:25px;font-weight:normal;margin:7px 0 10px">${escapeHTML(day.title || 'Jornada por definir')}</h3>${imageCid ? `<img src="cid:${imageCid}" alt="" style="width:100%;height:auto;display:block;border-radius:5px;margin:14px 0">` : ''}${day.description ? `<p style="font-size:14px;line-height:1.65;color:#5f574e">${escapeHTML(day.description)}</p>` : ''}${activities ? `<ul style="padding-left:20px;font-size:13px;line-height:1.5;color:#4d463f">${activities}</ul>` : ''}${meals ? `<p style="font-size:10px;letter-spacing:1px;color:#a85e32">${escapeHTML(meals.toUpperCase())}</p>` : ''}</div>`;
+  }).join('');
+  const includes = lines(data.details?.includes).map(item => `<li style="margin-bottom:6px">${escapeHTML(item)}</li>`).join('');
+  const excludes = lines(data.details?.excludes).map(item => `<li style="margin-bottom:6px">${escapeHTML(item)}</li>`).join('');
+  const price = Number(data.pricing?.price || 0);
+  const html = `${data.trip?.summary ? `<p style="font-family:Georgia,serif;font-size:19px;line-height:1.65;color:#5f574e">${escapeHTML(data.trip.summary)}</p>` : ''}<h2 style="font-family:Georgia,serif;font-size:30px;font-weight:normal;margin:34px 0 5px">El viaje, día a día</h2>${days}${price ? `<div style="background:#2e2820;color:#fff8ed;padding:24px;margin:28px 0"><span style="font-size:10px;letter-spacing:2px">INVERSIÓN POR PERSONA</span><div style="font-family:Georgia,serif;font-size:34px;color:#df9a70;margin-top:6px">${escapeHTML(data.pricing.currency)} ${price.toLocaleString('en-US')}</div></div>` : ''}${includes ? `<h3 style="font-family:Georgia,serif;font-size:23px;font-weight:normal">El viaje incluye</h3><ul style="padding-left:20px;font-size:13px;line-height:1.5">${includes}</ul>` : ''}${excludes ? `<h3 style="font-family:Georgia,serif;font-size:23px;font-weight:normal">No incluye</h3><ul style="padding-left:20px;font-size:13px;line-height:1.5">${excludes}</ul>` : ''}`;
+  return { html, attachments, coverCid };
+}
+function lines(value = '') { return String(value || '').split('\n').map(item => item.trim()).filter(Boolean); }
+function response(statusCode, body) { return { statusCode, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }, body: JSON.stringify(body) }; }

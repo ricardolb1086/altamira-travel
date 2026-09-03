@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Altamira Studio · Itinerarios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/itinerarios/studio.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/admin/" aria-label="Altamira Travel">
+      <img src="/images/simbolo-terra.png" alt="">
+      <span>ALTA<b>MIRA</b></span>
+      <small>STUDIO</small>
+    </a>
+    <div class="save-state" id="saveState"><span></span> Guardado automáticamente</div>
+    <div class="top-actions">
+      <button class="btn btn-ghost" id="importBtn">Importar</button>
+      <button class="btn btn-ghost" id="exportBtn">Guardar copia</button>
+      <button class="btn btn-ghost" id="newBtn">Nuevo</button>
+      <button class="btn btn-ghost" id="printBtn">Descargar PDF</button>
+      <button class="btn btn-solid" id="emailBtn">Enviar al cliente <span>→</span></button>
+    </div>
+  </header>
+
+  <div class="studio-shell">
+    <aside class="rail" aria-label="Secciones del itinerario">
+      <div class="rail-intro">
+        <span class="overline">Propuesta</span>
+        <h1>Crea un viaje <em>inolvidable.</em></h1>
+      </div>
+      <nav id="sectionNav">
+        <button class="rail-link active" data-target="basics"><span>01</span> Viaje</button>
+        <button class="rail-link" data-target="days"><span>02</span> Día a día</button>
+        <button class="rail-link" data-target="logistics"><span>03</span> Logística</button>
+        <button class="rail-link" data-target="pricing"><span>04</span> Inversión</button>
+        <button class="rail-link" data-target="details"><span>05</span> Detalles</button>
+      </nav>
+      <div class="rail-tip">
+        <strong>Consejo editorial</strong>
+        <p>Una gran foto y tres actividades claras por día suelen comunicar mejor que un párrafo largo.</p>
+      </div>
+    </aside>
+
+    <main class="editor" id="editor">
+      <section class="editor-section active" data-section="basics">
+        <div class="section-heading">
+          <div><span class="overline">01 · El viaje</span><h2>La historia empieza <em>aquí.</em></h2></div>
+          <p>Los datos que definen la portada y el tono de la propuesta.</p>
+        </div>
+        <div class="form-card">
+          <div class="field span-2"><label for="tripTitle">Nombre del viaje</label><input id="tripTitle" data-bind="trip.title" placeholder="Japón entre tradición y futuro"></div>
+          <div class="field"><label for="clientName">Preparado para</label><input id="clientName" data-bind="trip.client" placeholder="Familia Hernández"></div>
+          <div class="field"><label for="travelers">Viajeros</label><input id="travelers" data-bind="trip.travelers" type="number" min="1" placeholder="2"></div>
+          <div class="field"><label for="startDate">Fecha de inicio</label><input id="startDate" data-bind="trip.start" type="date"></div>
+          <div class="field"><label for="endDate">Fecha de regreso</label><input id="endDate" data-bind="trip.end" type="date"></div>
+          <div class="field span-2"><label for="route">Ruta</label><input id="route" data-bind="trip.route" placeholder="Tokio · Hakone · Kioto · Osaka"></div>
+          <div class="field span-2"><label for="summary">Introducción</label><textarea id="summary" data-bind="trip.summary" rows="4" placeholder="Una introducción breve y evocadora que presente la experiencia."></textarea></div>
+          <div class="field span-2">
+            <label>Fotografía de portada</label>
+            <div class="image-picker" id="coverPicker">
+              <input id="coverInput" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+              <div class="image-thumb" id="coverThumb"><span>✦</span></div>
+              <div><strong>Elige una imagen horizontal</strong><p>JPG, PNG o WebP. La optimizaremos automáticamente.</p><button class="text-btn" type="button" id="chooseCover">Seleccionar imagen</button><button class="text-btn danger hidden" type="button" id="removeCover">Quitar</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="editor-section" data-section="days">
+        <div class="section-heading">
+          <div><span class="overline">02 · Día a día</span><h2>El ritmo del <em>viaje.</em></h2></div>
+          <p>Cada jornada puede llevar su propia imagen, narrativa, actividades y comidas.</p>
+        </div>
+        <div id="daysEditor" class="stack"></div>
+        <button class="add-card" id="addDay" type="button"><span>＋</span><strong>Agregar un día</strong><small>Continúa construyendo la experiencia</small></button>
+      </section>
+
+      <section class="editor-section" data-section="logistics">
+        <div class="section-heading">
+          <div><span class="overline">03 · Logística</span><h2>Todo bajo <em>control.</em></h2></div>
+          <p>Vuelos y hospedajes presentados de forma clara, sin perder elegancia.</p>
+        </div>
+        <div class="subhead"><h3>Vuelos</h3><button class="mini-btn" id="addFlight">＋ Agregar vuelo</button></div>
+        <div id="flightsEditor" class="stack compact"></div>
+        <div class="subhead"><h3>Hospedaje</h3><button class="mini-btn" id="addHotel">＋ Agregar hotel</button></div>
+        <div id="hotelsEditor" class="stack compact"></div>
+      </section>
+
+      <section class="editor-section" data-section="pricing">
+        <div class="section-heading">
+          <div><span class="overline">04 · Inversión</span><h2>Una propuesta <em>clara.</em></h2></div>
+          <p>Presenta un precio final elegante y condiciones fáciles de entender.</p>
+        </div>
+        <div class="form-card">
+          <div class="field"><label for="currency">Moneda</label><select id="currency" data-bind="pricing.currency"><option value="USD">USD · Dólar</option><option value="EUR">EUR · Euro</option><option value="MXN">MXN · Peso mexicano</option></select></div>
+          <div class="field"><label for="price">Precio por persona</label><input id="price" data-bind="pricing.price" type="number" min="0" step="1" placeholder="4590"></div>
+          <div class="field"><label for="deposit">Depósito para reservar</label><input id="deposit" data-bind="pricing.deposit" placeholder="USD 500 por persona"></div>
+          <div class="field"><label for="validUntil">Propuesta válida hasta</label><input id="validUntil" data-bind="pricing.validUntil" type="date"></div>
+          <div class="field span-2"><label for="paymentTerms">Condiciones de pago</label><textarea id="paymentTerms" data-bind="pricing.terms" rows="4" placeholder="Depósito al confirmar. Saldo final 60 días antes de la salida."></textarea></div>
+        </div>
+      </section>
+
+      <section class="editor-section" data-section="details">
+        <div class="section-heading">
+          <div><span class="overline">05 · Detalles</span><h2>La tranquilidad está en <em>los detalles.</em></h2></div>
+          <p>Incluidos, exclusiones, requisitos y datos de contacto.</p>
+        </div>
+        <div class="form-card">
+          <div class="field"><label for="includes">El viaje incluye · una línea por elemento</label><textarea id="includes" data-bind="details.includes" rows="8" placeholder="Alojamiento en hoteles seleccionados&#10;Desayunos diarios&#10;Guía de habla hispana"></textarea></div>
+          <div class="field"><label for="excludes">No incluye · una línea por elemento</label><textarea id="excludes" data-bind="details.excludes" rows="8" placeholder="Vuelos internacionales&#10;Propinas&#10;Gastos personales"></textarea></div>
+          <div class="field span-2"><label for="requirements">Visas, impuestos y notas importantes</label><textarea id="requirements" data-bind="details.requirements" rows="5" placeholder="Información práctica que el viajero debe conocer antes de reservar."></textarea></div>
+          <div class="field"><label for="advisor">Asesor</label><input id="advisor" data-bind="contact.name" placeholder="Tu asesor Altamira"></div>
+          <div class="field"><label for="advisorEmail">Email</label><input id="advisorEmail" data-bind="contact.email" type="email" placeholder="hola@altamiratravel.com"></div>
+          <div class="field"><label for="advisorPhone">Teléfono / WhatsApp</label><input id="advisorPhone" data-bind="contact.phone" placeholder="+1 (888) 855-1889"></div>
+          <div class="field"><label for="closing">Mensaje de cierre</label><input id="closing" data-bind="contact.closing" placeholder="Estamos listos para hacer realidad este viaje."></div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="preview-pane">
+      <div class="preview-toolbar"><span>Vista del cliente</span><button id="fitPreview" type="button">Ajustar</button></div>
+      <article class="proposal" id="proposal"></article>
+    </aside>
+  </div>
+
+  <dialog id="importDialog" class="modal">
+    <form method="dialog" class="modal-card">
+      <button class="modal-close" value="cancel" aria-label="Cerrar">×</button>
+      <span class="overline">Importar propuesta</span>
+      <h2>Continúa donde <em>lo dejaste.</em></h2>
+      <p>Selecciona una copia JSON exportada previamente desde Altamira Studio.</p>
+      <label class="drop-file"><input id="importFile" type="file" accept="application/json,.json"><span>Seleccionar archivo JSON</span></label>
+    </form>
+  </dialog>
+
+  <dialog id="emailDialog" class="modal">
+    <form class="modal-card" id="emailForm">
+      <button class="modal-close" type="button" data-close="emailDialog" aria-label="Cerrar">×</button>
+      <span class="overline">Entrega al cliente</span>
+      <h2>Envía la propuesta <em>con elegancia.</em></h2>
+      <p>El cliente recibirá un correo diseñado por Altamira con el itinerario completo.</p>
+      <div class="field"><label for="recipientName">Nombre del destinatario</label><input id="recipientName" required placeholder="María Hernández"></div>
+      <div class="field"><label for="recipientEmail">Correo del destinatario</label><input id="recipientEmail" required type="email" placeholder="maria@email.com"></div>
+      <div class="field"><label for="emailNote">Mensaje personal</label><textarea id="emailNote" rows="4" placeholder="María, preparamos esta propuesta pensando en..."></textarea></div>
+      <div class="field"><label for="accessCode">Código privado de Altamira</label><input id="accessCode" required type="password" autocomplete="current-password"></div>
+      <div class="send-status" id="sendStatus" role="status"></div>
+      <button class="btn btn-solid full" type="submit">Enviar itinerario <span>→</span></button>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/admin/itinerarios/studio.js"></script>
+</body>
+</html>
