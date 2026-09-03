@@ -26,5 +26,6 @@ aproximado de 4 MB codificados.
 
 ## PDF
 
-**Descargar PDF** abre el cuadro de impresión del navegador con una hoja limpia,
-sin el editor. Elegir **Guardar como PDF** como destino.
+**Descargar PDF** genera un documento Letter paginado en el servidor y lo descarga
+directamente. No utiliza el cuadro de impresión ni incluye encabezados del
+navegador.
