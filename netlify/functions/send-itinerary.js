@@ -3,10 +3,11 @@ const { generateItineraryPDF } = require('./generate-itinerary-pdf');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return response(405, { error: 'Método no permitido.' });
-  if (!process.env.RESEND_API_KEY || !process.env.ITINERARY_ACCESS_CODE) {
+  const accessCode = process.env.ITINERARY_ACCESS_CODE || process.env.ADMIN_PASSCODE;
+  if (!process.env.RESEND_API_KEY || !accessCode) {
     return response(503, { error: 'El envío por correo aún no está configurado en Netlify.' });
   }
-  if (event.headers['x-altamira-code'] !== process.env.ITINERARY_ACCESS_CODE) {
+  if (event.headers['x-altamira-code'] !== accessCode) {
     return response(401, { error: 'El código privado no es correcto.' });
   }
   try {
