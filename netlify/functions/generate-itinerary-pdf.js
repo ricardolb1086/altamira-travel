@@ -20,8 +20,7 @@ exports.handler = async (event) => {
     const data = JSON.parse(event.body || '{}');
     if (!data.trip?.title) return json(400, { error: 'Agrega el nombre del viaje antes de generar el PDF.' });
 
-    const images = await loadImages(data);
-    const buffer = await buildPDF(data, images);
+    const buffer = await generateItineraryPDF(data);
     const filename = slug(data.trip.title || 'itinerario-altamira');
     return {
       statusCode: 200,
@@ -38,6 +37,13 @@ exports.handler = async (event) => {
     return json(500, { error: 'No fue posible generar el PDF. Intentalo nuevamente.' });
   }
 };
+
+async function generateItineraryPDF(data) {
+  const images = await loadImages(data);
+  return buildPDF(data, images);
+}
+
+exports.generateItineraryPDF = generateItineraryPDF;
 
 async function buildPDF(data, images) {
   return new Promise((resolve, reject) => {
