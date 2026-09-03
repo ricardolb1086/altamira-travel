@@ -1,4 +1,6 @@
 const PDFDocument = require('pdfkit');
+const fs = require('fs');
+const path = require('path');
 
 const COLORS = {
   cream: '#F7F2E9', paper: '#FFFDF8', ink: '#2E2820', soft: '#6B6258',
@@ -7,6 +9,10 @@ const COLORS = {
 const W = 612;
 const H = 792;
 const M = 52;
+const BRAND_SYMBOLS = {
+  dark: loadBrandSymbol('simbolo-terra.png'),
+  light: loadBrandSymbol('simbolo-blanco.png')
+};
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return json(405, { error: 'Metodo no permitido.' });
@@ -60,9 +66,7 @@ function drawCover(doc, data, cover) {
     catch { doc.rect(0, 0, W, H).fill(COLORS.ink); }
   } else doc.rect(0, 0, W, H).fill(COLORS.ink);
   doc.save().fillColor(COLORS.ink).opacity(cover ? 0.72 : 1).rect(0, 0, W, H).fill().restore();
-  doc.fillColor(COLORS.white).font('Times-Bold').fontSize(18).text('ALTA', M, 48, { continued: true });
-  doc.fillColor(COLORS.terra).text('MIRA', { continued: true });
-  doc.fillColor(COLORS.white).font('Helvetica').fontSize(9).text('  TRAVEL');
+  drawBrandLockup(doc, true, M, 37, 1.15);
   doc.fillColor(COLORS.terra).font('Helvetica-Bold').fontSize(8).text('ITINERARIO PERSONALIZADO', M, 265, { characterSpacing: 1.8 });
   const titleSize = fitTitle(data.trip.title);
   doc.fillColor(COLORS.white).font('Times-Roman').fontSize(titleSize).text(data.trip.title, M, 292, { width: 485, lineGap: -3 });
@@ -218,10 +222,8 @@ function drawClosing(doc, data) {
 function contentPage(doc, kicker, title) {
   doc.addPage({ size: 'LETTER', margin: 0 });
   doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
-  doc.fillColor(COLORS.ink).font('Times-Bold').fontSize(13).text('ALTA', M, 35, { continued: true });
-  doc.fillColor(COLORS.terra).text('MIRA', { continued: true });
-  doc.fillColor(COLORS.soft).font('Helvetica').fontSize(7).text('  TRAVEL');
-  doc.strokeColor(COLORS.line).lineWidth(.7).moveTo(M, 61).lineTo(W - M, 61).stroke();
+  drawBrandLockup(doc, false, M, 23, .82);
+  doc.strokeColor(COLORS.line).lineWidth(.7).moveTo(M, 68).lineTo(W - M, 68).stroke();
   doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5).text(kicker, M, 84, { characterSpacing: 1.4 });
   doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(31);
   const titleHeight = doc.heightOfString(title, { width: W - M * 2, lineGap: -2 });
@@ -242,6 +244,30 @@ function addPageFurniture(doc) {
 function drawImageFallback(doc, y, index, height = 205) {
   doc.fillColor(COLORS.cream).rect(M, y, W - M * 2, height).fill();
   doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(70).text(String(index + 1).padStart(2, '0'), M, y + Math.max(38, (height - 70) / 2), { width: W - M * 2, align: 'center' });
+}
+function drawBrandLockup(doc, light, x, y, scale = 1) {
+  const symbol = light ? BRAND_SYMBOLS.light : BRAND_SYMBOLS.dark;
+  const symbolWidth = 43 * scale;
+  const symbolHeight = 34 * scale;
+  if (symbol) doc.image(symbol, x, y, { fit: [symbolWidth, symbolHeight] });
+  else {
+    doc.strokeColor(light ? COLORS.white : COLORS.terra).lineWidth(1.2 * scale)
+      .moveTo(x + 3 * scale, y + symbolHeight).lineTo(x + 19 * scale, y).lineTo(x + 25 * scale, y + symbolHeight).stroke();
+  }
+  const textX = x + 52 * scale;
+  const textY = y + 6 * scale;
+  const fontSize = 20 * scale;
+  doc.fillColor(light ? COLORS.white : COLORS.ink).font('Times-Roman').fontSize(fontSize)
+    .text('ALTA', textX, textY, { continued: true, characterSpacing: 2.2 * scale });
+  doc.fillColor(COLORS.terra).text('MIRA', { characterSpacing: 2.2 * scale });
+}
+function loadBrandSymbol(filename) {
+  const candidates = [
+    path.join(process.cwd(), 'images', filename),
+    path.resolve(__dirname, '../../images', filename)
+  ];
+  const asset = candidates.find(candidate => fs.existsSync(candidate));
+  return asset ? fs.readFileSync(asset) : null;
 }
 function sectionLabel(doc, text, y) { doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5).text(text, M, y, { characterSpacing: 1.4 }); }
 function drawListColumn(doc, title, items, x, y, width, positive) {

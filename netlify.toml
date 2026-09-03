@@ -5,6 +5,7 @@
 [functions]
   node_bundler = "esbuild"
   external_node_modules = ["pdfkit"]
+  included_files = ["images/simbolo-terra.png", "images/simbolo-blanco.png"]
 
 [[headers]]
   for = "/videos/*"
