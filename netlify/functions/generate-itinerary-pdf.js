@@ -232,12 +232,14 @@ function drawClosing(doc, data) {
   drawListColumn(doc, 'EL VIAJE INCLUYE', includes, M, y, 235, true);
   drawListColumn(doc, 'NO INCLUYE', excludes, 325, y, 235, false);
   y += Math.max(includes.length, excludes.length) * 24 + 45;
-  if (data.details?.requirements && y < 610) {
-    sectionLabel(doc, 'INFORMACION IMPORTANTE', y); y += 20;
+  if (data.details?.requirements) {
+    if (y >= 610) y = Math.max(152, contentPage(doc, 'INFORMACION IMPORTANTE', 'Antes de viajar'));
+    else { sectionLabel(doc, 'INFORMACION IMPORTANTE', y); y += 20; }
     doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.8).text(data.details.requirements, M, y, { width: W - M * 2, lineGap: 3 });
     y = doc.y + 18;
   }
-  if (data.pricing?.terms && y < 660) {
+  if (data.pricing?.terms) {
+    if (y >= 660) y = Math.max(152, contentPage(doc, 'CONDICIONES', 'Reserva y pagos'));
     sectionLabel(doc, 'CONDICIONES DE PAGO', y); y += 20;
     doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.8).text(data.pricing.terms, M, y, { width: W - M * 2, lineGap: 3 });
   }
