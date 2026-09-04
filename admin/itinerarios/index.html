@@ -98,9 +98,11 @@
         </div>
         <div class="form-card">
           <div class="field"><label for="currency">Moneda</label><select id="currency" data-bind="pricing.currency"><option value="USD">USD · Dólar</option><option value="EUR">EUR · Euro</option><option value="MXN">MXN · Peso mexicano</option></select></div>
-          <div class="field"><label for="price">Precio por persona</label><input id="price" data-bind="pricing.price" type="number" min="0" step="1" placeholder="4590"></div>
+          <div class="field"><label for="price">Precio del programa por persona</label><input id="price" data-bind="pricing.price" type="number" min="0" step="1" placeholder="4590"></div>
+          <div class="field"><label for="airfare">Precio de vuelos por persona</label><input id="airfare" data-bind="pricing.airfare" type="number" min="0" step="1" placeholder="1268"></div>
           <div class="field"><label for="deposit">Depósito para reservar</label><input id="deposit" data-bind="pricing.deposit" placeholder="USD 500 por persona"></div>
           <div class="field"><label for="validUntil">Propuesta válida hasta</label><input id="validUntil" data-bind="pricing.validUntil" type="date"></div>
+          <div class="field span-2"><label for="fareNotice">Nota sobre variación de precios</label><textarea id="fareNotice" data-bind="pricing.fareNotice" rows="2" placeholder="Los precios están sujetos a variación sin previo aviso hasta antes de la emisión de los boletos."></textarea></div>
           <div class="field span-2"><label for="paymentTerms">Condiciones de pago</label><textarea id="paymentTerms" data-bind="pricing.terms" rows="4" placeholder="Depósito al confirmar. Saldo final 60 días antes de la salida."></textarea></div>
         </div>
       </section>

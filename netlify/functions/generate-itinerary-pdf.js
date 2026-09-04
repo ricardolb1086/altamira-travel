@@ -178,10 +178,12 @@ function drawLogistics(doc, data) {
   if (data.flights?.length) {
     sectionLabel(doc, 'VUELOS', y); y += 22;
     data.flights.forEach((flight, index) => {
-      doc.fillColor(index % 2 ? COLORS.paper : COLORS.cream).roundedRect(M, y, W - M * 2, 70, 5).fill();
+      const cardHeight = flight.notes ? 92 : 70;
+      doc.fillColor(index % 2 ? COLORS.paper : COLORS.cream).roundedRect(M, y, W - M * 2, cardHeight, 5).fill();
       doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(16).text(`${flight.from || 'Origen'} - ${flight.to || 'Destino'}`, M + 15, y + 13);
       doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.5).text([flight.airline, flight.number, shortDate(flight.date), flight.depart && flight.arrive ? `${flight.depart} - ${flight.arrive}` : ''].filter(Boolean).join('  /  '), M + 15, y + 39, { width: 470 });
-      y += 80;
+      if (flight.notes) doc.fillColor(COLORS.terraDeep).font('Helvetica').fontSize(7.7).text(flight.notes, M + 15, y + 58, { width: 470, height: 25, lineGap: 2, ellipsis: true });
+      y += cardHeight + 10;
     });
     y += 12;
   }
@@ -201,11 +203,28 @@ function drawClosing(doc, data) {
   contentPage(doc, 'DETALLES DE LA PROPUESTA', 'Servicios e inversion');
   let y = 137;
   const price = Number(data.pricing?.price || 0);
-  if (price) {
+  const airfare = Number(data.pricing?.airfare || 0);
+  const total = price + airfare;
+  if (price || airfare) {
     doc.fillColor(COLORS.ink).roundedRect(M, y, W - M * 2, 92, 6).fill();
-    doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(7).text('INVERSION POR PERSONA', M + 20, y + 22, { characterSpacing: 1.4 });
-    doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(34).text(`${data.pricing.currency || 'USD'} ${price.toLocaleString('en-US')}`, M + 20, y + 42);
-    if (data.pricing.deposit) doc.fillColor(COLORS.white).font('Helvetica').fontSize(9).text(`Reserva con ${data.pricing.deposit}`, 320, y + 49, { width: 220, align: 'right' });
+    const currency = data.pricing.currency || 'USD';
+    if (airfare) {
+      const priceColumns = [
+        ['PROGRAMA POR PERSONA', price],
+        ['VUELOS POR PERSONA', airfare],
+        ['TOTAL ESTIMADO', total]
+      ];
+      priceColumns.forEach(([label, value], index) => {
+        const x = M + 20 + index * 165;
+        doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(6.5).text(label, x, y + 16, { width: 150, characterSpacing: 1 });
+        doc.fillColor(index === 2 ? COLORS.white : COLORS.terra).font('Times-Roman').fontSize(index === 2 ? 25 : 23).text(`${currency} ${value.toLocaleString('en-US')}`, x, y + 34, { width: 150 });
+      });
+      if (data.pricing?.fareNotice) doc.fillColor('#D8CBBB').font('Helvetica').fontSize(7.3).text(data.pricing.fareNotice, M + 20, y + 69, { width: W - M * 2 - 40, height: 16, align: 'center', ellipsis: true });
+    } else {
+      doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(7).text('INVERSION POR PERSONA', M + 20, y + 22, { characterSpacing: 1.4 });
+      doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(34).text(`${currency} ${price.toLocaleString('en-US')}`, M + 20, y + 42);
+      if (data.pricing.deposit) doc.fillColor(COLORS.white).font('Helvetica').fontSize(9).text(`Reserva con ${data.pricing.deposit}`, 320, y + 49, { width: 220, align: 'right' });
+    }
     y += 120;
   }
   const includes = splitLines(data.details?.includes);
