@@ -18,7 +18,7 @@ exports.handler = async (event) => {
     const safeName = escapeHTML(body.recipientName || body.trip.trip.client || 'viajero');
     const safeNote = escapeHTML(body.note || 'Preparamos esta propuesta especialmente para ti.').replace(/\n/g, '<br>');
     const rendered = renderItinerary(body.trip);
-    const pdf = await generateItineraryPDF(body.trip);
+    const pdf = body.pdfBase64 ? decodePDF(body.pdfBase64) : await generateItineraryPDF(body.trip);
     rendered.attachments.push({
       content: pdf.toString('base64'),
       filename: `${slug(body.trip.trip.title)}.pdf`,
@@ -40,6 +40,12 @@ exports.handler = async (event) => {
 };
 
 function escapeHTML(value = '') { return String(value).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+function decodePDF(value = '') {
+  if (!/^[A-Za-z0-9+/=]+$/.test(value) || value.length > 5600000) throw new Error('El PDF adjunto no es válido o supera el tamaño permitido.');
+  const pdf = Buffer.from(value, 'base64');
+  if (pdf.length < 5 || pdf.length > 4200000 || pdf.subarray(0, 5).toString() !== '%PDF-') throw new Error('El archivo adjunto no es un PDF válido.');
+  return pdf;
+}
 function renderItinerary(data) {
   const attachments = [];
   let encodedSize = 0;
