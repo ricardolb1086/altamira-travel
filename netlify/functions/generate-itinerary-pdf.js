@@ -55,6 +55,14 @@ async function buildPDF(data, images) {
     doc.on('end', () => resolve(Buffer.concat(chunks)));
     doc.on('error', reject);
 
+    // pdfkit only caches images passed as a string (file path / data URI); Buffers
+    // bypass its _imageRegistry entirely, so without this, drawBrandLockup's shared
+    // logo buffer was being re-parsed and re-embedded on every single page.
+    doc.brandSymbols = {
+      dark: BRAND_SYMBOLS.dark ? doc.openImage(BRAND_SYMBOLS.dark) : null,
+      light: BRAND_SYMBOLS.light ? doc.openImage(BRAND_SYMBOLS.light) : null
+    };
+
     drawCover(doc, data, images.cover);
     drawOverview(doc, data);
     (data.days || []).forEach((day, index) => drawDay(doc, day, index, images.days[index]));
@@ -273,7 +281,7 @@ function drawImageFallback(doc, y, index, height = 205) {
   doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(70).text(String(index + 1).padStart(2, '0'), M, y + Math.max(38, (height - 70) / 2), { width: W - M * 2, align: 'center' });
 }
 function drawBrandLockup(doc, light, x, y, scale = 1) {
-  const symbol = light ? BRAND_SYMBOLS.light : BRAND_SYMBOLS.dark;
+  const symbol = light ? doc.brandSymbols.light : doc.brandSymbols.dark;
   const symbolWidth = 43 * scale;
   const symbolHeight = 34 * scale;
   if (symbol) doc.image(symbol, x, y, { fit: [symbolWidth, symbolHeight] });
