@@ -166,10 +166,12 @@
     $('#chooseCover').onclick=()=>$('#coverInput').click();
     $('#coverInput').onchange=async e=>{if(!e.target.files[0])return;state.trip.cover=await resizeImage(e.target.files[0],1800,.82);renderCover();save();renderPreview();};
     $('#removeCover').onclick=()=>{state.trip.cover='';renderCover();save();renderPreview();};
-    $('#printBtn').onclick=async()=>{
+    async function downloadPDF(){
       const button=$('#printBtn'),original=button.textContent;button.disabled=true;button.textContent='Generando PDF…';
       try{const response=await fetch('/.netlify/functions/generate-itinerary-pdf',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});if(!response.ok){const result=await response.json();throw new Error(result.error||'No fue posible generar el PDF');}const blob=await response.blob(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`${(state.trip.title||'itinerario-altamira').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}.pdf`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('PDF profesional descargado');}catch(error){toast(error.message);}finally{button.disabled=false;button.textContent=original;}
-    };
+    }
+    $('#printBtn').onclick=()=>{if(!state.trip.title){toast('Agrega primero el nombre del viaje');return;}$('#pdfLangDialog').showModal();};
+    $$('[data-pdf-lang]').forEach(btn=>btn.onclick=()=>{state.trip.lang=btn.dataset.pdfLang;save();renderPreview();$('#pdfLangDialog').close();downloadPDF();});
     $('#fitPreview').onclick=()=>{const focused=document.body.classList.toggle('preview-focus');$('#fitPreview').textContent=focused?'Volver al editor':'Ajustar';window.scrollTo({top:0,behavior:'smooth'});};
     $('#exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`altamira-${(state.trip.title||'itinerario').toLowerCase().replace(/[^a-z0-9]+/g,'-')}.json`;a.click();URL.revokeObjectURL(a.href);toast('Copia del itinerario guardada');};
     $('#importBtn').onclick=()=>$('#importDialog').showModal();

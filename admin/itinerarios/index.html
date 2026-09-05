@@ -131,6 +131,19 @@
     </aside>
   </div>
 
+  <dialog id="pdfLangDialog" class="modal">
+    <form method="dialog" class="modal-card">
+      <button class="modal-close" value="cancel" aria-label="Cerrar">×</button>
+      <span class="overline">Descargar PDF</span>
+      <h2>¿En qué idioma <em>lo generamos?</em></h2>
+      <p>El PDF se generará con las etiquetas y el formato de fecha en el idioma que elijas.</p>
+      <div style="display:flex;gap:10px">
+        <button type="button" class="btn btn-ghost full" data-pdf-lang="es">Español</button>
+        <button type="button" class="btn btn-solid full" data-pdf-lang="en">English</button>
+      </div>
+    </form>
+  </dialog>
+
   <dialog id="importDialog" class="modal">
     <form method="dialog" class="modal-card">
       <button class="modal-close" value="cancel" aria-label="Cerrar">×</button>
