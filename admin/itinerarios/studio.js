@@ -6,8 +6,38 @@
   const emptyFlight = () => ({ id: uid(), date: '', airline: '', number: '', from: '', to: '', depart: '', arrive: '', notes: '' });
   const emptyHotel = () => ({ id: uid(), name: '', city: '', checkin: '', checkout: '', room: '', meals: '' });
   const emptyDay = () => ({ id: uid(), date: '', title: '', description: '', activities: '', image: '', breakfast: false, lunch: false, dinner: false, notes: '' });
+  const PREVIEW_STRINGS = {
+    es: {
+      locale: 'es-US', kicker: 'Itinerario personalizado', defaultTitle: 'Tu próximo gran viaje',
+      defaultRoute: 'Una experiencia diseñada a tu medida', preparedFor: 'Preparado para', defaultClient: 'nuestro viajero',
+      daySingular: 'día', dayPlural: 'días', tbd: 'Por definir', duration: 'Duración', travelers: 'Viajeros', departure: 'Salida',
+      experience: 'La experiencia', tripPlanned: 'Un viaje pensado para ti', dayByDay: 'Día a día', howWeLive: 'Así viviremos el viaje',
+      dayDetailPlaceholder: 'El itinerario detallado aparecerá aquí.', day: 'DÍA', dayTbd: 'Día por definir',
+      breakfast: 'Desayuno', lunch: 'Almuerzo', dinner: 'Cena', note: 'Nota:',
+      connections: 'Conexiones', flights: 'Vuelos', origin: 'Origen', destination: 'Destino',
+      rest: 'Descanso', selectedHotels: 'Hoteles seleccionados', hotelTbd: 'Hotel por confirmar',
+      programPerPerson: 'Programa por persona', flightsPerPerson: 'Vuelos por persona', totalEstimatedPerPerson: 'Total estimado por persona',
+      allYouNeedToKnow: 'Todo lo que necesitas saber', tripServices: 'Servicios del viaje', includes: 'Incluye', excludes: 'No incluye',
+      conditions: 'Condiciones', bookingPayments: 'Reserva y pagos', validUntil: 'Propuesta válida hasta:',
+      tagline: 'Journeys made unforgettable', terms: 'Términos y condiciones'
+    },
+    en: {
+      locale: 'en-US', kicker: 'Personalized itinerary', defaultTitle: 'Your next great trip',
+      defaultRoute: 'An experience designed for you', preparedFor: 'Prepared for', defaultClient: 'our traveler',
+      daySingular: 'day', dayPlural: 'days', tbd: 'To be defined', duration: 'Duration', travelers: 'Travelers', departure: 'Departure',
+      experience: 'The experience', tripPlanned: 'A trip designed for you', dayByDay: 'Day by day', howWeLive: "Here's how we'll live the trip",
+      dayDetailPlaceholder: 'The detailed itinerary will appear here.', day: 'DAY', dayTbd: 'Day to be defined',
+      breakfast: 'Breakfast', lunch: 'Lunch', dinner: 'Dinner', note: 'Note:',
+      connections: 'Connections', flights: 'Flights', origin: 'Origin', destination: 'Destination',
+      rest: 'Rest', selectedHotels: 'Selected hotels', hotelTbd: 'Hotel to be confirmed',
+      programPerPerson: 'Program per person', flightsPerPerson: 'Flights per person', totalEstimatedPerPerson: 'Total estimated per person',
+      allYouNeedToKnow: 'Everything you need to know', tripServices: 'Trip services', includes: 'Includes', excludes: 'Not included',
+      conditions: 'Conditions', bookingPayments: 'Booking and payments', validUntil: 'Proposal valid until:',
+      tagline: 'Journeys made unforgettable', terms: 'Terms and conditions'
+    }
+  };
   const defaults = () => ({
-    trip: { title: '', client: '', travelers: '2', start: '', end: '', route: '', summary: '', cover: '' },
+    trip: { title: '', client: '', travelers: '2', start: '', end: '', route: '', summary: '', cover: '', lang: 'es' },
     days: [emptyDay()], flights: [], hotels: [],
     pricing: { currency: 'USD', price: '', airfare: '', fareNotice: '', deposit: '', validUntil: '', terms: '' },
     details: { includes: '', excludes: '', requirements: '' },
@@ -35,14 +65,16 @@
   }
   function escapeHTML(value = '') { return String(value).replace(/[&<>'"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[c])); }
   function lines(value = '') { return value.split('\n').map(v => v.trim()).filter(Boolean); }
+  function previewLang() { return state.trip.lang === 'en' ? 'en' : 'es'; }
   function fmtDate(value) {
     if (!value) return '';
-    return new Intl.DateTimeFormat('es-US', { day:'numeric', month:'long', year:'numeric', timeZone:'UTC' }).format(new Date(`${value}T00:00:00Z`));
+    return new Intl.DateTimeFormat(PREVIEW_STRINGS[previewLang()].locale, { day:'numeric', month:'long', year:'numeric', timeZone:'UTC' }).format(new Date(`${value}T00:00:00Z`));
   }
   function tripDays() {
-    if (!state.trip.start || !state.trip.end) return state.days.length ? `${state.days.length} ${state.days.length === 1 ? 'día' : 'días'}` : 'Por definir';
+    const P = PREVIEW_STRINGS[previewLang()];
+    if (!state.trip.start || !state.trip.end) return state.days.length ? `${state.days.length} ${state.days.length === 1 ? P.daySingular : P.dayPlural}` : P.tbd;
     const diff = Math.round((new Date(state.trip.end) - new Date(state.trip.start)) / 86400000) + 1;
-    return diff > 0 ? `${diff} ${diff === 1 ? 'día' : 'días'}` : `${state.days.length} ${state.days.length === 1 ? 'día' : 'días'}`;
+    return diff > 0 ? `${diff} ${diff === 1 ? P.daySingular : P.dayPlural}` : `${state.days.length} ${state.days.length === 1 ? P.daySingular : P.dayPlural}`;
   }
   function toast(message) { const el = $('#toast'); el.textContent = message; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 2400); }
 
@@ -108,20 +140,21 @@
   }
   function renderPreview() {
     const t=state.trip, price=Number(state.pricing.price||0), airfare=Number(state.pricing.airfare||0), total=price+airfare, currency=state.pricing.currency;
+    const P=PREVIEW_STRINGS[previewLang()];
     const coverStyle=t.cover?` style="background-image:url('${t.cover}')"`:'';
-    const daysHTML=state.days.filter(d=>d.title||d.description||d.activities||d.image).map((d,i)=>`<div class="proposal-day"><div class="proposal-day-num">DÍA ${String(i+1).padStart(2,'0')}</div><div><h3>${escapeHTML(d.title||'Día por definir')}</h3>${d.date?`<div class="proposal-day-date">${escapeHTML(fmtDate(d.date))}</div>`:''}${d.image?`<img class="proposal-day-img" src="${d.image}" alt="">`:''}${d.description?`<p>${escapeHTML(d.description)}</p>`:''}${lines(d.activities).length?`<ul>${lines(d.activities).map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul>`:''}<div class="meal-tags">${d.breakfast?'<span>Desayuno</span>':''}${d.lunch?'<span>Almuerzo</span>':''}${d.dinner?'<span>Cena</span>':''}</div>${d.notes?`<p><strong>Nota:</strong> ${escapeHTML(d.notes)}</p>`:''}</div></div>`).join('');
-    const flights=state.flights.filter(x=>x.from||x.to||x.airline).map(x=>`<div class="proposal-info"><b>${escapeHTML(x.from||'Origen')} → ${escapeHTML(x.to||'Destino')}</b><span>${escapeHTML([x.airline,x.number,x.date?fmtDate(x.date):'',x.depart&&x.arrive?`${x.depart} – ${x.arrive}`:''].filter(Boolean).join(' · '))}</span>${x.notes?`<p>${escapeHTML(x.notes)}</p>`:''}</div>`).join('');
-    const hotels=state.hotels.filter(x=>x.name||x.city).map(x=>`<div class="proposal-info"><b>${escapeHTML(x.name||'Hotel por confirmar')}</b><span>${escapeHTML([x.city,x.room,x.meals].filter(Boolean).join(' · '))}</span>${x.checkin||x.checkout?`<p>${escapeHTML(x.checkin?fmtDate(x.checkin):'')} — ${escapeHTML(x.checkout?fmtDate(x.checkout):'')}</p>`:''}</div>`).join('');
-    $('#proposal').innerHTML=`<header class="proposal-cover ${t.cover?'has-image':''}"${coverStyle}><div class="proposal-logo"><img src="/images/simbolo-blanco.png" alt="Altamira Travel"><span>ALTA<b>MIRA</b></span></div><div><div class="proposal-kicker">Itinerario personalizado</div><h1>${escapeHTML(t.title||'Tu próximo gran viaje')}</h1><div class="proposal-route">${escapeHTML(t.route||'Una experiencia diseñada a tu medida')}</div><div class="proposal-client">Preparado para ${escapeHTML(t.client||'nuestro viajero')}</div></div></header>
-      <div class="proposal-stats"><div class="proposal-stat"><b>${escapeHTML(tripDays())}</b><span>Duración</span></div><div class="proposal-stat"><b>${escapeHTML(t.travelers||'—')}</b><span>Viajeros</span></div><div class="proposal-stat"><b>${escapeHTML(t.start?fmtDate(t.start).replace(/ de \d{4}$/,''):'Por definir')}</b><span>Salida</span></div></div>
-      ${t.summary?`<section class="proposal-section"><div class="eyebrow">La experiencia</div><h2>Un viaje pensado para ti</h2><div class="proposal-summary">${escapeHTML(t.summary)}</div></section>`:''}
-      <section class="proposal-section alt"><div class="eyebrow">Día a día</div><h2>Así viviremos el viaje</h2>${daysHTML||'<p class="proposal-summary">El itinerario detallado aparecerá aquí.</p>'}</section>
-      ${flights?`<section class="proposal-section"><div class="eyebrow">Conexiones</div><h2>Vuelos</h2><div class="proposal-grid">${flights}</div></section>`:''}
-      ${hotels?`<section class="proposal-section alt"><div class="eyebrow">Descanso</div><h2>Hoteles seleccionados</h2><div class="proposal-grid">${hotels}</div></section>`:''}
-      ${price||airfare?`<section class="proposal-price"><div class="proposal-price-breakdown">${price?`<div><small>Programa por persona</small><strong>${currency} ${price.toLocaleString('en-US')}</strong></div>`:''}${airfare?`<div><small>Vuelos por persona</small><strong>${currency} ${airfare.toLocaleString('en-US')}</strong></div><div class="proposal-price-total"><small>Total estimado por persona</small><strong>${currency} ${total.toLocaleString('en-US')}</strong></div>`:''}${state.pricing.fareNotice?`<p>${escapeHTML(state.pricing.fareNotice)}</p>`:''}</div></section>`:''}
-      ${(state.details.includes||state.details.excludes)?`<section class="proposal-section"><div class="eyebrow">Todo lo que necesitas saber</div><h2>Servicios del viaje</h2><div class="proposal-lists"><div><h3>Incluye</h3><ul class="yes">${lines(state.details.includes).map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul></div><div><h3>No incluye</h3><ul class="no">${lines(state.details.excludes).map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul></div></div>${state.details.requirements?`<p class="proposal-summary">${escapeHTML(state.details.requirements)}</p>`:''}</section>`:''}
-      ${state.pricing.terms?`<section class="proposal-section alt"><div class="eyebrow">Condiciones</div><h2>Reserva y pagos</h2><p class="proposal-summary">${escapeHTML(state.pricing.terms)}</p>${state.pricing.validUntil?`<p><strong>Propuesta válida hasta:</strong> ${escapeHTML(fmtDate(state.pricing.validUntil))}</p>`:''}</section>`:''}
-      <footer class="proposal-footer"><div><strong>ALTA<span style="color:#c47646">MIRA</span> TRAVEL</strong><div class="eyebrow">Journeys made unforgettable</div></div><p>${escapeHTML(state.contact.closing)}<br><b>${escapeHTML(state.contact.name)}</b><br>${escapeHTML(state.contact.email)} · ${escapeHTML(state.contact.phone)}<br><a href="https://altamiratravel.com/terminos" target="_blank" rel="noopener">Términos y condiciones</a></p></footer>`;
+    const daysHTML=state.days.filter(d=>d.title||d.description||d.activities||d.image).map((d,i)=>`<div class="proposal-day"><div class="proposal-day-num">${P.day} ${String(i+1).padStart(2,'0')}</div><div><h3>${escapeHTML(d.title||P.dayTbd)}</h3>${d.date?`<div class="proposal-day-date">${escapeHTML(fmtDate(d.date))}</div>`:''}${d.image?`<img class="proposal-day-img" src="${d.image}" alt="">`:''}${d.description?`<p>${escapeHTML(d.description)}</p>`:''}${lines(d.activities).length?`<ul>${lines(d.activities).map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul>`:''}<div class="meal-tags">${d.breakfast?`<span>${P.breakfast}</span>`:''}${d.lunch?`<span>${P.lunch}</span>`:''}${d.dinner?`<span>${P.dinner}</span>`:''}</div>${d.notes?`<p><strong>${P.note}</strong> ${escapeHTML(d.notes)}</p>`:''}</div></div>`).join('');
+    const flights=state.flights.filter(x=>x.from||x.to||x.airline).map(x=>`<div class="proposal-info"><b>${escapeHTML(x.from||P.origin)} → ${escapeHTML(x.to||P.destination)}</b><span>${escapeHTML([x.airline,x.number,x.date?fmtDate(x.date):'',x.depart&&x.arrive?`${x.depart} – ${x.arrive}`:''].filter(Boolean).join(' · '))}</span>${x.notes?`<p>${escapeHTML(x.notes)}</p>`:''}</div>`).join('');
+    const hotels=state.hotels.filter(x=>x.name||x.city).map(x=>`<div class="proposal-info"><b>${escapeHTML(x.name||P.hotelTbd)}</b><span>${escapeHTML([x.city,x.room,x.meals].filter(Boolean).join(' · '))}</span>${x.checkin||x.checkout?`<p>${escapeHTML(x.checkin?fmtDate(x.checkin):'')} — ${escapeHTML(x.checkout?fmtDate(x.checkout):'')}</p>`:''}</div>`).join('');
+    $('#proposal').innerHTML=`<header class="proposal-cover ${t.cover?'has-image':''}"${coverStyle}><div class="proposal-logo"><img src="/images/simbolo-blanco.png" alt="Altamira Travel"><span>ALTA<b>MIRA</b></span></div><div><div class="proposal-kicker">${P.kicker}</div><h1>${escapeHTML(t.title||P.defaultTitle)}</h1><div class="proposal-route">${escapeHTML(t.route||P.defaultRoute)}</div><div class="proposal-client">${P.preparedFor} ${escapeHTML(t.client||P.defaultClient)}</div></div></header>
+      <div class="proposal-stats"><div class="proposal-stat"><b>${escapeHTML(tripDays())}</b><span>${P.duration}</span></div><div class="proposal-stat"><b>${escapeHTML(t.travelers||'—')}</b><span>${P.travelers}</span></div><div class="proposal-stat"><b>${escapeHTML(t.start?fmtDate(t.start).replace(/ de \d{4}$/,'').replace(/,? \d{4}$/,''):P.tbd)}</b><span>${P.departure}</span></div></div>
+      ${t.summary?`<section class="proposal-section"><div class="eyebrow">${P.experience}</div><h2>${P.tripPlanned}</h2><div class="proposal-summary">${escapeHTML(t.summary)}</div></section>`:''}
+      <section class="proposal-section alt"><div class="eyebrow">${P.dayByDay}</div><h2>${P.howWeLive}</h2>${daysHTML||`<p class="proposal-summary">${P.dayDetailPlaceholder}</p>`}</section>
+      ${flights?`<section class="proposal-section"><div class="eyebrow">${P.connections}</div><h2>${P.flights}</h2><div class="proposal-grid">${flights}</div></section>`:''}
+      ${hotels?`<section class="proposal-section alt"><div class="eyebrow">${P.rest}</div><h2>${P.selectedHotels}</h2><div class="proposal-grid">${hotels}</div></section>`:''}
+      ${price||airfare?`<section class="proposal-price"><div class="proposal-price-breakdown">${price?`<div><small>${P.programPerPerson}</small><strong>${currency} ${price.toLocaleString('en-US')}</strong></div>`:''}${airfare?`<div><small>${P.flightsPerPerson}</small><strong>${currency} ${airfare.toLocaleString('en-US')}</strong></div><div class="proposal-price-total"><small>${P.totalEstimatedPerPerson}</small><strong>${currency} ${total.toLocaleString('en-US')}</strong></div>`:''}${state.pricing.fareNotice?`<p>${escapeHTML(state.pricing.fareNotice)}</p>`:''}</div></section>`:''}
+      ${(state.details.includes||state.details.excludes)?`<section class="proposal-section"><div class="eyebrow">${P.allYouNeedToKnow}</div><h2>${P.tripServices}</h2><div class="proposal-lists"><div><h3>${P.includes}</h3><ul class="yes">${lines(state.details.includes).map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul></div><div><h3>${P.excludes}</h3><ul class="no">${lines(state.details.excludes).map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul></div></div>${state.details.requirements?`<p class="proposal-summary">${escapeHTML(state.details.requirements)}</p>`:''}</section>`:''}
+      ${state.pricing.terms?`<section class="proposal-section alt"><div class="eyebrow">${P.conditions}</div><h2>${P.bookingPayments}</h2><p class="proposal-summary">${escapeHTML(state.pricing.terms)}</p>${state.pricing.validUntil?`<p><strong>${P.validUntil}</strong> ${escapeHTML(fmtDate(state.pricing.validUntil))}</p>`:''}</section>`:''}
+      <footer class="proposal-footer"><div><strong>ALTA<span style="color:#c47646">MIRA</span> TRAVEL</strong><div class="eyebrow">${P.tagline}</div></div><p>${escapeHTML(state.contact.closing)}<br><b>${escapeHTML(state.contact.name)}</b><br>${escapeHTML(state.contact.email)} · ${escapeHTML(state.contact.phone)}<br><a href="https://altamiratravel.com/terminos" target="_blank" rel="noopener">${P.terms}</a></p></footer>`;
   }
   function setupNav() {
     $('#sectionNav').addEventListener('click', e => { const btn=e.target.closest('[data-target]'); if(!btn)return; $$('.rail-link').forEach(x=>x.classList.toggle('active',x===btn)); $$('.editor-section').forEach(x=>x.classList.toggle('active',x.dataset.section===btn.dataset.target)); $('#editor').scrollTo({top:0,behavior:'smooth'}); });

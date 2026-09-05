@@ -14,6 +14,112 @@ const BRAND_SYMBOLS = {
   light: loadBrandSymbol('simbolo-blanco.png')
 };
 
+const STRINGS = {
+  es: {
+    personalizedItinerary: 'ITINERARIO PERSONALIZADO',
+    defaultRoute: 'Una experiencia disenada a tu medida',
+    preparedFor: 'PREPARADO PARA',
+    defaultClient: 'NUESTRO VIAJERO',
+    proposal: 'LA PROPUESTA',
+    tripPlanned: 'Un viaje pensado para ti',
+    duration: 'DURACION',
+    travelers: 'VIAJEROS',
+    departure: 'SALIDA',
+    tbd: 'POR DEFINIR',
+    experience: 'LA EXPERIENCIA',
+    routeLabel: 'RUTA DEL VIAJE',
+    defaultRouteLong: 'Ruta por confirmar',
+    overviewNote: 'Cada jornada ha sido organizada para ofrecer una lectura clara del viaje. Los horarios definitivos se confirmaran junto con la documentacion final.',
+    day: 'DIA',
+    dateTbd: 'FECHA POR DEFINIR',
+    dayTitleTbd: 'Jornada por definir',
+    newDay: 'UNA NUEVA JORNADA',
+    momentsOfDay: 'MOMENTOS DEL DIA',
+    breakfast: 'Desayuno',
+    lunch: 'Almuerzo',
+    dinner: 'Cena',
+    note: 'NOTA',
+    logistics: 'LOGISTICA',
+    allUnderControl: 'Todo bajo control',
+    flights: 'VUELOS',
+    accommodation: 'ALOJAMIENTO',
+    origin: 'Origen',
+    destination: 'Destino',
+    hotelTbd: 'Hotel por confirmar',
+    proposalDetails: 'DETALLES DE LA PROPUESTA',
+    servicesInvestment: 'Servicios e inversion',
+    programPerPerson: 'PROGRAMA POR PERSONA',
+    flightsPerPerson: 'VUELOS POR PERSONA',
+    totalEstimated: 'TOTAL ESTIMADO',
+    investmentPerPerson: 'INVERSION POR PERSONA',
+    reserveWith: 'Reserva con',
+    includes: 'EL VIAJE INCLUYE',
+    excludes: 'NO INCLUYE',
+    importantInfo: 'INFORMACION IMPORTANTE',
+    beforeTravel: 'Antes de viajar',
+    conditions: 'CONDICIONES',
+    bookingPayments: 'Reserva y pagos',
+    paymentConditions: 'CONDICIONES DE PAGO',
+    fullTerms: 'Consulta los Terminos y Condiciones completos',
+    dateRangeTbd: 'Fechas por confirmar',
+    daySingular: 'dia',
+    dayPlural: 'dias',
+    locale: 'es-US'
+  },
+  en: {
+    personalizedItinerary: 'PERSONALIZED ITINERARY',
+    defaultRoute: 'An experience designed for you',
+    preparedFor: 'PREPARED FOR',
+    defaultClient: 'OUR TRAVELER',
+    proposal: 'THE PROPOSAL',
+    tripPlanned: 'A trip designed for you',
+    duration: 'DURATION',
+    travelers: 'TRAVELERS',
+    departure: 'DEPARTURE',
+    tbd: 'TO BE DEFINED',
+    experience: 'THE EXPERIENCE',
+    routeLabel: 'TRIP ROUTE',
+    defaultRouteLong: 'Route to be confirmed',
+    overviewNote: 'Each day has been organized to offer a clear reading of the trip. Final schedules will be confirmed along with the final documentation.',
+    day: 'DAY',
+    dateTbd: 'DATE TO BE DEFINED',
+    dayTitleTbd: 'Day to be defined',
+    newDay: 'A NEW DAY',
+    momentsOfDay: "DAY'S HIGHLIGHTS",
+    breakfast: 'Breakfast',
+    lunch: 'Lunch',
+    dinner: 'Dinner',
+    note: 'NOTE',
+    logistics: 'LOGISTICS',
+    allUnderControl: 'Everything under control',
+    flights: 'FLIGHTS',
+    accommodation: 'ACCOMMODATION',
+    origin: 'Origin',
+    destination: 'Destination',
+    hotelTbd: 'Hotel to be confirmed',
+    proposalDetails: 'PROPOSAL DETAILS',
+    servicesInvestment: 'Services and investment',
+    programPerPerson: 'PROGRAM PER PERSON',
+    flightsPerPerson: 'FLIGHTS PER PERSON',
+    totalEstimated: 'TOTAL ESTIMATED',
+    investmentPerPerson: 'INVESTMENT PER PERSON',
+    reserveWith: 'Reserve with',
+    includes: 'THE TRIP INCLUDES',
+    excludes: 'NOT INCLUDED',
+    importantInfo: 'IMPORTANT INFORMATION',
+    beforeTravel: 'Before you travel',
+    conditions: 'CONDITIONS',
+    bookingPayments: 'Booking and payments',
+    paymentConditions: 'PAYMENT CONDITIONS',
+    fullTerms: 'See the full Terms and Conditions',
+    dateRangeTbd: 'Dates to be confirmed',
+    daySingular: 'day',
+    dayPlural: 'days',
+    locale: 'en-US'
+  }
+};
+function getLang(data) { return data?.trip?.lang === 'en' ? 'en' : 'es'; }
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return json(405, { error: 'Metodo no permitido.' });
   try {
@@ -62,6 +168,8 @@ async function buildPDF(data, images) {
       dark: BRAND_SYMBOLS.dark ? doc.openImage(BRAND_SYMBOLS.dark) : null,
       light: BRAND_SYMBOLS.light ? doc.openImage(BRAND_SYMBOLS.light) : null
     };
+    doc.lang = getLang(data);
+    doc.T = STRINGS[doc.lang];
 
     drawCover(doc, data, images.cover);
     drawOverview(doc, data);
@@ -74,6 +182,7 @@ async function buildPDF(data, images) {
 }
 
 function drawCover(doc, data, cover) {
+  const T = doc.T;
   doc.addPage({ size: 'LETTER', margin: 0 });
   if (cover) {
     try { doc.image(cover, 0, 0, { cover: [W, H], align: 'center', valign: 'center' }); }
@@ -81,23 +190,24 @@ function drawCover(doc, data, cover) {
   } else doc.rect(0, 0, W, H).fill(COLORS.ink);
   doc.save().fillColor(COLORS.ink).opacity(cover ? 0.72 : 1).rect(0, 0, W, H).fill().restore();
   drawBrandLockup(doc, true, M, 37, 1.15);
-  doc.fillColor(COLORS.terra).font('Helvetica-Bold').fontSize(8).text('ITINERARIO PERSONALIZADO', M, 265, { characterSpacing: 1.8 });
+  doc.fillColor(COLORS.terra).font('Helvetica-Bold').fontSize(8).text(T.personalizedItinerary, M, 265, { characterSpacing: 1.8 });
   const titleSize = fitTitle(data.trip.title);
   doc.fillColor(COLORS.white).font('Times-Roman').fontSize(titleSize).text(data.trip.title, M, 292, { width: 485, lineGap: -3 });
   let y = Math.min(555, Math.max(455, doc.y + 18));
   doc.strokeColor(COLORS.terra).lineWidth(1.2).moveTo(M, y).lineTo(M + 54, y).stroke();
-  doc.fillColor('#E8DED2').font('Helvetica').fontSize(11).text(data.trip.route || 'Una experiencia disenada a tu medida', M, y + 17, { width: 460, lineGap: 3 });
-  doc.fillColor(COLORS.white).font('Helvetica-Bold').fontSize(8).text(`PREPARADO PARA ${String(data.trip.client || 'NUESTRO VIAJERO').toUpperCase()}`, M, 690, { characterSpacing: 1.2 });
-  doc.fillColor('#D8CBBB').font('Helvetica').fontSize(9).text(dateRange(data.trip.start, data.trip.end), M, 712);
+  doc.fillColor('#E8DED2').font('Helvetica').fontSize(11).text(data.trip.route || T.defaultRoute, M, y + 17, { width: 460, lineGap: 3 });
+  doc.fillColor(COLORS.white).font('Helvetica-Bold').fontSize(8).text(`${T.preparedFor} ${String(data.trip.client || T.defaultClient).toUpperCase()}`, M, 690, { characterSpacing: 1.2 });
+  doc.fillColor('#D8CBBB').font('Helvetica').fontSize(9).text(dateRange(data.trip.start, data.trip.end, doc.lang), M, 712);
 }
 
 function drawOverview(doc, data) {
-  contentPage(doc, 'LA PROPUESTA', 'Un viaje pensado para ti');
+  const T = doc.T;
+  contentPage(doc, T.proposal, T.tripPlanned);
   const top = 142;
   const stats = [
-    [duration(data.trip.start, data.trip.end, data.days?.length), 'DURACION'],
-    [String(data.trip.travelers || '-'), 'VIAJEROS'],
-    [shortDate(data.trip.start) || 'POR DEFINIR', 'SALIDA']
+    [duration(data.trip.start, data.trip.end, data.days?.length, doc.lang), T.duration],
+    [String(data.trip.travelers || '-'), T.travelers],
+    [shortDate(data.trip.start, doc.lang) || T.tbd, T.departure]
   ];
   stats.forEach((item, index) => {
     const x = M + index * 169;
@@ -107,20 +217,21 @@ function drawOverview(doc, data) {
   });
   let y = 246;
   if (data.trip.summary) {
-    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(8).text('LA EXPERIENCIA', M, y, { characterSpacing: 1.5 });
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(8).text(T.experience, M, y, { characterSpacing: 1.5 });
     doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(18).text(data.trip.summary, M, y + 24, { width: W - M * 2, lineGap: 6 });
     y = doc.y + 28;
   }
   doc.strokeColor(COLORS.line).lineWidth(1).moveTo(M, y).lineTo(W - M, y).stroke();
   y += 24;
-  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(8).text('RUTA DEL VIAJE', M, y, { characterSpacing: 1.5 });
-  doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(28).text(data.trip.route || 'Ruta por confirmar', M, y + 20, { width: W - M * 2, lineGap: 3 });
+  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(8).text(T.routeLabel, M, y, { characterSpacing: 1.5 });
+  doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(28).text(data.trip.route || T.defaultRouteLong, M, y + 20, { width: W - M * 2, lineGap: 3 });
   y = doc.y + 26;
-  doc.fillColor(COLORS.soft).font('Helvetica').fontSize(10).text('Cada jornada ha sido organizada para ofrecer una lectura clara del viaje. Los horarios definitivos se confirmaran junto con la documentacion final.', M, y, { width: 455, lineGap: 4 });
+  doc.fillColor(COLORS.soft).font('Helvetica').fontSize(10).text(T.overviewNote, M, y, { width: 455, lineGap: 4 });
 }
 
 function drawDay(doc, day, index, image) {
-  let y = Math.max(210, contentPage(doc, `DIA ${String(index + 1).padStart(2, '0')}  /  ${shortDate(day.date) || 'FECHA POR DEFINIR'}`, day.title || 'Jornada por definir'));
+  const T = doc.T;
+  let y = Math.max(210, contentPage(doc, `${T.day} ${String(index + 1).padStart(2, '0')}  /  ${shortDate(day.date, doc.lang) || T.dateTbd}`, day.title || T.dayTitleTbd));
   if (image) {
     const imageHeight = 140;
     try {
@@ -138,7 +249,7 @@ function drawDay(doc, day, index, image) {
   } else {
     doc.fillColor(COLORS.ink).roundedRect(M, y, W - M * 2, 190, 7).fill();
     doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(88).text(String(index + 1).padStart(2, '0'), M + 30, y + 45);
-    doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(8).text('UNA NUEVA JORNADA', M + 225, y + 82, { characterSpacing: 1.6 });
+    doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(8).text(T.newDay, M + 225, y + 82, { characterSpacing: 1.6 });
     doc.strokeColor(COLORS.terra).lineWidth(1).moveTo(M + 225, y + 105).lineTo(W - M - 28, y + 105).stroke();
     y += 222;
   }
@@ -149,7 +260,7 @@ function drawDay(doc, day, index, image) {
   }
   const activities = splitLines(day.activities);
   if (activities.length) {
-    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5).text('MOMENTOS DEL DIA', M, y, { characterSpacing: 1.4 });
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5).text(T.momentsOfDay, M, y, { characterSpacing: 1.4 });
     y += 19;
     const columns = activities.length > 5 ? 2 : 1;
     const colWidth = columns === 2 ? 238 : W - M * 2;
@@ -164,7 +275,7 @@ function drawDay(doc, day, index, image) {
     });
     y += perColumn * 25 + 5;
   }
-  const meals = [day.breakfast && 'Desayuno', day.lunch && 'Almuerzo', day.dinner && 'Cena'].filter(Boolean);
+  const meals = [day.breakfast && T.breakfast, day.lunch && T.lunch, day.dinner && T.dinner].filter(Boolean);
   if (meals.length) {
     meals.forEach((meal, i) => {
       const x = M + i * 90;
@@ -175,32 +286,33 @@ function drawDay(doc, day, index, image) {
   }
   if (day.notes && y < 690) {
     doc.fillColor(COLORS.cream).roundedRect(M, y, W - M * 2, Math.min(58, H - 76 - y), 5).fill();
-    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text('NOTA', M + 13, y + 12, { characterSpacing: 1 });
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text(T.note, M + 13, y + 12, { characterSpacing: 1 });
     doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.5).text(day.notes, M + 55, y + 10, { width: W - M * 2 - 70, height: 40, lineGap: 2, ellipsis: true });
   }
 }
 
 function drawLogistics(doc, data) {
-  contentPage(doc, 'LOGISTICA', 'Todo bajo control');
+  const T = doc.T;
+  contentPage(doc, T.logistics, T.allUnderControl);
   let y = 142;
   if (data.flights?.length) {
-    sectionLabel(doc, 'VUELOS', y); y += 22;
+    sectionLabel(doc, T.flights, y); y += 22;
     data.flights.forEach((flight, index) => {
       const cardHeight = flight.notes ? 92 : 70;
       doc.fillColor(index % 2 ? COLORS.paper : COLORS.cream).roundedRect(M, y, W - M * 2, cardHeight, 5).fill();
-      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(16).text(`${flight.from || 'Origen'} - ${flight.to || 'Destino'}`, M + 15, y + 13);
-      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.5).text([flight.airline, flight.number, shortDate(flight.date), flight.depart && flight.arrive ? `${flight.depart} - ${flight.arrive}` : ''].filter(Boolean).join('  /  '), M + 15, y + 39, { width: 470 });
+      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(16).text(`${flight.from || T.origin} - ${flight.to || T.destination}`, M + 15, y + 13);
+      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.5).text([flight.airline, flight.number, shortDate(flight.date, doc.lang), flight.depart && flight.arrive ? `${flight.depart} - ${flight.arrive}` : ''].filter(Boolean).join('  /  '), M + 15, y + 39, { width: 470 });
       if (flight.notes) doc.fillColor(COLORS.terraDeep).font('Helvetica').fontSize(7.7).text(flight.notes, M + 15, y + 58, { width: 470, height: 25, lineGap: 2, ellipsis: true });
       y += cardHeight + 10;
     });
     y += 12;
   }
   if (data.hotels?.length) {
-    sectionLabel(doc, 'ALOJAMIENTO', y); y += 22;
+    sectionLabel(doc, T.accommodation, y); y += 22;
     data.hotels.forEach((hotel, index) => {
-      if (y > 665) { contentPage(doc, 'LOGISTICA', 'Alojamiento'); y = 142; }
+      if (y > 665) { contentPage(doc, T.logistics, T.accommodation); y = 142; }
       doc.strokeColor(COLORS.line).roundedRect(M, y, W - M * 2, 74, 5).stroke();
-      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(17).text(hotel.name || 'Hotel por confirmar', M + 15, y + 13);
+      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(17).text(hotel.name || T.hotelTbd, M + 15, y + 13);
       doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.5).text([hotel.city, hotel.room, hotel.meals].filter(Boolean).join('  /  '), M + 15, y + 40, { width: 470 });
       y += 84;
     });
@@ -208,7 +320,8 @@ function drawLogistics(doc, data) {
 }
 
 function drawClosing(doc, data) {
-  contentPage(doc, 'DETALLES DE LA PROPUESTA', 'Servicios e inversion');
+  const T = doc.T;
+  contentPage(doc, T.proposalDetails, T.servicesInvestment);
   let y = 137;
   const price = Number(data.pricing?.price || 0);
   const airfare = Number(data.pricing?.airfare || 0);
@@ -218,9 +331,9 @@ function drawClosing(doc, data) {
     const currency = data.pricing.currency || 'USD';
     if (airfare) {
       const priceColumns = [
-        ['PROGRAMA POR PERSONA', price],
-        ['VUELOS POR PERSONA', airfare],
-        ['TOTAL ESTIMADO', total]
+        [T.programPerPerson, price],
+        [T.flightsPerPerson, airfare],
+        [T.totalEstimated, total]
       ];
       priceColumns.forEach(([label, value], index) => {
         const x = M + 20 + index * 165;
@@ -229,29 +342,29 @@ function drawClosing(doc, data) {
       });
       if (data.pricing?.fareNotice) doc.fillColor('#D8CBBB').font('Helvetica').fontSize(7.3).text(data.pricing.fareNotice, M + 20, y + 69, { width: W - M * 2 - 40, height: 16, align: 'center', ellipsis: true });
     } else {
-      doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(7).text('INVERSION POR PERSONA', M + 20, y + 22, { characterSpacing: 1.4 });
+      doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(7).text(T.investmentPerPerson, M + 20, y + 22, { characterSpacing: 1.4 });
       doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(34).text(`${currency} ${price.toLocaleString('en-US')}`, M + 20, y + 42);
-      if (data.pricing.deposit) doc.fillColor(COLORS.white).font('Helvetica').fontSize(9).text(`Reserva con ${data.pricing.deposit}`, 320, y + 49, { width: 220, align: 'right' });
+      if (data.pricing.deposit) doc.fillColor(COLORS.white).font('Helvetica').fontSize(9).text(`${T.reserveWith} ${data.pricing.deposit}`, 320, y + 49, { width: 220, align: 'right' });
     }
     y += 120;
   }
   const includes = splitLines(data.details?.includes);
   const excludes = splitLines(data.details?.excludes);
-  drawListColumn(doc, 'EL VIAJE INCLUYE', includes, M, y, 235, true);
-  drawListColumn(doc, 'NO INCLUYE', excludes, 325, y, 235, false);
+  drawListColumn(doc, T.includes, includes, M, y, 235, true);
+  drawListColumn(doc, T.excludes, excludes, 325, y, 235, false);
   y += Math.max(includes.length, excludes.length) * 24 + 45;
   if (data.details?.requirements) {
-    if (y >= 610) y = Math.max(152, contentPage(doc, 'INFORMACION IMPORTANTE', 'Antes de viajar'));
-    else { sectionLabel(doc, 'INFORMACION IMPORTANTE', y); y += 20; }
+    if (y >= 610) y = Math.max(152, contentPage(doc, T.importantInfo, T.beforeTravel));
+    else { sectionLabel(doc, T.importantInfo, y); y += 20; }
     doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.8).text(data.details.requirements, M, y, { width: W - M * 2, lineGap: 3 });
     y = doc.y + 18;
   }
   if (data.pricing?.terms) {
-    if (y >= 660) y = Math.max(152, contentPage(doc, 'CONDICIONES', 'Reserva y pagos'));
-    sectionLabel(doc, 'CONDICIONES DE PAGO', y); y += 20;
+    if (y >= 660) y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments));
+    sectionLabel(doc, T.paymentConditions, y); y += 20;
     doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.8).text(data.pricing.terms, M, y, { width: W - M * 2, lineGap: 3 });
   }
-  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(9).text('Consulta los Terminos y Condiciones completos', M, 690, { link: 'https://altamiratravel.com/terminos', underline: true });
+  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(9).text(T.fullTerms, M, 690, { link: 'https://altamiratravel.com/terminos', underline: true });
 }
 
 function contentPage(doc, kicker, title) {
@@ -334,14 +447,15 @@ async function fetchImage(source) {
   } catch { return null; }
 }
 
-function duration(start, end, fallback = 0) {
-  if (!start || !end) return `${fallback || '-'} ${fallback === 1 ? 'dia' : 'dias'}`;
+function duration(start, end, fallback = 0, lang = 'es') {
+  const T = STRINGS[lang];
+  if (!start || !end) return `${fallback || '-'} ${fallback === 1 ? T.daySingular : T.dayPlural}`;
   const count = Math.round((new Date(end) - new Date(start)) / 86400000) + 1;
-  return `${count} ${count === 1 ? 'dia' : 'dias'}`;
+  return `${count} ${count === 1 ? T.daySingular : T.dayPlural}`;
 }
-function dateRange(start, end) { return start && end ? `${longDate(start)} - ${longDate(end)}` : 'Fechas por confirmar'; }
-function longDate(value) { return value ? new Intl.DateTimeFormat('es-US', { day:'numeric', month:'long', year:'numeric', timeZone:'UTC' }).format(new Date(`${value}T00:00:00Z`)) : ''; }
-function shortDate(value) { return value ? new Intl.DateTimeFormat('es-US', { day:'numeric', month:'long', timeZone:'UTC' }).format(new Date(`${value}T00:00:00Z`)) : ''; }
+function dateRange(start, end, lang = 'es') { return start && end ? `${longDate(start, lang)} - ${longDate(end, lang)}` : STRINGS[lang].dateRangeTbd; }
+function longDate(value, lang = 'es') { return value ? new Intl.DateTimeFormat(STRINGS[lang].locale, { day:'numeric', month:'long', year:'numeric', timeZone:'UTC' }).format(new Date(`${value}T00:00:00Z`)) : ''; }
+function shortDate(value, lang = 'es') { return value ? new Intl.DateTimeFormat(STRINGS[lang].locale, { day:'numeric', month:'long', timeZone:'UTC' }).format(new Date(`${value}T00:00:00Z`)) : ''; }
 function splitLines(value = '') { return String(value || '').split('\n').map(item => item.trim()).filter(Boolean); }
 function fitTitle(value = '') { const length = String(value).length; return length > 55 ? 38 : length > 36 ? 44 : 52; }
 function slug(value) { return String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'itinerario-altamira'; }
