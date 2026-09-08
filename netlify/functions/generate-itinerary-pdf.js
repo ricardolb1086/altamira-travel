@@ -64,6 +64,15 @@ const STRINGS = {
     dateRangeTbd: 'Fechas por confirmar',
     daySingular: 'dia',
     dayPlural: 'dias',
+    paymentPlan: 'PLAN DE PAGOS',
+    optionalActivities: 'ACTIVIDADES OPCIONALES',
+    optionalActivitiesSubtitle: 'Disponibles durante el recorrido (no incluidas en el precio del programa)',
+    colConcept: 'CONCEPTO',
+    colDue: 'FECHA LIMITE',
+    colCity: 'CIUDAD',
+    colActivity: 'ACTIVIDAD',
+    colAdult: 'ADULTO',
+    colChild: 'NINO',
     locale: 'es-US'
   },
   en: {
@@ -115,6 +124,15 @@ const STRINGS = {
     dateRangeTbd: 'Dates to be confirmed',
     daySingular: 'day',
     dayPlural: 'days',
+    paymentPlan: 'PAYMENT PLAN',
+    optionalActivities: 'OPTIONAL ACTIVITIES',
+    optionalActivitiesSubtitle: 'Available during the trip (not included in the program price)',
+    colConcept: 'CONCEPT',
+    colDue: 'DUE DATE',
+    colCity: 'CITY',
+    colActivity: 'ACTIVITY',
+    colAdult: 'ADULT',
+    colChild: 'CHILD',
     locale: 'en-US'
   }
 };
@@ -359,12 +377,86 @@ function drawClosing(doc, data) {
     doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.8).text(data.details.requirements, M, y, { width: W - M * 2, lineGap: 3 });
     y = doc.y + 18;
   }
+  const paymentPlan = data.pricing?.paymentPlan || [];
+  if (paymentPlan.length) {
+    if (y >= 560) y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments));
+    y = drawPaymentPlan(doc, T, paymentPlan, M, y, W - M * 2);
+    y += 22;
+  }
+  const optionalActivities = data.pricing?.optionalActivities || [];
+  if (optionalActivities.length) {
+    const estimatedHeight = 50 + optionalActivities.length * 33;
+    if (y + estimatedHeight >= 705) y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments));
+    y = drawOptionalActivities(doc, T, optionalActivities, M, y, W - M * 2, data.pricing?.optionalActivitiesNote);
+    y += 22;
+  }
   if (data.pricing?.terms) {
     if (y >= 660) y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments));
     sectionLabel(doc, T.paymentConditions, y); y += 20;
     doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.8).text(data.pricing.terms, M, y, { width: W - M * 2, lineGap: 3 });
+    y = doc.y + 18;
   }
-  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(9).text(T.fullTerms, M, 690, { link: 'https://altamiratravel.com/terminos', underline: true });
+  if (y >= 670) y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments));
+  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(9).text(T.fullTerms, M, Math.max(y, 690), { link: 'https://altamiratravel.com/terminos', underline: true });
+}
+
+function drawPaymentPlan(doc, T, items, x, y, width) {
+  sectionLabel(doc, T.paymentPlan, y);
+  y += 20;
+  const labelW = width * 0.28;
+  const amountX = x + width * 0.32;
+  const amountW = width * 0.42;
+  const dueX = x + width * 0.76;
+  const dueW = width * 0.24 - 16;
+  items.forEach((item, index) => {
+    if (y >= 705) { y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments)); }
+    const amountLines = String(item.amount || '').split('\n').filter(Boolean);
+    const rowH = Math.max(38, 16 + amountLines.length * 15);
+    doc.fillColor(index % 2 ? COLORS.paper : COLORS.cream).roundedRect(x, y, width, rowH, 5).fill();
+    doc.fillColor(COLORS.ink).font('Helvetica-Bold').fontSize(10.5).text(item.label || '', x + 16, y + 12, { width: labelW - 16 });
+    let ly = y + 12;
+    amountLines.forEach(line => {
+      doc.fillColor(COLORS.terra).font('Helvetica-Bold').fontSize(9.8).text(line, amountX, ly, { width: amountW });
+      ly += 15;
+    });
+    if (item.due) doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.3).text(item.due, dueX, y + 13, { width: dueW, align: 'right' });
+    y += rowH + 8;
+  });
+  return y;
+}
+
+function drawOptionalActivities(doc, T, items, x, y, width, note) {
+  sectionLabel(doc, T.optionalActivities, y);
+  y += 16;
+  doc.fillColor(COLORS.soft).font('Helvetica').fontSize(7.6).text(T.optionalActivitiesSubtitle, x, y, { width });
+  y += 18;
+  const colCity = width * 0.20;
+  const colActivity = width * 0.48;
+  const colPrice = width * 0.16;
+  const adultX = x + colCity + colActivity + 4;
+  const childX = x + colCity + colActivity + colPrice + 4;
+  doc.fillColor(COLORS.soft).font('Helvetica-Bold').fontSize(6.8);
+  doc.text(T.colCity, x + 14, y, { width: colCity - 14, characterSpacing: 0.8 });
+  doc.text(T.colActivity, x + colCity + 4, y, { width: colActivity - 8, characterSpacing: 0.8 });
+  doc.text(T.colAdult, adultX, y, { width: colPrice - 8, characterSpacing: 0.8, align: 'right' });
+  doc.text(T.colChild, childX, y, { width: colPrice - 18, characterSpacing: 0.8, align: 'right' });
+  y += 15;
+  items.forEach((item, index) => {
+    if (y >= 715) { y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments)); }
+    const rowH = 28;
+    doc.fillColor(index % 2 ? COLORS.paper : COLORS.cream).roundedRect(x, y, width, rowH, 4).fill();
+    doc.fillColor(COLORS.ink).font('Helvetica-Bold').fontSize(8.3).text(item.city || '', x + 14, y + 9, { width: colCity - 14, height: 14, ellipsis: true });
+    doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.3).text(item.name || '', x + colCity + 4, y + 9, { width: colActivity - 8, height: 14, ellipsis: true });
+    doc.fillColor(COLORS.terra).font('Helvetica-Bold').fontSize(9).text(`$${item.adult}`, adultX, y + 8, { width: colPrice - 8, align: 'right' });
+    doc.fillColor(COLORS.terra).font('Helvetica-Bold').fontSize(9).text(`$${item.child}`, childX, y + 8, { width: colPrice - 18, align: 'right' });
+    y += rowH + 5;
+  });
+  if (note) {
+    y += 6;
+    doc.fillColor(COLORS.soft).font('Helvetica-Oblique').fontSize(8).text(note, x, y, { width, lineGap: 2 });
+    y = doc.y;
+  }
+  return y;
 }
 
 function contentPage(doc, kicker, title) {

@@ -19,7 +19,8 @@
       programPerPerson: 'Programa por persona', flightsPerPerson: 'Vuelos por persona', totalEstimatedPerPerson: 'Total estimado por persona',
       allYouNeedToKnow: 'Todo lo que necesitas saber', tripServices: 'Servicios del viaje', includes: 'Incluye', excludes: 'No incluye',
       conditions: 'Condiciones', bookingPayments: 'Reserva y pagos', validUntil: 'Propuesta válida hasta:',
-      tagline: 'Journeys made unforgettable', terms: 'Términos y condiciones'
+      tagline: 'Journeys made unforgettable', terms: 'Términos y condiciones',
+      paymentPlan: 'Plan de pagos', optionalActivities: 'Actividades opcionales', city: 'Ciudad', activity: 'Actividad', adult: 'Adulto', child: 'Niño'
     },
     en: {
       locale: 'en-US', kicker: 'Personalized itinerary', defaultTitle: 'Your next great trip',
@@ -33,7 +34,8 @@
       programPerPerson: 'Program per person', flightsPerPerson: 'Flights per person', totalEstimatedPerPerson: 'Total estimated per person',
       allYouNeedToKnow: 'Everything you need to know', tripServices: 'Trip services', includes: 'Includes', excludes: 'Not included',
       conditions: 'Conditions', bookingPayments: 'Booking and payments', validUntil: 'Proposal valid until:',
-      tagline: 'Journeys made unforgettable', terms: 'Terms and conditions'
+      tagline: 'Journeys made unforgettable', terms: 'Terms and conditions',
+      paymentPlan: 'Payment plan', optionalActivities: 'Optional activities', city: 'City', activity: 'Activity', adult: 'Adult', child: 'Child'
     }
   };
   const defaults = () => ({
@@ -153,6 +155,8 @@
       ${hotels?`<section class="proposal-section alt"><div class="eyebrow">${P.rest}</div><h2>${P.selectedHotels}</h2><div class="proposal-grid">${hotels}</div></section>`:''}
       ${price||airfare?`<section class="proposal-price"><div class="proposal-price-breakdown">${price?`<div><small>${P.programPerPerson}</small><strong>${currency} ${price.toLocaleString('en-US')}</strong></div>`:''}${airfare?`<div><small>${P.flightsPerPerson}</small><strong>${currency} ${airfare.toLocaleString('en-US')}</strong></div><div class="proposal-price-total"><small>${P.totalEstimatedPerPerson}</small><strong>${currency} ${total.toLocaleString('en-US')}</strong></div>`:''}${state.pricing.fareNotice?`<p>${escapeHTML(state.pricing.fareNotice)}</p>`:''}</div></section>`:''}
       ${(state.details.includes||state.details.excludes)?`<section class="proposal-section"><div class="eyebrow">${P.allYouNeedToKnow}</div><h2>${P.tripServices}</h2><div class="proposal-lists"><div><h3>${P.includes}</h3><ul class="yes">${lines(state.details.includes).map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul></div><div><h3>${P.excludes}</h3><ul class="no">${lines(state.details.excludes).map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul></div></div>${state.details.requirements?`<p class="proposal-summary">${escapeHTML(state.details.requirements)}</p>`:''}</section>`:''}
+      ${state.pricing.paymentPlan?.length?`<section class="proposal-section alt"><div class="eyebrow">${P.conditions}</div><h2>${P.paymentPlan}</h2><table class="proposal-table"><tbody>${state.pricing.paymentPlan.map(item=>`<tr><td class="label">${escapeHTML(item.label||'')}</td><td class="amount">${escapeHTML(item.amount||'')}</td><td class="num">${escapeHTML(item.due||'')}</td></tr>`).join('')}</tbody></table></section>`:''}
+      ${state.pricing.optionalActivities?.length?`<section class="proposal-section"><div class="eyebrow">${P.conditions}</div><h2>${P.optionalActivities}</h2><table class="proposal-table"><thead><tr><th>${P.city}</th><th>${P.activity}</th><th class="num">${P.adult}</th><th class="num">${P.child}</th></tr></thead><tbody>${state.pricing.optionalActivities.map(item=>`<tr><td class="label">${escapeHTML(item.city||'')}</td><td>${escapeHTML(item.name||'')}</td><td class="amount num">$${escapeHTML(String(item.adult??''))}</td><td class="amount num">$${escapeHTML(String(item.child??''))}</td></tr>`).join('')}</tbody></table>${state.pricing.optionalActivitiesNote?`<p class="proposal-table-note">${escapeHTML(state.pricing.optionalActivitiesNote)}</p>`:''}</section>`:''}
       ${state.pricing.terms?`<section class="proposal-section alt"><div class="eyebrow">${P.conditions}</div><h2>${P.bookingPayments}</h2><p class="proposal-summary">${escapeHTML(state.pricing.terms)}</p>${state.pricing.validUntil?`<p><strong>${P.validUntil}</strong> ${escapeHTML(fmtDate(state.pricing.validUntil))}</p>`:''}</section>`:''}
       <footer class="proposal-footer"><div><strong>ALTA<span style="color:#c47646">MIRA</span> TRAVEL</strong><div class="eyebrow">${P.tagline}</div></div><p>${escapeHTML(state.contact.closing)}<br><b>${escapeHTML(state.contact.name)}</b><br>${escapeHTML(state.contact.email)} · ${escapeHTML(state.contact.phone)}<br><a href="https://altamiratravel.com/terminos" target="_blank" rel="noopener">${P.terms}</a></p></footer>`;
   }
