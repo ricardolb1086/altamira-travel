@@ -393,13 +393,36 @@ function drawClosing(doc, data) {
   if (data.pricing?.terms) {
     if (y >= 660) y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments));
     sectionLabel(doc, T.paymentConditions, y); y += 20;
-    doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.8).text(data.pricing.terms, M, y, { width: W - M * 2, lineGap: 3 });
-    y = doc.y + 18;
+    y = drawTermsText(doc, data.pricing.terms, M, y, W - M * 2);
+    y += 18;
   }
   if (y >= 670) y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments));
   doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(9).text(T.fullTerms, M, Math.max(y, 690), { link: 'https://altamiratravel.com/terminos', underline: true });
 }
 
+// Renders free-form paragraph text (pricing.terms) line by line, bolding and
+// color-highlighting any "$1,234" / "$1,234.56" amount found inline so key
+// figures stand out the same way they do in the payment-plan/optional-activities
+// tables, without forcing that text into a rigid row/column structure.
+function drawTermsText(doc, text, x, y, width, lineGap = 3) {
+  const amountRe = /(\$[\d][\d,]*(?:\.\d{1,2})?)/g;
+  doc.font('Helvetica').fontSize(8.8);
+  const lineHeight = doc.currentLineHeight() + lineGap;
+  String(text).split('\n').forEach(line => {
+    if (!line) { y += lineHeight; return; }
+    const parts = line.split(amountRe).filter(part => part !== '');
+    parts.forEach((part, index) => {
+      const isAmount = amountRe.test(part);
+      amountRe.lastIndex = 0;
+      doc.font(isAmount ? 'Helvetica-Bold' : 'Helvetica').fontSize(8.8).fillColor(isAmount ? COLORS.terra : COLORS.soft);
+      const continued = index < parts.length - 1;
+      if (index === 0) doc.text(part, x, y, { continued, width, lineGap });
+      else doc.text(part, { continued });
+    });
+    y = doc.y;
+  });
+  return y;
+}
 function drawPaymentPlan(doc, T, items, x, y, width) {
   sectionLabel(doc, T.paymentPlan, y);
   y += 20;
