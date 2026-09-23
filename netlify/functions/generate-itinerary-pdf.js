@@ -17,62 +17,70 @@ const BRAND_SYMBOLS = {
 const STRINGS = {
   es: {
     personalizedItinerary: 'ITINERARIO PERSONALIZADO',
-    defaultRoute: 'Una experiencia disenada a tu medida',
+    defaultRoute: 'Una experiencia diseñada a tu medida',
     preparedFor: 'PREPARADO PARA',
     defaultClient: 'NUESTRO VIAJERO',
     proposal: 'LA PROPUESTA',
     tripPlanned: 'Un viaje pensado para ti',
-    duration: 'DURACION',
+    duration: 'DURACIÓN',
     travelers: 'VIAJEROS',
     departure: 'SALIDA',
     tbd: 'POR DEFINIR',
     experience: 'LA EXPERIENCIA',
     routeLabel: 'RUTA DEL VIAJE',
     defaultRouteLong: 'Ruta por confirmar',
-    overviewNote: 'Cada jornada ha sido organizada para ofrecer una lectura clara del viaje. Los horarios definitivos se confirmaran junto con la documentacion final.',
-    day: 'DIA',
+    overviewNote: 'Cada jornada ha sido organizada para ofrecer una lectura clara del viaje. Los horarios definitivos se confirmarán junto con la documentación final.',
+    day: 'DÍA',
+    itineraryKicker: 'EL ITINERARIO',
+    dayByDay: 'Día a día',
     dateTbd: 'FECHA POR DEFINIR',
     dayTitleTbd: 'Jornada por definir',
-    newDay: 'UNA NUEVA JORNADA',
-    momentsOfDay: 'MOMENTOS DEL DIA',
+    momentsOfDay: 'MOMENTOS DEL DÍA',
     breakfast: 'Desayuno',
     lunch: 'Almuerzo',
     dinner: 'Cena',
     note: 'NOTA',
-    logistics: 'LOGISTICA',
+    logistics: 'LOGÍSTICA',
     allUnderControl: 'Todo bajo control',
     flights: 'VUELOS',
+    flightOutbound: 'VUELO DE IDA',
+    flightReturn: 'VUELO DE REGRESO',
+    flightN: 'VUELO',
+    colDate: 'FECHA',
+    colArrival: 'LLEGADA',
+    flightDetails: 'DETALLES DEL VUELO',
+    localTimes: 'Todos los horarios corresponden a la hora local de cada ciudad.',
     accommodation: 'ALOJAMIENTO',
     origin: 'Origen',
     destination: 'Destino',
     hotelTbd: 'Hotel por confirmar',
     proposalDetails: 'DETALLES DE LA PROPUESTA',
-    servicesInvestment: 'Servicios e inversion',
+    servicesInvestment: 'Servicios e inversión',
     programPerPerson: 'PROGRAMA POR PERSONA',
     flightsPerPerson: 'VUELOS POR PERSONA',
     totalEstimated: 'TOTAL ESTIMADO',
-    investmentPerPerson: 'INVERSION POR PERSONA',
+    investmentPerPerson: 'INVERSIÓN POR PERSONA',
     reserveWith: 'Reserva con',
     includes: 'EL VIAJE INCLUYE',
     excludes: 'NO INCLUYE',
-    importantInfo: 'INFORMACION IMPORTANTE',
+    importantInfo: 'INFORMACIÓN IMPORTANTE',
     beforeTravel: 'Antes de viajar',
     conditions: 'CONDICIONES',
     bookingPayments: 'Reserva y pagos',
     paymentConditions: 'CONDICIONES DE PAGO',
-    fullTerms: 'Consulta los Terminos y Condiciones completos',
+    fullTerms: 'Consulta los Términos y Condiciones completos',
     dateRangeTbd: 'Fechas por confirmar',
-    daySingular: 'dia',
-    dayPlural: 'dias',
+    daySingular: 'día',
+    dayPlural: 'días',
     paymentPlan: 'PLAN DE PAGOS',
     optionalActivities: 'ACTIVIDADES OPCIONALES',
     optionalActivitiesSubtitle: 'Disponibles durante el recorrido (no incluidas en el precio del programa)',
     colConcept: 'CONCEPTO',
-    colDue: 'FECHA LIMITE',
+    colDue: 'FECHA LÍMITE',
     colCity: 'CIUDAD',
     colActivity: 'ACTIVIDAD',
     colAdult: 'ADULTO',
-    colChild: 'NINO',
+    colChild: 'NIÑO',
     locale: 'es-US'
   },
   en: {
@@ -91,9 +99,10 @@ const STRINGS = {
     defaultRouteLong: 'Route to be confirmed',
     overviewNote: 'Each day has been organized to offer a clear reading of the trip. Final schedules will be confirmed along with the final documentation.',
     day: 'DAY',
+    itineraryKicker: 'THE ITINERARY',
+    dayByDay: 'Day by day',
     dateTbd: 'DATE TO BE DEFINED',
     dayTitleTbd: 'Day to be defined',
-    newDay: 'A NEW DAY',
     momentsOfDay: "DAY'S HIGHLIGHTS",
     breakfast: 'Breakfast',
     lunch: 'Lunch',
@@ -102,6 +111,13 @@ const STRINGS = {
     logistics: 'LOGISTICS',
     allUnderControl: 'Everything under control',
     flights: 'FLIGHTS',
+    flightOutbound: 'OUTBOUND FLIGHT',
+    flightReturn: 'RETURN FLIGHT',
+    flightN: 'FLIGHT',
+    colDate: 'DATE',
+    colArrival: 'ARRIVAL',
+    flightDetails: 'FLIGHT DETAILS',
+    localTimes: 'All times are local to each city.',
     accommodation: 'ACCOMMODATION',
     origin: 'Origin',
     destination: 'Destination',
@@ -191,7 +207,7 @@ async function buildPDF(data, images) {
 
     drawCover(doc, data, images.cover);
     drawOverview(doc, data);
-    (data.days || []).forEach((day, index) => drawDay(doc, day, index, images.days[index]));
+    drawDays(doc, data, images.days);
     if ((data.flights || []).length || (data.hotels || []).length) drawLogistics(doc, data);
     drawClosing(doc, data);
     addPageFurniture(doc);
@@ -202,16 +218,29 @@ async function buildPDF(data, images) {
 function drawCover(doc, data, cover) {
   const T = doc.T;
   doc.addPage({ size: 'LETTER', margin: 0 });
+  doc.rect(0, 0, W, H).fill(COLORS.ink);
+  let textTop = 265;
   if (cover) {
-    try { doc.image(cover, 0, 0, { cover: [W, H], align: 'center', valign: 'center' }); }
-    catch { doc.rect(0, 0, W, H).fill(COLORS.ink); }
-  } else doc.rect(0, 0, W, H).fill(COLORS.ink);
-  doc.save().fillColor(COLORS.ink).opacity(cover ? 0.72 : 1).rect(0, 0, W, H).fill().restore();
+    try {
+      // Draw the photo at its own aspect ratio (no full-page stretch) so it stays sharp.
+      const img = doc.openImage(cover);
+      const bandH = Math.min(430, W * img.height / img.width);
+      doc.save();
+      doc.rect(0, 0, W, bandH).clip();
+      doc.image(img, 0, 0, { cover: [W, bandH], align: 'center', valign: 'center' });
+      doc.restore();
+      const fade = doc.linearGradient(0, 0, 0, 120);
+      fade.stop(0, COLORS.ink, 0.65).stop(1, COLORS.ink, 0);
+      doc.rect(0, 0, W, 120).fill(fade);
+      doc.strokeColor(COLORS.terra).lineWidth(2).moveTo(0, bandH).lineTo(W, bandH).stroke();
+      textTop = bandH + 40;
+    } catch { /* unreadable image: keep the plain dark cover */ }
+  }
   drawBrandLockup(doc, true, M, 37, 1.15);
-  doc.fillColor(COLORS.terra).font('Helvetica-Bold').fontSize(8).text(T.personalizedItinerary, M, 265, { characterSpacing: 1.8 });
+  doc.fillColor(COLORS.terra).font('Helvetica-Bold').fontSize(8).text(T.personalizedItinerary, M, textTop, { characterSpacing: 1.8 });
   const titleSize = fitTitle(data.trip.title);
-  doc.fillColor(COLORS.white).font('Times-Roman').fontSize(titleSize).text(data.trip.title, M, 292, { width: 485, lineGap: -3 });
-  let y = Math.min(555, Math.max(455, doc.y + 18));
+  doc.fillColor(COLORS.white).font('Times-Roman').fontSize(titleSize).text(data.trip.title, M, textTop + 27, { width: 485, lineGap: -3 });
+  let y = Math.min(600, Math.max(textTop + 190, doc.y + 18));
   doc.strokeColor(COLORS.terra).lineWidth(1.2).moveTo(M, y).lineTo(M + 54, y).stroke();
   doc.fillColor('#E8DED2').font('Helvetica').fontSize(11).text(data.trip.route || T.defaultRoute, M, y + 17, { width: 460, lineGap: 3 });
   doc.fillColor(COLORS.white).font('Helvetica-Bold').fontSize(8).text(`${T.preparedFor} ${String(data.trip.client || T.defaultClient).toUpperCase()}`, M, 690, { characterSpacing: 1.2 });
@@ -247,66 +276,118 @@ function drawOverview(doc, data) {
   doc.fillColor(COLORS.soft).font('Helvetica').fontSize(10).text(T.overviewNote, M, y, { width: 455, lineGap: 4 });
 }
 
-function drawDay(doc, day, index, image) {
+const DAY_BOTTOM = 736;
+
+// Days flow continuously (like the on-screen preview): several short days share a page,
+// and only days that really carry a photo get an image block. No placeholder art.
+function drawDays(doc, data, dayImages) {
   const T = doc.T;
-  let y = Math.max(210, contentPage(doc, `${T.day} ${String(index + 1).padStart(2, '0')}  /  ${shortDate(day.date, doc.lang) || T.dateTbd}`, day.title || T.dayTitleTbd));
-  if (image) {
-    const imageHeight = 140;
-    try {
-      doc.save();
-      try {
-        doc.rect(M, y, W - M * 2, imageHeight).clip();
-        doc.image(image, M, y, { cover: [W - M * 2, imageHeight], align: 'center', valign: 'center' });
-      } finally {
-        doc.restore();
-      }
+  const days = data.days || [];
+  if (!days.length) return;
+  let y = contentPage(doc, T.itineraryKicker, T.dayByDay);
+  days.forEach((day, index) => {
+    const layout = measureDay(doc, day, index, dayImages[index]);
+    const usable = DAY_BOTTOM - 152;
+    if (layout.height > usable && layout.imageHeight) {
+      layout.height -= Math.min(layout.imageHeight - 90, layout.height - usable);
+      layout.imageHeight = Math.max(90, layout.imageHeight - (layout.originalHeight - layout.height));
     }
-    catch { drawImageFallback(doc, y, index, imageHeight); }
-    doc.strokeColor(COLORS.terra).lineWidth(3).moveTo(M, y + imageHeight).lineTo(W - M, y + imageHeight).stroke();
-    y += imageHeight + 30;
-  } else {
-    doc.fillColor(COLORS.ink).roundedRect(M, y, W - M * 2, 190, 7).fill();
-    doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(88).text(String(index + 1).padStart(2, '0'), M + 30, y + 45);
-    doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(8).text(T.newDay, M + 225, y + 82, { characterSpacing: 1.6 });
-    doc.strokeColor(COLORS.terra).lineWidth(1).moveTo(M + 225, y + 105).lineTo(W - M - 28, y + 105).stroke();
-    y += 222;
+    if (y + layout.height > DAY_BOTTOM && y > 160) y = contentPage(doc, T.itineraryKicker, T.dayByDay);
+    y = drawDay(doc, day, index, layout, y);
+  });
+}
+
+function measureDay(doc, day, index, image) {
+  const T = doc.T;
+  const CW = W - M * 2;
+  const activities = splitLines(day.activities);
+  const columns = activities.length > 3 ? 2 : 1;
+  const perColumn = Math.ceil(activities.length / columns);
+  const descSize = String(day.description || '').length > 750 ? 10.2 : 11;
+  const meals = [day.breakfast && T.breakfast, day.lunch && T.lunch, day.dinner && T.dinner].filter(Boolean);
+  const titleText = day.title || T.dayTitleTbd;
+  doc.font('Times-Roman').fontSize(19);
+  const titleH = doc.heightOfString(titleText, { width: CW, lineGap: -1 });
+  let img = null, imageHeight = 0;
+  if (image) {
+    try { img = doc.openImage(image); imageHeight = Math.min(230, CW * img.height / img.width); } catch { img = null; }
+  }
+  let descH = 0;
+  if (day.description) {
+    doc.font('Times-Roman').fontSize(descSize);
+    descH = doc.heightOfString(day.description, { width: CW, lineGap: 3.5 });
+  }
+  let notesH = 0;
+  if (day.notes) {
+    doc.font('Helvetica').fontSize(8.5);
+    notesH = Math.max(28, doc.heightOfString(day.notes, { width: CW - 70, lineGap: 2 }) + 18);
+  }
+  let height = 14 + titleH + 12;
+  if (img) height += imageHeight + 12;
+  if (day.description) height += descH + 12;
+  if (activities.length) height += 18 + perColumn * 17 + 6;
+  if (meals.length) height += 30;
+  if (notesH) height += notesH + 6;
+  height += 26;
+  return { img, imageHeight, activities, columns, perColumn, descSize, meals, titleText, titleH, notesH, height, originalHeight: height };
+}
+
+function drawDay(doc, day, index, L, y) {
+  const T = doc.T;
+  const CW = W - M * 2;
+  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5)
+    .text(`${T.day} ${String(index + 1).padStart(2, '0')}  /  ${shortDate(day.date, doc.lang) || T.dateTbd}`, M, y, { characterSpacing: 1.4 });
+  y += 14;
+  doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(19).text(L.titleText, M, y, { width: CW, lineGap: -1 });
+  y += L.titleH + 12;
+  if (L.img) {
+    doc.save();
+    doc.rect(M, y, CW, L.imageHeight).clip();
+    doc.image(L.img, M, y, { cover: [CW, L.imageHeight], align: 'center', valign: 'center' });
+    doc.restore();
+    doc.strokeColor(COLORS.terra).lineWidth(2.5).moveTo(M, y + L.imageHeight).lineTo(W - M, y + L.imageHeight).stroke();
+    y += L.imageHeight + 12;
   }
   if (day.description) {
-    const descSize = String(day.description).length > 750 ? 10.2 : 11.5;
-    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(descSize).text(day.description, M, y, { width: W - M * 2, lineGap: 4 });
-    y = doc.y + 17;
+    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(L.descSize).text(day.description, M, y, { width: CW, lineGap: 3.5 });
+    y = doc.y + 12;
   }
-  const activities = splitLines(day.activities);
-  if (activities.length) {
+  if (L.activities.length) {
     doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5).text(T.momentsOfDay, M, y, { characterSpacing: 1.4 });
-    y += 19;
-    const columns = activities.length > 5 ? 2 : 1;
-    const colWidth = columns === 2 ? 238 : W - M * 2;
-    const perColumn = Math.ceil(activities.length / columns);
-    activities.forEach((activity, i) => {
-      const col = Math.floor(i / perColumn);
-      const row = i % perColumn;
+    y += 18;
+    const colWidth = L.columns === 2 ? 238 : CW;
+    L.activities.forEach((activity, i) => {
+      const col = Math.floor(i / L.perColumn);
+      const row = i % L.perColumn;
       const x = M + col * 270;
-      const itemY = y + row * 25;
-      doc.fillColor(COLORS.terra).circle(x + 3, itemY + 5, 2.5).fill();
-      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(9.2).text(activity, x + 13, itemY, { width: colWidth - 13, height: 22, ellipsis: true });
+      const itemY = y + row * 17;
+      doc.fillColor(COLORS.terra).circle(x + 3, itemY + 4, 2.3).fill();
+      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(9).text(activity, x + 13, itemY, { width: colWidth - 13, height: 14, ellipsis: true });
     });
-    y += perColumn * 25 + 5;
+    y += L.perColumn * 17 + 6;
   }
-  const meals = [day.breakfast && T.breakfast, day.lunch && T.lunch, day.dinner && T.dinner].filter(Boolean);
-  if (meals.length) {
-    meals.forEach((meal, i) => {
+  if (L.meals.length) {
+    L.meals.forEach((meal, i) => {
       const x = M + i * 90;
       doc.fillColor('#EFE6DA').roundedRect(x, y, 80, 20, 10).fill();
       doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text(meal.toUpperCase(), x, y + 7, { width: 80, align: 'center' });
     });
-    y += 34;
+    y += 30;
   }
-  if (day.notes && y < 690) {
-    doc.fillColor(COLORS.cream).roundedRect(M, y, W - M * 2, Math.min(58, H - 76 - y), 5).fill();
-    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text(T.note, M + 13, y + 12, { characterSpacing: 1 });
-    doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.5).text(day.notes, M + 55, y + 10, { width: W - M * 2 - 70, height: 40, lineGap: 2, ellipsis: true });
+  if (L.notesH) {
+    doc.fillColor(COLORS.cream).roundedRect(M, y, CW, L.notesH, 5).fill();
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text(T.note, M + 13, y + 10, { characterSpacing: 1 });
+    doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.5).text(day.notes, M + 55, y + 9, { width: CW - 70, lineGap: 2 });
+    y += L.notesH + 6;
   }
+  y += 8;
+  doc.strokeColor(COLORS.line).lineWidth(.6).moveTo(M, y).lineTo(W - M, y).stroke();
+  return y + 18;
+}
+
+// Flight notes are written as short facts separated by " · " (stops, duration, arrival day...).
+function splitNoteParts(notes) {
+  return String(notes || '').split(/\s+·\s+|\n/).map(part => part.trim()).filter(Boolean);
 }
 
 function drawLogistics(doc, data) {
@@ -314,14 +395,48 @@ function drawLogistics(doc, data) {
   contentPage(doc, T.logistics, T.allUnderControl);
   let y = 142;
   if (data.flights?.length) {
-    sectionLabel(doc, T.flights, y); y += 22;
+    sectionLabel(doc, T.flights, y); y += 18;
+    doc.fillColor(COLORS.soft).font('Helvetica-Oblique').fontSize(8).text(T.localTimes, M, y, { width: W - M * 2 });
+    y += 20;
+    const total = data.flights.length;
     data.flights.forEach((flight, index) => {
-      const cardHeight = flight.notes ? 92 : 70;
-      doc.fillColor(index % 2 ? COLORS.paper : COLORS.cream).roundedRect(M, y, W - M * 2, cardHeight, 5).fill();
-      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(16).text(`${flight.from || T.origin} - ${flight.to || T.destination}`, M + 15, y + 13);
-      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.5).text([flight.airline, flight.number, shortDate(flight.date, doc.lang), flight.depart && flight.arrive ? `${flight.depart} - ${flight.arrive}` : ''].filter(Boolean).join('  /  '), M + 15, y + 39, { width: 470 });
-      if (flight.notes) doc.fillColor(COLORS.terraDeep).font('Helvetica').fontSize(7.7).text(flight.notes, M + 15, y + 58, { width: 470, height: 25, lineGap: 2, ellipsis: true });
-      y += cardHeight + 10;
+      const label = total === 2 ? (index === 0 ? T.flightOutbound : T.flightReturn) : `${T.flightN} ${index + 1}`;
+      const CW = W - M * 2;
+      const points = splitNoteParts(flight.notes);
+      doc.font('Helvetica').fontSize(8.6);
+      const detailsH = points.reduce((sum, part) => sum + doc.heightOfString(part, { width: CW - 58, lineGap: 2 }) + 5, 0);
+      const cardH = 20 + 34 + 52 + (points.length ? 26 + detailsH : 0) + 12;
+      if (y + cardH > 735) { y = contentPage(doc, T.logistics, T.flights); }
+      doc.fillColor(COLORS.cream).roundedRect(M, y, CW, cardH, 6).fill();
+      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5).text(label, M + 18, y + 16, { characterSpacing: 1.4 });
+      const carrier = [flight.airline, flight.number].filter(Boolean).join('  ');
+      if (carrier) doc.fillColor(COLORS.ink).font('Helvetica-Bold').fontSize(9).text(carrier, M + 18, y + 15, { width: CW - 36, align: 'right' });
+      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(19).text(`${flight.from || T.origin} – ${flight.to || T.destination}`, M + 18, y + 34, { width: CW - 36 });
+      const colY = y + 70;
+      const cols = [
+        [T.colDate, shortDate(flight.date, doc.lang) || '-', ''],
+        [T.departure, flight.depart || '-', flight.from || ''],
+        [T.colArrival, flight.arrive || '-', flight.to || '']
+      ];
+      cols.forEach(([head, value, place], i) => {
+        const x = M + 18 + i * 165;
+        doc.fillColor(COLORS.soft).font('Helvetica-Bold').fontSize(6.8).text(head, x, colY, { characterSpacing: 1 });
+        doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(17).text(value, x, colY + 12, { width: 150 });
+        if (place) doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8).text(place, x, colY + 33, { width: 150, height: 11, ellipsis: true });
+      });
+      if (points.length) {
+        let dy = y + 20 + 34 + 52 + 8;
+        doc.strokeColor(COLORS.line).lineWidth(.7).moveTo(M + 18, dy).lineTo(M + CW - 18, dy).stroke();
+        dy += 10;
+        doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(6.8).text(T.flightDetails, M + 18, dy, { characterSpacing: 1 });
+        dy += 14;
+        points.forEach(part => {
+          doc.fillColor(COLORS.terra).circle(M + 21, dy + 4, 2.2).fill();
+          doc.fillColor(COLORS.ink).font('Helvetica').fontSize(8.6).text(part, M + 34, dy, { width: CW - 58, lineGap: 2 });
+          dy = doc.y + 5;
+        });
+      }
+      y += cardH + 12;
     });
     y += 12;
   }
