@@ -39,7 +39,7 @@
     }
   };
   const defaults = () => ({
-    trip: { title: '', client: '', travelers: '2', start: '', end: '', route: '', summary: '', cover: '', lang: 'es' },
+    trip: { title: '', client: '', travelers: '2', start: '', end: '', route: '', summary: '', cover: '', lang: 'es', format: 'editorial' },
     days: [emptyDay()], flights: [], hotels: [],
     pricing: { currency: 'USD', price: '', airfare: '', fareNotice: '', deposit: '', validUntil: '', terms: '' },
     details: { includes: '', excludes: '', requirements: '' },
@@ -175,20 +175,27 @@
       const button=$('#printBtn'),original=button.textContent;button.disabled=true;button.textContent='Generando PDF…';
       try{const response=await fetch('/.netlify/functions/generate-itinerary-pdf',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});if(!response.ok){const result=await response.json();throw new Error(result.error||'No fue posible generar el PDF');}const blob=await response.blob(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`${(state.trip.title||'itinerario-altamira').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}.pdf`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('PDF profesional descargado');}catch(error){toast(error.message);}finally{button.disabled=false;button.textContent=original;}
     }
-    $('#printBtn').onclick=()=>{if(!state.trip.title){toast('Agrega primero el nombre del viaje');return;}$('#pdfLangDialog').showModal();};
-    $$('[data-pdf-lang]').forEach(btn=>btn.onclick=()=>{state.trip.lang=btn.dataset.pdfLang;save();renderPreview();$('#pdfLangDialog').close();downloadPDF();});
+    const formatHints={
+      editorial:'Fotografías protagonistas, narrativa aireada y presentación tipo revista.',
+      detailed:'Más contenido por página, ideal para programas extensos y documentación completa.',
+      executive:'Resumen compacto con portada, esencia del viaje, logística y condiciones principales.'
+    };
+    $('#printBtn').onclick=()=>{if(!state.trip.title){toast('Agrega primero el nombre del viaje');return;}$('#pdfFormat').value=state.trip.format||'editorial';$('#pdfFormatHint').textContent=formatHints[$('#pdfFormat').value];$('#pdfLangDialog').showModal();};
+    $('#pdfFormat').onchange=()=>{$('#pdfFormatHint').textContent=formatHints[$('#pdfFormat').value]||'';};
+    $('[data-pdf-lang]').forEach(btn=>btn.onclick=()=>{state.trip.lang=btn.dataset.pdfLang;state.trip.format=$('#pdfFormat').value||'editorial';save();renderPreview();$('#pdfLangDialog').close();downloadPDF();});
     $('#fitPreview').onclick=()=>{const focused=document.body.classList.toggle('preview-focus');$('#fitPreview').textContent=focused?'Volver al editor':'Ajustar';window.scrollTo({top:0,behavior:'smooth'});};
     $('#exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`altamira-${(state.trip.title||'itinerario').toLowerCase().replace(/[^a-z0-9]+/g,'-')}.json`;a.click();URL.revokeObjectURL(a.href);toast('Copia del itinerario guardada');};
     $('#importBtn').onclick=()=>$('#importDialog').showModal();
     $('#importFile').onchange=e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{state={...defaults(),...JSON.parse(reader.result)};localStorage.setItem(STORAGE_KEY,JSON.stringify(state));location.reload();}catch{toast('El archivo no es un itinerario válido');}};reader.readAsText(file);};
     $('#newBtn').onclick=()=>{if(confirm('¿Crear un itinerario nuevo? La propuesta actual seguirá disponible si antes guardas una copia.')){state=defaults();save();location.reload();}};
-    $('#emailBtn').onclick=()=>{if(!state.trip.title){toast('Agrega primero el nombre del viaje');return;}$('#recipientName').value=state.trip.client||'';$('#emailDialog').showModal();};
+    $('#emailBtn').onclick=()=>{if(!state.trip.title){toast('Agrega primero el nombre del viaje');return;}$('#recipientName').value=state.trip.client||'';$('#emailFormat').value=state.trip.format||'editorial';$('#emailDialog').showModal();};
     $$('[data-close]').forEach(x=>x.onclick=()=>document.getElementById(x.dataset.close).close());
     $('#emailForm').onsubmit=sendEmail;
   }
   function renderCover(){const thumb=$('#coverThumb');thumb.innerHTML=state.trip.cover?`<img src="${state.trip.cover}" alt="Portada">`:'<span>✦</span>';$('#removeCover').classList.toggle('hidden',!state.trip.cover);}
   async function sendEmail(e){
     e.preventDefault(); const status=$('#sendStatus'),button=e.submitter; status.className='send-status';status.textContent='Preparando y enviando…';button.disabled=true;
+    state.trip.format=$('#emailFormat').value||'editorial';save();
     try{const response=await fetch('/.netlify/functions/send-itinerary',{method:'POST',headers:{'Content-Type':'application/json','X-Altamira-Code':$('#accessCode').value},body:JSON.stringify({to:$('#recipientEmail').value.trim(),recipientName:$('#recipientName').value.trim(),note:$('#emailNote').value.trim(),trip:state})});const result=await response.json();if(!response.ok)throw new Error(result.error||'No fue posible enviar');status.classList.add('success');status.textContent='Itinerario enviado correctamente.';setTimeout(()=>$('#emailDialog').close(),1500);}catch(err){status.classList.add('error');status.textContent=err.message;}finally{button.disabled=false;}
   }
   bindStaticFields(); renderCover(); renderEditors(); bindDynamic(); setupNav(); setupActions(); renderPreview();
