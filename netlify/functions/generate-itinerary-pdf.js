@@ -324,12 +324,14 @@ function getFormat(data) {
 function drawEditorialDays(doc, data, dayImages) {
   const T = doc.T;
   const days = (data.days || []).filter(day => day.title || day.description || day.activities || day.image);
-  days.forEach((day, index) => {
+  if (!days.length) return;
+
+  const renderHeroDay = (day, index, image) => {
     doc.addPage({ size: 'LETTER', margin: 0 });
     doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
-
     drawBrandLockup(doc, false, M, 23, .82);
-    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5)
+
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.4)
       .text(`${T.day} ${String(index + 1).padStart(2, '0')}`, M, 84, { characterSpacing: 1.6 });
     doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8)
       .text(shortDate(day.date, doc.lang) || T.dateTbd, W - M - 180, 84, { width: 180, align: 'right' });
@@ -337,75 +339,140 @@ function drawEditorialDays(doc, data, dayImages) {
     const title = day.title || T.dayTitleTbd;
     doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(fitEditorialDayTitle(title))
       .text(title, M, 102, { width: W - M * 2, lineGap: -2 });
-    let y = Math.max(160, doc.y + 16);
+    let y = Math.max(158, doc.y + 14);
 
     let img = null;
-    if (dayImages?.[index]) {
-      try { img = doc.openImage(dayImages[index]); } catch { img = null; }
-    }
+    try { img = image ? doc.openImage(image) : null; } catch { img = null; }
     if (img) {
-      const imageH = 218;
+      const imageH = 300;
       doc.save();
       doc.roundedRect(M, y, W - M * 2, imageH, 7).clip();
       doc.image(img, M, y, { cover: [W - M * 2, imageH], align: 'center', valign: 'center' });
       doc.restore();
-      doc.fillColor(COLORS.terra).rect(M, y + imageH - 4, 74, 4).fill();
-      y += imageH + 22;
-    } else {
-      doc.fillColor(COLORS.cream).roundedRect(M, y, W - M * 2, 18, 9).fill();
-      doc.fillColor(COLORS.terra).roundedRect(M, y, 92, 18, 9).fill();
-      y += 35;
+      doc.fillColor(COLORS.terra).rect(M, y + imageH - 4, 78, 4).fill();
+      y += imageH + 18;
     }
 
-    if (day.description) {
-      const descSize = String(day.description).length > 850 ? 9.2 : String(day.description).length > 550 ? 9.8 : 10.6;
-      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(descSize)
-        .text(day.description, M, y, { width: W - M * 2, lineGap: 4 });
-      y = doc.y + 18;
+    const desc = editorialSummary(day.description, 320);
+    if (desc) {
+      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(10.4)
+        .text(desc, M, y, { width: W - M * 2, lineGap: 4 });
+      y = doc.y + 16;
     }
 
-    const activities = splitLines(day.activities);
+    const activities = splitLines(day.activities).slice(0, 4);
     if (activities.length) {
-      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.2)
-        .text(T.momentsOfDay, M, y, { characterSpacing: 1.5 });
-      y += 18;
-      const columns = activities.length > 4 ? 2 : 1;
-      const perColumn = Math.ceil(activities.length / columns);
-      const colW = columns === 2 ? 232 : W - M * 2;
+      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.1)
+        .text(T.momentsOfDay, M, y, { characterSpacing: 1.4 });
+      y += 17;
+      const colW = 230;
       activities.forEach((activity, i) => {
-        const col = Math.floor(i / perColumn);
-        const row = i % perColumn;
-        const x = M + col * 270;
-        const yy = y + row * 21;
+        const col = i % 2, row = Math.floor(i / 2);
+        const x = M + col * 270, yy = y + row * 22;
         doc.fillColor(COLORS.terra).circle(x + 4, yy + 4, 2.7).fill();
-        doc.fillColor(COLORS.soft).font('Helvetica').fontSize(9)
-          .text(activity, x + 15, yy, { width: colW - 15, height: 18, ellipsis: true });
+        doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.8)
+          .text(activity, x + 15, yy, { width: colW, height: 18, ellipsis: true });
       });
-      y += perColumn * 21 + 12;
+      y += Math.ceil(activities.length / 2) * 22 + 10;
     }
 
     const meals = [day.breakfast && T.breakfast, day.lunch && T.lunch, day.dinner && T.dinner].filter(Boolean);
-    if (meals.length) {
-      meals.forEach((meal, i) => {
-        const x = M + i * 94;
-        doc.fillColor('#EFE6DA').roundedRect(x, y, 84, 22, 11).fill();
-        doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7)
-          .text(meal.toUpperCase(), x, y + 7.5, { width: 84, align: 'center' });
-      });
-      y += 34;
-    }
-
-    if (day.notes) {
-      const noteY = Math.min(y + 2, 690);
-      doc.fillColor(COLORS.cream).roundedRect(M, noteY, W - M * 2, 46, 6).fill();
+    meals.forEach((meal, i) => {
+      const x = M + i * 94;
+      doc.fillColor('#EFE6DA').roundedRect(x, y, 84, 22, 11).fill();
       doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7)
-        .text(T.note, M + 14, noteY + 11, { characterSpacing: 1.2 });
-      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.2)
-        .text(day.notes, M + 64, noteY + 10, { width: W - M * 2 - 80, height: 28, ellipsis: true });
-    }
+        .text(meal.toUpperCase(), x, y + 7.5, { width: 84, align: 'center' });
+    });
 
-    doc.strokeColor(COLORS.line).lineWidth(.6).moveTo(M, 750).lineTo(W - M, 750).stroke();
+    if (day.notes && y < 700) {
+      const note = editorialSummary(day.notes, 150);
+      const noteY = Math.min(y + 38, 690);
+      doc.fillColor(COLORS.cream).roundedRect(M, noteY, W - M * 2, 40, 6).fill();
+      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(6.8)
+        .text(T.note, M + 14, noteY + 10, { characterSpacing: 1 });
+      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8)
+        .text(note, M + 58, noteY + 9, { width: W - M * 2 - 72, height: 24, ellipsis: true });
+    }
+  };
+
+  const renderCompactPage = batch => {
+    doc.addPage({ size: 'LETTER', margin: 0 });
+    doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
+    drawBrandLockup(doc, false, M, 23, .82);
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5)
+      .text(T.itineraryKicker, M, 84, { characterSpacing: 1.5 });
+    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(28)
+      .text(T.dayByDay, M, 101, { width: W - M * 2 });
+
+    batch.forEach((entry, batchIndex) => {
+      const { day, index } = entry;
+      const y = 166 + batchIndex * 270;
+      doc.fillColor(batchIndex % 2 ? '#FBF7F0' : COLORS.cream)
+        .roundedRect(M, y, W - M * 2, 238, 10).fill();
+
+      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.2)
+        .text(`${T.day} ${String(index + 1).padStart(2, '0')}`, M + 18, y + 18, { characterSpacing: 1.4 });
+      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(7.8)
+        .text(shortDate(day.date, doc.lang) || T.dateTbd, W - M - 160, y + 18, { width: 142, align: 'right' });
+
+      const title = day.title || T.dayTitleTbd;
+      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(21)
+        .text(title, M + 18, y + 38, { width: W - M * 2 - 36, height: 48, ellipsis: true });
+
+      const desc = editorialSummary(day.description, 210);
+      if (desc) {
+        doc.fillColor(COLORS.soft).font('Times-Roman').fontSize(9.2)
+          .text(desc, M + 18, y + 92, { width: W - M * 2 - 36, height: 50, lineGap: 3, ellipsis: true });
+      }
+
+      const activities = splitLines(day.activities).slice(0, 3);
+      let ay = y + 154;
+      activities.forEach((activity, i) => {
+        doc.fillColor(COLORS.terra).circle(M + 22, ay + 4, 2.4).fill();
+        doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.3)
+          .text(activity, M + 34, ay, { width: 330, height: 15, ellipsis: true });
+        ay += 19;
+      });
+
+      const meals = [day.breakfast && T.breakfast, day.lunch && T.lunch, day.dinner && T.dinner].filter(Boolean);
+      if (meals.length) {
+        meals.slice(0, 3).forEach((meal, i) => {
+          const x = W - M - 86 - i * 72;
+          doc.fillColor('#EFE6DA').roundedRect(x, y + 190, 64, 20, 10).fill();
+          doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(6.4)
+            .text(meal.toUpperCase(), x, y + 197, { width: 64, align: 'center' });
+        });
+      }
+    });
+  };
+
+  let compactBatch = [];
+  const flushCompact = () => {
+    if (!compactBatch.length) return;
+    renderCompactPage(compactBatch);
+    compactBatch = [];
+  };
+
+  days.forEach((day, index) => {
+    const image = dayImages?.[index];
+    if (image) {
+      flushCompact();
+      renderHeroDay(day, index, image);
+    } else {
+      compactBatch.push({ day, index });
+      if (compactBatch.length === 2) flushCompact();
+    }
   });
+  flushCompact();
+}
+
+function editorialSummary(value = '', max = 260) {
+  const text = String(value || '').replace(/\s+/g, ' ').trim();
+  if (!text || text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const sentence = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('; '));
+  const end = sentence > max * .55 ? sentence + 1 : cut.lastIndexOf(' ');
+  return `${cut.slice(0, Math.max(1, end)).trim()}…`;
 }
 
 function drawExecutiveDays(doc, data) {
