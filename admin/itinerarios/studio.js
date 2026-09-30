@@ -45,10 +45,30 @@
     details: { includes: '', excludes: '', requirements: '' },
     contact: { name: 'Altamira Travel', email: 'hola@altamiratravel.com', phone: '+1 (888) 855-1889', closing: 'Estamos listos para hacer realidad este viaje.' }
   });
+  function normalizeImportedState(raw = {}) {
+    const base = defaults();
+    const merged = {
+      ...base,
+      ...raw,
+      trip: { ...base.trip, ...(raw.trip || {}) },
+      pricing: { ...base.pricing, ...(raw.pricing || {}) },
+      details: { ...base.details, ...(raw.details || {}) },
+      contact: { ...base.contact, ...(raw.contact || {}) }
+    };
+    merged.days = Array.isArray(raw.days) && raw.days.length ? raw.days.map(day => ({
+      ...emptyDay(),
+      ...day,
+      gallery: Array.isArray(day.gallery) ? day.gallery.slice(0, 2) : []
+    })) : [emptyDay()];
+    merged.flights = Array.isArray(raw.flights) ? raw.flights.map(item => ({ ...emptyFlight(), ...item })) : [];
+    merged.hotels = Array.isArray(raw.hotels) ? raw.hotels.map(item => ({ ...emptyHotel(), ...item })) : [];
+    return merged;
+  }
+
   let state = load();
 
   function load() {
-    try { return { ...defaults(), ...JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') }; }
+    try { return normalizeImportedState(JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {}); }
     catch { return defaults(); }
   }
   function get(path) { return path.split('.').reduce((value, key) => value?.[key], state); }
@@ -238,7 +258,7 @@
     $('#fitPreview').onclick=()=>{const focused=document.body.classList.toggle('preview-focus');$('#fitPreview').textContent=focused?'Volver al editor':'Ajustar';window.scrollTo({top:0,behavior:'smooth'});};
     $('#exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`altamira-${(state.trip.title||'itinerario').toLowerCase().replace(/[^a-z0-9]+/g,'-')}.json`;a.click();URL.revokeObjectURL(a.href);toast('Copia del itinerario guardada');};
     $('#importBtn').onclick=()=>$('#importDialog').showModal();
-    $('#importFile').onchange=e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{state={...defaults(),...JSON.parse(reader.result)};localStorage.setItem(STORAGE_KEY,JSON.stringify(state));location.reload();}catch{toast('El archivo no es un itinerario válido');}};reader.readAsText(file);};
+    $('#importFile').onchange=e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{state=normalizeImportedState(JSON.parse(reader.result));localStorage.setItem(STORAGE_KEY,JSON.stringify(state));location.reload();}catch{toast('El archivo no es un itinerario válido');}};reader.readAsText(file);};
     $('#newBtn').onclick=()=>{if(confirm('¿Crear un itinerario nuevo? La propuesta actual seguirá disponible si antes guardas una copia.')){state=defaults();save();location.reload();}};
     $('#emailBtn').onclick=()=>{if(!state.trip.title){toast('Agrega primero el nombre del viaje');return;}$('#recipientName').value=state.trip.client||'';$('#emailFormat').value=state.trip.format||'editorial';$('#emailDialog').showModal();};
     $$('[data-close]').forEach(x=>x.onclick=()=>document.getElementById(x.dataset.close).close());
