@@ -9,6 +9,7 @@ const COLORS = {
 const W = 612;
 const H = 792;
 const M = 52;
+const PDF_VERSION = 'editorial-v4-2026-09-30';
 const BRAND_SYMBOLS = {
   dark: loadBrandSymbol('simbolo-terra.png'),
   light: loadBrandSymbol('simbolo-blanco.png')
@@ -155,6 +156,7 @@ const STRINGS = {
 function getLang(data) { return data?.trip?.lang === 'en' ? 'en' : 'es'; }
 
 exports.handler = async (event) => {
+  if (event.httpMethod === 'GET') return json(200, { ok: true, version: PDF_VERSION });
   if (event.httpMethod !== 'POST') return json(405, { error: 'Metodo no permitido.' });
   try {
     const data = JSON.parse(event.body || '{}');
@@ -168,7 +170,8 @@ exports.handler = async (event) => {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${filename}.pdf"`,
-        'Cache-Control': 'no-store'
+        'Cache-Control': 'no-store',
+        'X-Altamira-PDF-Version': PDF_VERSION
       },
       body: buffer.toString('base64')
     };
@@ -206,13 +209,18 @@ async function buildPDF(data, images) {
     doc.T = STRINGS[doc.lang];
 
     drawCover(doc, data, images.cover);
-    drawOverview(doc, data);
     const format = getFormat(data);
-    if (format === 'editorial') drawEditorialDays(doc, data, images.days);
+    if (format === 'editorial') drawEditorialOverview(doc, data);
+    else drawOverview(doc, data);
+    if (format === 'editorial') drawEditorialDays(doc, data, images.days, images.dayGalleries);
     else if (format === 'executive') drawExecutiveDays(doc, data);
     else drawDays(doc, data, images.days);
-    if ((data.flights || []).length || (data.hotels || []).length) drawLogistics(doc, data);
-    drawClosing(doc, data);
+    if ((data.flights || []).length || (data.hotels || []).length) {
+      if (format === 'editorial') drawEditorialLogistics(doc, data, images.hotels);
+      else drawLogistics(doc, data);
+    }
+    if (format === 'editorial') drawEditorialClosing(doc, data);
+    else drawClosing(doc, data);
     addPageFurniture(doc);
     doc.end();
   });
@@ -285,6 +293,65 @@ function drawCover(doc, data, cover) {
   doc.fillColor('#D8CBBB').font('Helvetica').fontSize(9).text(dateRange(data.trip.start, data.trip.end, doc.lang), M, 712);
 }
 
+function drawEditorialOverview(doc, data) {
+  const T = doc.T;
+  doc.addPage({ size: 'LETTER', margin: 0 });
+  doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
+  drawBrandLockup(doc, false, M, 24, .86);
+  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5).text(T.proposal, M, 86, { characterSpacing: 1.5 });
+  doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(34).text(T.tripPlanned, M, 103, { width: W - M * 2 });
+
+  const statsY = 163;
+  const stats = [
+    [duration(data.trip.start, data.trip.end, data.days?.length, doc.lang), T.duration],
+    [String(data.trip.travelers || '-'), T.travelers],
+    [shortDate(data.trip.start, doc.lang) || T.tbd, T.departure]
+  ];
+  stats.forEach((item, index) => {
+    const x = M + index * 169;
+    doc.fillColor(COLORS.cream).roundedRect(x, statsY, 155, 62, 7).fill();
+    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(18).text(item[0], x + 14, statsY + 14, { width: 128 });
+    doc.fillColor(COLORS.soft).font('Helvetica-Bold').fontSize(6.6).text(item[1], x + 14, statsY + 40, { characterSpacing: 1.1 });
+  });
+
+  let y = 258;
+  if (data.trip.summary) {
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.2).text(T.experience, M, y, { characterSpacing: 1.4 });
+    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(17).text(editorialSummary(data.trip.summary, 420), M, y + 22, { width: 478, lineGap: 5 });
+    y = doc.y + 34;
+  }
+
+  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.2).text(T.routeLabel, M, y, { characterSpacing: 1.4 });
+  y += 25;
+  const stops = String(data.trip.route || '').split(/[·•→>-]/).map(s => s.trim()).filter(Boolean).slice(0, 10);
+  if (stops.length > 1) {
+    const startX = M + 10, endX = W - M - 10, lineY = y + 35;
+    doc.strokeColor(COLORS.line).lineWidth(2).moveTo(startX, lineY).lineTo(endX, lineY).stroke();
+    stops.forEach((stop, i) => {
+      const x = startX + (endX - startX) * (i / (stops.length - 1));
+      doc.fillColor(COLORS.terra).circle(x, lineY, 5).fill();
+      const labelY = i % 2 === 0 ? lineY + 15 : lineY - 35;
+      doc.fillColor(COLORS.ink).font('Helvetica-Bold').fontSize(7.5).text(stop, x - 38, labelY, { width: 76, align: 'center', height: 24, ellipsis: true });
+    });
+    y = lineY + 78;
+  } else {
+    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(24).text(data.trip.route || T.defaultRouteLong, M, y, { width: W - M * 2 });
+    y = doc.y + 30;
+  }
+
+  const highlights = (data.days || []).flatMap(day => splitLines(day.activities)).slice(0, 6);
+  if (highlights.length) {
+    doc.fillColor(COLORS.cream).roundedRect(M, y, W - M * 2, 150, 10).fill();
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text(T.momentsOfDay, M + 18, y + 17, { characterSpacing: 1.4 });
+    highlights.forEach((item, i) => {
+      const col = i % 2, row = Math.floor(i / 2);
+      const x = M + 18 + col * 250, yy = y + 44 + row * 30;
+      doc.fillColor(COLORS.terra).circle(x + 3, yy + 4, 2.5).fill();
+      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.5).text(item, x + 14, yy, { width: 215, height: 20, ellipsis: true });
+    });
+  }
+}
+
 function drawOverview(doc, data) {
   const T = doc.T;
   contentPage(doc, T.proposal, T.tripPlanned);
@@ -321,7 +388,7 @@ function getFormat(data) {
   return ['editorial', 'detailed', 'executive'].includes(value) ? value : 'editorial';
 }
 
-function drawEditorialDays(doc, data, dayImages) {
+function drawEditorialDays(doc, data, dayImages, dayGalleries = []) {
   const T = doc.T;
   const days = (data.days || []).filter(day => day.title || day.description || day.activities || day.image);
   if (!days.length) return;
@@ -350,10 +417,16 @@ function drawEditorialDays(doc, data, dayImages) {
       doc.image(img, M, y, { cover: [W - M * 2, imageH], align: 'center', valign: 'center' });
       doc.restore();
       doc.fillColor(COLORS.terra).rect(M, y + imageH - 4, 78, 4).fill();
-      y += imageH + 18;
+      y += imageH + 12;
+      const extras = (dayGalleries[index] || []).filter(Boolean).slice(0,2);
+      if (extras.length) {
+        const gap = 10, thumbW = (W - M * 2 - gap) / 2, thumbH = 84;
+        extras.forEach((extra,i)=>{ try { const ex=doc.openImage(extra); doc.save(); doc.roundedRect(M+i*(thumbW+gap),y,thumbW,thumbH,5).clip(); doc.image(ex,M+i*(thumbW+gap),y,{cover:[thumbW,thumbH],align:'center',valign:'center'}); doc.restore(); } catch {} });
+        y += thumbH + 14;
+      }
     }
 
-    const desc = editorialSummary(day.description, 320);
+    const desc = editorialSummary(day.description, 260);
     if (desc) {
       doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(10.4)
         .text(desc, M, y, { width: W - M * 2, lineGap: 4 });
@@ -615,6 +688,49 @@ function splitNoteParts(notes) {
   return String(notes || '').split(/\s+·\s+|\n/).map(part => part.trim()).filter(Boolean);
 }
 
+function drawEditorialLogistics(doc, data, hotelImages = []) {
+  const T = doc.T;
+  if (data.hotels?.length) {
+    doc.addPage({ size: 'LETTER', margin: 0 });
+    doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
+    drawBrandLockup(doc, false, M, 24, .86);
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.4).text(T.accommodation, M, 86, { characterSpacing: 1.5 });
+    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(31).text(T.accommodation, M, 103);
+    let y = 156;
+    data.hotels.slice(0, 6).forEach((hotel, index) => {
+      const col = index % 2, row = Math.floor(index / 2);
+      const x = M + col * 258, cardY = y + row * 176, cardW = 242, cardH = 158;
+      doc.fillColor(COLORS.cream).roundedRect(x, cardY, cardW, cardH, 8).fill();
+      let img = null;
+      try { img = hotelImages[index] ? doc.openImage(hotelImages[index]) : null; } catch { img = null; }
+      if (img) {
+        doc.save(); doc.roundedRect(x, cardY, cardW, 82, 8).clip();
+        doc.image(img, x, cardY, { cover: [cardW, 82], align: 'center', valign: 'center' }); doc.restore();
+      }
+      const textY = img ? cardY + 94 : cardY + 22;
+      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(14.5).text(hotel.name || T.hotelTbd, x + 14, textY, { width: cardW - 28, height: 36, ellipsis: true });
+      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(7.8).text([hotel.city, hotel.room, hotel.meals].filter(Boolean).join(' · '), x + 14, textY + 40, { width: cardW - 28, height: 28, ellipsis: true });
+    });
+  }
+
+  if (data.flights?.length) {
+    doc.addPage({ size: 'LETTER', margin: 0 });
+    doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
+    drawBrandLockup(doc, false, M, 24, .86);
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.4).text(T.flights, M, 86, { characterSpacing: 1.5 });
+    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(31).text(T.flights, M, 103);
+    let y = 164;
+    data.flights.slice(0, 4).forEach((flight, index) => {
+      const cardH = 112;
+      doc.fillColor(index % 2 ? '#FBF7F0' : COLORS.cream).roundedRect(M, y, W - M * 2, cardH, 8).fill();
+      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text(`${T.flightN} ${index + 1}`, M + 18, y + 17, { characterSpacing: 1.2 });
+      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(20).text(`${flight.from || T.origin} → ${flight.to || T.destination}`, M + 18, y + 35, { width: 300 });
+      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.2).text([flight.airline, flight.number, shortDate(flight.date, doc.lang), flight.depart && flight.arrive ? `${flight.depart} – ${flight.arrive}` : ''].filter(Boolean).join(' · '), M + 18, y + 69, { width: 440 });
+      y += cardH + 14;
+    });
+  }
+}
+
 function drawLogistics(doc, data) {
   const T = doc.T;
   contentPage(doc, T.logistics, T.allUnderControl);
@@ -675,6 +791,48 @@ function drawLogistics(doc, data) {
       y += 84;
     });
   }
+}
+
+function drawEditorialClosing(doc, data) {
+  const T = doc.T;
+  doc.addPage({ size: 'LETTER', margin: 0 });
+  doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
+  drawBrandLockup(doc, false, M, 24, .86);
+  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5).text(T.proposalDetails, M, 86, { characterSpacing: 1.5 });
+  doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(31).text(T.servicesInvestment, M, 103);
+
+  const price = Number(data.pricing?.price || 0);
+  const airfare = Number(data.pricing?.airfare || 0);
+  const currency = data.pricing?.currency || 'USD';
+  let y = 162;
+  if (price || airfare) {
+    doc.fillColor(COLORS.ink).roundedRect(M, y, W - M * 2, 106, 8).fill();
+    const cols = airfare ? [[T.programPerPerson, price],[T.flightsPerPerson, airfare],[T.totalEstimated, price+airfare]] : [[T.investmentPerPerson, price]];
+    cols.forEach((item, i) => {
+      const w = (W - M * 2 - 36) / cols.length, x = M + 18 + i * w;
+      doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(6.5).text(item[0], x, y + 20, { width: w - 10, characterSpacing: 1 });
+      doc.fillColor(i === cols.length - 1 ? COLORS.white : COLORS.terra).font('Times-Roman').fontSize(24).text(`${currency} ${Number(item[1]||0).toLocaleString('en-US')}`, x, y + 43, { width: w - 10 });
+    });
+    y += 132;
+  }
+
+  const includes = splitLines(data.details?.includes).slice(0, 8);
+  const excludes = splitLines(data.details?.excludes).slice(0, 6);
+  const boxH = 260;
+  doc.fillColor(COLORS.cream).roundedRect(M, y, 242, boxH, 8).fill();
+  doc.fillColor('#FBF7F0').roundedRect(318, y, 242, boxH, 8).fill();
+  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text(T.includes, M + 16, y + 18, { characterSpacing: 1.3 });
+  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text(T.excludes, 334, y + 18, { characterSpacing: 1.3 });
+  includes.forEach((item,i)=>{const yy=y+46+i*25;doc.fillColor(COLORS.terra).circle(M+20,yy+4,2.3).fill();doc.fillColor(COLORS.soft).font('Helvetica').fontSize(7.9).text(item,M+31,yy,{width:190,height:18,ellipsis:true});});
+  excludes.forEach((item,i)=>{const yy=y+46+i*28;doc.fillColor(COLORS.soft).font('Helvetica-Bold').fontSize(8).text('—',334,yy);doc.fillColor(COLORS.soft).font('Helvetica').fontSize(7.9).text(item,348,yy,{width:195,height:21,ellipsis:true});});
+  y += boxH + 26;
+
+  const terms = editorialSummary(data.pricing?.terms || data.details?.requirements || '', 360);
+  if (terms) {
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text(T.paymentConditions, M, y, { characterSpacing: 1.3 });
+    doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.4).text(terms, M, y + 20, { width: W - M * 2, lineGap: 3 });
+  }
+  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(8.5).text(T.fullTerms, M, 706, { link: 'https://altamiratravel.com/terminos', underline: true });
 }
 
 function drawClosing(doc, data) {
@@ -884,8 +1042,13 @@ function drawListColumn(doc, title, items, x, y, width, positive) {
 
 async function loadImages(data) {
   const coverPromise = fetchImage(data.trip?.cover);
-  const dayPromises = (data.days || []).map(day => fetchImage(day.image));
-  return { cover: await coverPromise, days: await Promise.all(dayPromises) };
+  const dayPromises = (data.days || []).map(async day => ({
+    main: await fetchImage(day.image),
+    gallery: await Promise.all((day.gallery || []).slice(0,2).map(fetchImage))
+  }));
+  const hotelPromises = (data.hotels || []).map(hotel => fetchImage(hotel.image));
+  const dayData = await Promise.all(dayPromises);
+  return { cover: await coverPromise, days: dayData.map(x=>x.main), dayGalleries: dayData.map(x=>x.gallery), hotels: await Promise.all(hotelPromises) };
 }
 async function fetchImage(source) {
   if (!source) return null;
