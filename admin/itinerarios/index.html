@@ -136,10 +136,19 @@
       <button class="modal-close" value="cancel" aria-label="Cerrar">×</button>
       <span class="overline">Descargar PDF</span>
       <h2>¿En qué idioma <em>lo generamos?</em></h2>
-      <p>El PDF se generará con las etiquetas y el formato de fecha en el idioma que elijas.</p>
+      <p>Elige el estilo de entrega y el idioma. Editorial es el formato recomendado para presentar el viaje al cliente.</p>
+      <div class="field delivery-format-field">
+        <label for="pdfFormat">Formato del itinerario</label>
+        <select id="pdfFormat">
+          <option value="editorial">Editorial · visual y premium</option>
+          <option value="detailed">Detallado · más información</option>
+          <option value="executive">Ejecutivo · resumen compacto</option>
+        </select>
+        <div class="format-hint" id="pdfFormatHint">Fotografías protagonistas, narrativa aireada y presentación tipo revista.</div>
+      </div>
       <div style="display:flex;gap:10px">
-        <button type="button" class="btn btn-ghost full" data-pdf-lang="es">Español</button>
-        <button type="button" class="btn btn-solid full" data-pdf-lang="en">English</button>
+        <button type="button" class="btn btn-ghost full" data-pdf-lang="es">Generar en español</button>
+        <button type="button" class="btn btn-solid full" data-pdf-lang="en">Generate in English</button>
       </div>
     </form>
   </dialog>
@@ -163,6 +172,14 @@
       <div class="field"><label for="recipientName">Nombre del destinatario</label><input id="recipientName" required placeholder="María Hernández"></div>
       <div class="field"><label for="recipientEmail">Correo del destinatario</label><input id="recipientEmail" required type="email" placeholder="maria@email.com"></div>
       <div class="field"><label for="emailNote">Mensaje personal</label><textarea id="emailNote" rows="4" placeholder="María, preparamos esta propuesta pensando en..."></textarea></div>
+      <div class="field">
+        <label for="emailFormat">Formato del PDF adjunto</label>
+        <select id="emailFormat">
+          <option value="editorial">Editorial · recomendado para cliente final</option>
+          <option value="detailed">Detallado · más información</option>
+          <option value="executive">Ejecutivo · resumen compacto</option>
+        </select>
+      </div>
       <div class="field"><label for="accessCode">Código privado de Altamira</label><input id="accessCode" required type="password" autocomplete="current-password"></div>
       <div class="send-status" id="sendStatus" role="status"></div>
       <button class="btn btn-solid full" type="submit">Enviar itinerario <span>→</span></button>
