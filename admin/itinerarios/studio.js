@@ -164,6 +164,12 @@
   function setupNav() {
     $('#sectionNav').addEventListener('click', e => { const btn=e.target.closest('[data-target]'); if(!btn)return; $$('.rail-link').forEach(x=>x.classList.toggle('active',x===btn)); $$('.editor-section').forEach(x=>x.classList.toggle('active',x.dataset.section===btn.dataset.target)); $('#editor').scrollTo({top:0,behavior:'smooth'}); });
   }
+  const formatHints = {
+    editorial: 'Fotografías protagonistas, narrativa aireada y presentación tipo revista.',
+    detailed: 'Más contenido por página, ideal para programas extensos y documentación completa.',
+    executive: 'Resumen compacto con portada, esencia del viaje, logística y condiciones principales.'
+  };
+
   function setupActions() {
     $('#addDay').onclick=()=>{state.days.push(emptyDay());renderEditors();save();renderPreview();};
     $('#addFlight').onclick=()=>{state.flights.push(emptyFlight());renderEditors();save();renderPreview();};
