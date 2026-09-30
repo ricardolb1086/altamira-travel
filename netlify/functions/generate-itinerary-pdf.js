@@ -220,12 +220,47 @@ async function buildPDF(data, images) {
 
 function drawCover(doc, data, cover) {
   const T = doc.T;
+  const format = getFormat(data);
   doc.addPage({ size: 'LETTER', margin: 0 });
   doc.rect(0, 0, W, H).fill(COLORS.ink);
+
+  if (cover && format === 'editorial') {
+    try {
+      const img = doc.openImage(cover);
+      doc.save();
+      doc.rect(0, 0, W, H).clip();
+      doc.image(img, 0, 0, { cover: [W, H], align: 'center', valign: 'center' });
+      doc.restore();
+
+      doc.save();
+      doc.fillOpacity(.28).fillColor(COLORS.ink).rect(0, 0, W, H).fill();
+      doc.fillOpacity(1);
+      const shade = doc.linearGradient(0, 235, 0, H);
+      shade.stop(0, COLORS.ink, 0).stop(.58, COLORS.ink, .48).stop(1, COLORS.ink, .93);
+      doc.rect(0, 210, W, H - 210).fill(shade);
+      doc.restore();
+
+      drawBrandLockup(doc, true, M, 38, 1.18);
+      doc.fillColor('#F1DDD0').font('Helvetica-Bold').fontSize(8)
+        .text(T.personalizedItinerary, M, 432, { characterSpacing: 1.9 });
+      const titleSize = Math.max(36, fitTitle(data.trip.title) - 3);
+      doc.fillColor(COLORS.white).font('Times-Roman').fontSize(titleSize)
+        .text(data.trip.title, M, 462, { width: 495, lineGap: -3 });
+      let y = Math.min(625, Math.max(555, doc.y + 16));
+      doc.fillColor(COLORS.terra).rect(M, y, 58, 3).fill();
+      doc.fillColor('#F2E8DD').font('Helvetica').fontSize(11)
+        .text(data.trip.route || T.defaultRoute, M, y + 18, { width: 455, lineGap: 3 });
+      doc.fillColor(COLORS.white).font('Helvetica-Bold').fontSize(8)
+        .text(`${T.preparedFor} ${String(data.trip.client || T.defaultClient).toUpperCase()}`, M, 698, { characterSpacing: 1.2 });
+      doc.fillColor('#E1D4C7').font('Helvetica').fontSize(9)
+        .text(dateRange(data.trip.start, data.trip.end, doc.lang), M, 721);
+      return;
+    } catch { /* fall back to classic cover */ }
+  }
+
   let textTop = 265;
   if (cover) {
     try {
-      // Draw the photo at its own aspect ratio (no full-page stretch) so it stays sharp.
       const img = doc.openImage(cover);
       const bandH = Math.min(430, W * img.height / img.width);
       doc.save();
