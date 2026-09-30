@@ -240,6 +240,41 @@
   function resizeImage(file, maxWidth = 1400, quality = .8) {
     return new Promise((resolve,reject) => { const reader = new FileReader(); reader.onerror=reject; reader.onload=() => { const img = new Image(); img.onerror=reject; img.onload=() => { const scale=Math.min(1,maxWidth/img.width), canvas=document.createElement('canvas'); canvas.width=Math.round(img.width*scale); canvas.height=Math.round(img.height*scale); canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height); resolve(canvas.toDataURL('image/jpeg',quality)); }; img.src=reader.result; }; reader.readAsDataURL(file); });
   }
+  async function optimizeDataImage(source, maxWidth = 1100, quality = .58) {
+    if (!source || !String(source).startsWith('data:image/')) return source || '';
+    return new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const scale = Math.min(1, maxWidth / img.width);
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.max(1, Math.round(img.width * scale));
+          canvas.height = Math.max(1, Math.round(img.height * scale));
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        } catch { resolve(source); }
+      };
+      img.onerror = () => resolve(source);
+      img.src = source;
+    });
+  }
+
+  async function prepareNetworkState() {
+    const payload = JSON.parse(JSON.stringify(state));
+    payload.trip.cover = await optimizeDataImage(payload.trip.cover, 1300, .6);
+    payload.days = await Promise.all((payload.days || []).map(async day => ({
+      ...day,
+      image: await optimizeDataImage(day.image, 1100, .56),
+      gallery: await Promise.all((day.gallery || []).slice(0,2).map(img => optimizeDataImage(img, 800, .5)))
+    })));
+    payload.hotels = await Promise.all((payload.hotels || []).map(async hotel => ({
+      ...hotel,
+      image: await optimizeDataImage(hotel.image, 900, .52)
+    })));
+    return payload;
+  }
+
   function renderPreview() {
     const t=state.trip, price=Number(state.pricing.price||0), airfare=Number(state.pricing.airfare||0), total=price+airfare, currency=state.pricing.currency;
     const P=PREVIEW_STRINGS[previewLang()];
@@ -282,8 +317,11 @@
       status.className='send-status';status.textContent='Generando PDF…';
       $$('[data-pdf-lang]').forEach(x=>x.disabled=true);
       try{
-        const response=await fetch('/.netlify/functions/generate-itinerary-pdf',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});
-        if(!response.ok){let message='No fue posible generar el PDF';try{const result=await response.json();message=result.error||message;}catch{}throw new Error(message);}
+        status.textContent='Optimizando imágenes…';
+        const networkState=await prepareNetworkState();
+        status.textContent='Generando PDF…';
+        const response=await fetch('/.netlify/functions/generate-itinerary-pdf',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(networkState)});
+        if(!response.ok){let message=response.status===413?'El itinerario aún es demasiado pesado para generar el PDF.':'No fue posible generar el PDF';try{const result=await response.json();message=result.error||message;}catch{}throw new Error(message);}
         const blob=await response.blob();
         if(!blob.size) throw new Error('El PDF se generó vacío. Inténtalo nuevamente.');
         const url=URL.createObjectURL(blob);
@@ -346,7 +384,10 @@
   async function sendEmail(e){
     e.preventDefault(); const status=$('#sendStatus'),button=e.submitter; status.className='send-status';status.textContent='Preparando y enviando…';button.disabled=true;
     state.trip.format=$('#emailFormat').value||'editorial';save();
-    try{const response=await fetch('/.netlify/functions/send-itinerary',{method:'POST',headers:{'Content-Type':'application/json','X-Altamira-Code':$('#accessCode').value},body:JSON.stringify({to:$('#recipientEmail').value.trim(),recipientName:$('#recipientName').value.trim(),note:$('#emailNote').value.trim(),trip:state})});const result=await response.json();if(!response.ok)throw new Error(result.error||'No fue posible enviar');status.classList.add('success');status.textContent='Itinerario enviado correctamente.';setTimeout(()=>$('#emailDialog').close(),1500);}catch(err){status.classList.add('error');status.textContent=err.message;}finally{button.disabled=false;}
+    try{
+      status.textContent='Optimizando imágenes y preparando PDF…';
+      const networkState=await prepareNetworkState();
+      const response=await fetch('/.netlify/functions/send-itinerary',{method:'POST',headers:{'Content-Type':'application/json','X-Altamira-Code':$('#accessCode').value},body:JSON.stringify({to:$('#recipientEmail').value.trim(),recipientName:$('#recipientName').value.trim(),note:$('#emailNote').value.trim(),trip:networkState})});const result=await response.json();if(!response.ok)throw new Error(result.error||'No fue posible enviar');status.classList.add('success');status.textContent='Itinerario enviado correctamente.';setTimeout(()=>$('#emailDialog').close(),1500);}catch(err){status.classList.add('error');status.textContent=err.message;}finally{button.disabled=false;}
   }
   async function init() {
     state = await loadState();
