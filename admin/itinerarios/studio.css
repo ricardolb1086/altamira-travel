@@ -43,3 +43,14 @@ button,input,textarea,select{font:inherit}button{cursor:pointer}.hidden{display:
 .delivery-format-field{margin-bottom:18px}
 .delivery-format-field select,#emailFormat{appearance:auto}
 .format-hint{margin-top:2px;padding:11px 12px;border-left:2px solid var(--terra);background:var(--cream);border-radius:0 7px 7px 0;font-size:11px;line-height:1.5;color:var(--ink-soft)}
+
+/* Editorial v4 visual assets */
+.day-image-block{border-bottom:1px solid var(--line);padding-bottom:14px}
+.day-gallery{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gallery-slot{display:flex;align-items:center;gap:11px;padding:10px;border:1px dashed var(--line);border-radius:9px;background:var(--cream)}
+.gallery-slot .image-thumb{width:88px;height:62px}
+.gallery-slot strong{font-family:var(--serif);font-size:15px;font-weight:500}
+.proposal-day-gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:-4px 0 14px}
+.proposal-day-gallery img{width:100%;aspect-ratio:16/8;object-fit:cover;border-radius:5px}
+.proposal-hotel-img{width:100%;aspect-ratio:16/8;object-fit:cover;border-radius:4px;margin-bottom:11px}
+@media(max-width:820px){.day-gallery{grid-template-columns:1fr}}
