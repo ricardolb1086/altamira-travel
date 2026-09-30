@@ -201,7 +201,7 @@
     }
     $('#printBtn').onclick=()=>{if(!state.trip.title){toast('Agrega primero el nombre del viaje');return;}$('#pdfFormat').value=state.trip.format||'editorial';$('#pdfFormatHint').textContent=formatHints[$('#pdfFormat').value];$('#pdfStatus').className='send-status';$('#pdfStatus').textContent='';$('#pdfLangDialog').showModal();};
     $('#pdfFormat').onchange=()=>{$('#pdfFormatHint').textContent=formatHints[$('#pdfFormat').value]||'';};
-    $('[data-pdf-lang]').forEach(btn=>btn.onclick=()=>{state.trip.lang=btn.dataset.pdfLang;state.trip.format=$('#pdfFormat').value||'editorial';save();renderPreview();$('#pdfLangDialog').close();downloadPDF();});
+    $('[data-pdf-lang]').forEach(btn=>btn.onclick=()=>{state.trip.lang=btn.dataset.pdfLang;state.trip.format=$('#pdfFormat').value||'editorial';save();renderPreview();downloadPDF();});
     $('#fitPreview').onclick=()=>{const focused=document.body.classList.toggle('preview-focus');$('#fitPreview').textContent=focused?'Volver al editor':'Ajustar';window.scrollTo({top:0,behavior:'smooth'});};
     $('#exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`altamira-${(state.trip.title||'itinerario').toLowerCase().replace(/[^a-z0-9]+/g,'-')}.json`;a.click();URL.revokeObjectURL(a.href);toast('Copia del itinerario guardada');};
     $('#importBtn').onclick=()=>$('#importDialog').showModal();
