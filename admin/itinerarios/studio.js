@@ -1,5 +1,8 @@
 (() => {
   const STORAGE_KEY = 'altamira-itinerary-studio-v1';
+  const STORAGE_MODE_KEY = 'altamira-itinerary-storage-mode';
+  const DB_NAME = 'altamira-itinerary-studio';
+  const DB_STORE = 'state';
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
   const uid = () => Math.random().toString(36).slice(2, 10);
@@ -65,11 +68,63 @@
     return merged;
   }
 
-  let state = load();
+  let state = defaults();
 
-  function load() {
-    try { return normalizeImportedState(JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {}); }
-    catch { return defaults(); }
+  function openDB() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(DB_NAME, 1);
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains(DB_STORE)) db.createObjectStore(DB_STORE);
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async function idbGetState() {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(DB_STORE, 'readonly');
+      const req = tx.objectStore(DB_STORE).get('current');
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function idbSetState(value) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(DB_STORE, 'readwrite');
+      tx.objectStore(DB_STORE).put(value, 'current');
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
+  async function loadState() {
+    try {
+      if (localStorage.getItem(STORAGE_MODE_KEY) === 'idb') {
+        const stored = await idbGetState();
+        if (stored) return normalizeImportedState(stored);
+      }
+      return normalizeImportedState(JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {});
+    } catch {
+      return defaults();
+    }
+  }
+
+  async function persistStateNow(value) {
+    const serialized = JSON.stringify(value);
+    try {
+      localStorage.setItem(STORAGE_KEY, serialized);
+      localStorage.setItem(STORAGE_MODE_KEY, 'local');
+      return 'local';
+    } catch {
+      await idbSetState(value);
+      try { localStorage.removeItem(STORAGE_KEY); localStorage.setItem(STORAGE_MODE_KEY, 'idb'); } catch {}
+      return 'idb';
+    }
   }
   function get(path) { return path.split('.').reduce((value, key) => value?.[key], state); }
   function set(path, value) {
@@ -80,9 +135,14 @@
   let saveTimer;
   function save() {
     $('#saveState').lastChild.textContent = ' Guardando…';
-    clearTimeout(saveTimer); saveTimer = setTimeout(() => {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); $('#saveState').lastChild.textContent = ' Guardado automáticamente'; }
-      catch { $('#saveState').lastChild.textContent = ' La imagen es demasiado grande'; }
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      try {
+        await persistStateNow(state);
+        $('#saveState').lastChild.textContent = ' Guardado automáticamente';
+      } catch {
+        $('#saveState').lastChild.textContent = ' No se pudo guardar';
+      }
     }, 220);
   }
   function escapeHTML(value = '') { return String(value).replace(/[&<>'"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[c])); }
@@ -258,8 +318,26 @@
     $('#fitPreview').onclick=()=>{const focused=document.body.classList.toggle('preview-focus');$('#fitPreview').textContent=focused?'Volver al editor':'Ajustar';window.scrollTo({top:0,behavior:'smooth'});};
     $('#exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`altamira-${(state.trip.title||'itinerario').toLowerCase().replace(/[^a-z0-9]+/g,'-')}.json`;a.click();URL.revokeObjectURL(a.href);toast('Copia del itinerario guardada');};
     $('#importBtn').onclick=()=>$('#importDialog').showModal();
-    $('#importFile').onchange=e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{state=normalizeImportedState(JSON.parse(reader.result));localStorage.setItem(STORAGE_KEY,JSON.stringify(state));location.reload();}catch{toast('El archivo no es un itinerario válido');}};reader.readAsText(file);};
-    $('#newBtn').onclick=()=>{if(confirm('¿Crear un itinerario nuevo? La propuesta actual seguirá disponible si antes guardas una copia.')){state=defaults();save();location.reload();}};
+    $('#importFile').onchange=e=>{
+      const file=e.target.files[0];if(!file)return;
+      const status=$('#importStatus');status.className='send-status';status.textContent='Importando itinerario…';
+      const reader=new FileReader();
+      reader.onload=async()=>{
+        try{
+          state=normalizeImportedState(JSON.parse(reader.result));
+          const mode=await persistStateNow(state);
+          status.classList.add('success');
+          status.textContent=mode==='idb'?'Itinerario importado. Guardado en almacenamiento ampliado.':'Itinerario importado correctamente.';
+          setTimeout(()=>location.reload(),600);
+        }catch(err){
+          status.classList.add('error');
+          status.textContent='No se pudo importar el archivo. Verifica que sea un JSON válido.';
+        }
+      };
+      reader.onerror=()=>{status.classList.add('error');status.textContent='No se pudo leer el archivo.';};
+      reader.readAsText(file);
+    };
+    $('#newBtn').onclick=async()=>{if(confirm('¿Crear un itinerario nuevo? La propuesta actual seguirá disponible si antes guardas una copia.')){state=defaults();await persistStateNow(state);location.reload();}};
     $('#emailBtn').onclick=()=>{if(!state.trip.title){toast('Agrega primero el nombre del viaje');return;}$('#recipientName').value=state.trip.client||'';$('#emailFormat').value=state.trip.format||'editorial';$('#emailDialog').showModal();};
     $$('[data-close]').forEach(x=>x.onclick=()=>document.getElementById(x.dataset.close).close());
     $('#emailForm').onsubmit=sendEmail;
@@ -270,5 +348,15 @@
     state.trip.format=$('#emailFormat').value||'editorial';save();
     try{const response=await fetch('/.netlify/functions/send-itinerary',{method:'POST',headers:{'Content-Type':'application/json','X-Altamira-Code':$('#accessCode').value},body:JSON.stringify({to:$('#recipientEmail').value.trim(),recipientName:$('#recipientName').value.trim(),note:$('#emailNote').value.trim(),trip:state})});const result=await response.json();if(!response.ok)throw new Error(result.error||'No fue posible enviar');status.classList.add('success');status.textContent='Itinerario enviado correctamente.';setTimeout(()=>$('#emailDialog').close(),1500);}catch(err){status.classList.add('error');status.textContent=err.message;}finally{button.disabled=false;}
   }
-  bindStaticFields(); renderCover(); renderEditors(); bindDynamic(); setupNav(); setupActions(); renderPreview();
+  async function init() {
+    state = await loadState();
+    bindStaticFields();
+    renderCover();
+    renderEditors();
+    bindDynamic();
+    setupNav();
+    setupActions();
+    renderPreview();
+  }
+  init();
 })();
