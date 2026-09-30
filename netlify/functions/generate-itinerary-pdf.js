@@ -1,7 +1,6 @@
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
 
 const COLORS = {
   cream: '#F7F2E9', paper: '#FFFDF8', ink: '#2E2820', soft: '#6B6258',
@@ -10,7 +9,7 @@ const COLORS = {
 const W = 612;
 const H = 792;
 const M = 52;
-const PDF_VERSION = 'editorial-v5-2026-09-30';
+const PDF_VERSION = 'editorial-v4-2026-09-30';
 const BRAND_SYMBOLS = {
   dark: loadBrandSymbol('simbolo-terra.png'),
   light: loadBrandSymbol('simbolo-blanco.png')
@@ -394,194 +393,151 @@ function drawEditorialDays(doc, data, dayImages, dayGalleries = []) {
   const days = (data.days || []).filter(day => day.title || day.description || day.activities || day.image);
   if (!days.length) return;
 
-  const stops = parseRouteStops(data.trip?.route);
-  const groups = groupDaysByDestination(days, stops);
+  const renderHeroDay = (day, index, image) => {
+    doc.addPage({ size: 'LETTER', margin: 0 });
+    doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
+    drawBrandLockup(doc, false, M, 23, .82);
 
-  groups.forEach((group, groupIndex) => {
-    const lead = pickGroupImage(group, dayImages, dayGalleries);
-    drawDestinationOpener(doc, data, group, lead, groupIndex);
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.4)
+      .text(`${T.day} ${String(index + 1).padStart(2, '0')}`, M, 84, { characterSpacing: 1.6 });
+    doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8)
+      .text(shortDate(day.date, doc.lang) || T.dateTbd, W - M - 180, 84, { width: 180, align: 'right' });
 
-    for (let i = 0; i < group.items.length; i += 2) {
-      drawEditorialDaySpread(doc, group.items.slice(i, i + 2), dayImages, dayGalleries);
-    }
-  });
-}
+    const title = day.title || T.dayTitleTbd;
+    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(fitEditorialDayTitle(title))
+      .text(title, M, 102, { width: W - M * 2, lineGap: -2 });
+    let y = Math.max(158, doc.y + 14);
 
-function parseRouteStops(route = '') {
-  return String(route || '').split(/[·•→]/).map(s => s.trim()).filter(Boolean);
-}
-
-function normalizeKey(value = '') {
-  return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-}
-
-function groupDaysByDestination(days, stops) {
-  const normalizedStops = stops.map(stop => ({ stop, key: normalizeKey(stop) }));
-  const groups = [];
-  let current = null;
-
-  days.forEach((day, index) => {
-    const haystack = normalizeKey(`${day.title || ''} ${day.description || ''}`);
-    let destination = '';
-    for (const item of normalizedStops) {
-      if (item.key && haystack.includes(item.key)) { destination = item.stop; break; }
-    }
-    if (!destination && current) destination = current.destination;
-    if (!destination) destination = stops[0] || (day.title || 'Destino');
-
-    if (!current || current.destination !== destination) {
-      current = { destination, items: [], startIndex: index };
-      groups.push(current);
-    }
-    current.items.push({ day, index });
-  });
-
-  return groups;
-}
-
-function pickGroupImage(group, dayImages, dayGalleries) {
-  for (const item of group.items) {
-    if (dayImages?.[item.index]) return dayImages[item.index];
-    const gallery = (dayGalleries?.[item.index] || []).find(Boolean);
-    if (gallery) return gallery;
-  }
-  return null;
-}
-
-function drawDestinationOpener(doc, data, group, image, groupIndex) {
-  const T = doc.T;
-  doc.addPage({ size: 'LETTER', margin: 0 });
-  doc.fillColor(COLORS.ink).rect(0, 0, W, H).fill();
-
-  let hasImage = false;
-  if (image) {
-    try {
-      const img = doc.openImage(image);
+    let img = null;
+    try { img = image ? doc.openImage(image) : null; } catch { img = null; }
+    if (img) {
+      const imageH = 300;
       doc.save();
-      doc.rect(0, 0, W, H).clip();
-      doc.image(img, 0, 0, { cover: [W, H], align: 'center', valign: 'center' });
+      doc.roundedRect(M, y, W - M * 2, imageH, 7).clip();
+      doc.image(img, M, y, { cover: [W - M * 2, imageH], align: 'center', valign: 'center' });
       doc.restore();
-      hasImage = true;
-    } catch {}
-  }
-
-  doc.save();
-  doc.fillOpacity(hasImage ? .22 : 1).fillColor(COLORS.ink).rect(0, 0, W, H).fill();
-  doc.fillOpacity(1);
-  if (hasImage) {
-    const fade = doc.linearGradient(0, 260, 0, H);
-    fade.stop(0, COLORS.ink, 0).stop(.62, COLORS.ink, .56).stop(1, COLORS.ink, .95);
-    doc.rect(0, 230, W, H - 230).fill(fade);
-  }
-  doc.restore();
-
-  drawBrandLockup(doc, true, M, 38, 1.08);
-  const label = doc.lang === 'en' ? 'DESTINATION' : 'DESTINO';
-  doc.fillColor('#F1DDD0').font('Helvetica-Bold').fontSize(7.5)
-    .text(`${label} ${String(groupIndex + 1).padStart(2, '0')}`, M, 420, { characterSpacing: 1.8 });
-
-  doc.fillColor(COLORS.white).font('Times-Roman').fontSize(48)
-    .text(group.destination, M, 450, { width: 500, lineGap: -3 });
-
-  const first = group.items[0]?.day;
-  const last = group.items[group.items.length - 1]?.day;
-  const dates = [shortDate(first?.date, doc.lang), shortDate(last?.date, doc.lang)].filter(Boolean);
-  const dayCount = group.items.length;
-  doc.fillColor('#E7D9CB').font('Helvetica').fontSize(10)
-    .text(`${dayCount} ${doc.lang === 'en' ? (dayCount === 1 ? 'day' : 'days') : (dayCount === 1 ? 'día' : 'días')}${dates.length ? '  ·  ' + dates.join(' – ') : ''}`, M, 525);
-
-  const moments = group.items.flatMap(({day}) => splitLines(day.activities)).slice(0, 5);
-  if (moments.length) {
-    doc.strokeColor(COLORS.terra).lineWidth(1.5).moveTo(M, 570).lineTo(M + 62, 570).stroke();
-    let y = 592;
-    moments.forEach((moment, i) => {
-      doc.fillColor(COLORS.terra).circle(M + 3, y + 4, 2.5).fill();
-      doc.fillColor(COLORS.white).font('Helvetica').fontSize(8.5)
-        .text(moment, M + 15, y, { width: 430, height: 16, ellipsis: true });
-      y += 22;
-    });
-  }
-}
-
-function drawEditorialDaySpread(doc, entries, dayImages, dayGalleries) {
-  const T = doc.T;
-  doc.addPage({ size: 'LETTER', margin: 0 });
-  doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
-  drawBrandLockup(doc, false, M, 23, .78);
-
-  const top = 86;
-  entries.forEach((entry, slot) => {
-    const { day, index } = entry;
-    const y = top + slot * 326;
-    const blockH = 300;
-
-    doc.fillColor(slot % 2 ? '#FBF7F0' : COLORS.cream).roundedRect(M, y, W - M * 2, blockH, 10).fill();
-
-    const dayNo = String(index + 1).padStart(2, '0');
-    doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(42)
-      .text(dayNo, M + 18, y + 16, { width: 70 });
-    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(6.8)
-      .text(T.day, M + 22, y + 58, { characterSpacing: 1.2 });
-
-    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(21)
-      .text(day.title || T.dayTitleTbd, M + 92, y + 18, { width: 360, height: 48, ellipsis: true });
-    doc.fillColor(COLORS.soft).font('Helvetica').fontSize(7.6)
-      .text(shortDate(day.date, doc.lang) || T.dateTbd, W - M - 112, y + 23, { width: 94, align: 'right' });
-
-    const image = dayImages?.[index];
-    let hasImage = false;
-    if (image) {
-      try {
-        const img = doc.openImage(image);
-        doc.save();
-        doc.roundedRect(M + 18, y + 88, 196, 126, 6).clip();
-        doc.image(img, M + 18, y + 88, { cover: [196, 126], align: 'center', valign: 'center' });
-        doc.restore();
-        hasImage = true;
-      } catch {}
+      doc.fillColor(COLORS.terra).rect(M, y + imageH - 4, 78, 4).fill();
+      y += imageH + 12;
+      const extras = (dayGalleries[index] || []).filter(Boolean).slice(0,2);
+      if (extras.length) {
+        const gap = 10, thumbW = (W - M * 2 - gap) / 2, thumbH = 84;
+        extras.forEach((extra,i)=>{ try { const ex=doc.openImage(extra); doc.save(); doc.roundedRect(M+i*(thumbW+gap),y,thumbW,thumbH,5).clip(); doc.image(ex,M+i*(thumbW+gap),y,{cover:[thumbW,thumbH],align:'center',valign:'center'}); doc.restore(); } catch {} });
+        y += thumbH + 14;
+      }
     }
 
-    const textX = hasImage ? M + 230 : M + 18;
-    const textW = hasImage ? 312 : W - M * 2 - 36;
-    const desc = editorialSummary(day.description, hasImage ? 180 : 250);
+    const desc = editorialSummary(day.description, 260);
     if (desc) {
-      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(9.4)
-        .text(desc, textX, y + 90, { width: textW, height: 64, lineGap: 3, ellipsis: true });
+      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(10.4)
+        .text(desc, M, y, { width: W - M * 2, lineGap: 4 });
+      y = doc.y + 16;
     }
 
-    const activities = splitLines(day.activities).slice(0, 3);
-    let ay = hasImage ? y + 165 : y + 178;
-    activities.forEach(activity => {
-      doc.fillColor(COLORS.terra).circle(textX + 3, ay + 4, 2.2).fill();
-      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(7.8)
-        .text(activity, textX + 14, ay, { width: textW - 14, height: 15, ellipsis: true });
-      ay += 18;
-    });
-
-    const extras = (dayGalleries?.[index] || []).filter(Boolean).slice(0, 2);
-    if (extras.length) {
-      const exW = 92, exH = 58, baseX = M + 18;
-      extras.forEach((extra, i) => {
-        try {
-          const ex = doc.openImage(extra);
-          const x = baseX + i * (exW + 12);
-          doc.save(); doc.roundedRect(x, y + 224, exW, exH, 5).clip();
-          doc.image(ex, x, y + 224, { cover: [exW, exH], align: 'center', valign: 'center' });
-          doc.restore();
-        } catch {}
+    const activities = splitLines(day.activities).slice(0, 4);
+    if (activities.length) {
+      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.1)
+        .text(T.momentsOfDay, M, y, { characterSpacing: 1.4 });
+      y += 17;
+      const colW = 230;
+      activities.forEach((activity, i) => {
+        const col = i % 2, row = Math.floor(i / 2);
+        const x = M + col * 270, yy = y + row * 22;
+        doc.fillColor(COLORS.terra).circle(x + 4, yy + 4, 2.7).fill();
+        doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.8)
+          .text(activity, x + 15, yy, { width: colW, height: 18, ellipsis: true });
       });
+      y += Math.ceil(activities.length / 2) * 22 + 10;
     }
 
     const meals = [day.breakfast && T.breakfast, day.lunch && T.lunch, day.dinner && T.dinner].filter(Boolean);
-    meals.slice(0, 3).forEach((meal, i) => {
-      const x = W - M - 72 - i * 68;
-      doc.fillColor('#EFE6DA').roundedRect(x, y + 248, 60, 20, 10).fill();
-      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(6.1)
-        .text(meal.toUpperCase(), x, y + 255, { width: 60, align: 'center' });
+    meals.forEach((meal, i) => {
+      const x = M + i * 94;
+      doc.fillColor('#EFE6DA').roundedRect(x, y, 84, 22, 11).fill();
+      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7)
+        .text(meal.toUpperCase(), x, y + 7.5, { width: 84, align: 'center' });
     });
-  });
-}
 
+    if (day.notes && y < 700) {
+      const note = editorialSummary(day.notes, 150);
+      const noteY = Math.min(y + 38, 690);
+      doc.fillColor(COLORS.cream).roundedRect(M, noteY, W - M * 2, 40, 6).fill();
+      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(6.8)
+        .text(T.note, M + 14, noteY + 10, { characterSpacing: 1 });
+      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8)
+        .text(note, M + 58, noteY + 9, { width: W - M * 2 - 72, height: 24, ellipsis: true });
+    }
+  };
+
+  const renderCompactPage = batch => {
+    doc.addPage({ size: 'LETTER', margin: 0 });
+    doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
+    drawBrandLockup(doc, false, M, 23, .82);
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5)
+      .text(T.itineraryKicker, M, 84, { characterSpacing: 1.5 });
+    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(28)
+      .text(T.dayByDay, M, 101, { width: W - M * 2 });
+
+    batch.forEach((entry, batchIndex) => {
+      const { day, index } = entry;
+      const y = 166 + batchIndex * 270;
+      doc.fillColor(batchIndex % 2 ? '#FBF7F0' : COLORS.cream)
+        .roundedRect(M, y, W - M * 2, 238, 10).fill();
+
+      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.2)
+        .text(`${T.day} ${String(index + 1).padStart(2, '0')}`, M + 18, y + 18, { characterSpacing: 1.4 });
+      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(7.8)
+        .text(shortDate(day.date, doc.lang) || T.dateTbd, W - M - 160, y + 18, { width: 142, align: 'right' });
+
+      const title = day.title || T.dayTitleTbd;
+      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(21)
+        .text(title, M + 18, y + 38, { width: W - M * 2 - 36, height: 48, ellipsis: true });
+
+      const desc = editorialSummary(day.description, 210);
+      if (desc) {
+        doc.fillColor(COLORS.soft).font('Times-Roman').fontSize(9.2)
+          .text(desc, M + 18, y + 92, { width: W - M * 2 - 36, height: 50, lineGap: 3, ellipsis: true });
+      }
+
+      const activities = splitLines(day.activities).slice(0, 3);
+      let ay = y + 154;
+      activities.forEach((activity, i) => {
+        doc.fillColor(COLORS.terra).circle(M + 22, ay + 4, 2.4).fill();
+        doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.3)
+          .text(activity, M + 34, ay, { width: 330, height: 15, ellipsis: true });
+        ay += 19;
+      });
+
+      const meals = [day.breakfast && T.breakfast, day.lunch && T.lunch, day.dinner && T.dinner].filter(Boolean);
+      if (meals.length) {
+        meals.slice(0, 3).forEach((meal, i) => {
+          const x = W - M - 86 - i * 72;
+          doc.fillColor('#EFE6DA').roundedRect(x, y + 190, 64, 20, 10).fill();
+          doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(6.4)
+            .text(meal.toUpperCase(), x, y + 197, { width: 64, align: 'center' });
+        });
+      }
+    });
+  };
+
+  let compactBatch = [];
+  const flushCompact = () => {
+    if (!compactBatch.length) return;
+    renderCompactPage(compactBatch);
+    compactBatch = [];
+  };
+
+  days.forEach((day, index) => {
+    const image = dayImages?.[index];
+    if (image) {
+      flushCompact();
+      renderHeroDay(day, index, image);
+    } else {
+      compactBatch.push({ day, index });
+      if (compactBatch.length === 2) flushCompact();
+    }
+  });
+  flushCompact();
+}
 
 function editorialSummary(value = '', max = 260) {
   const text = String(value || '').replace(/\s+/g, ' ').trim();
@@ -1085,28 +1041,14 @@ function drawListColumn(doc, title, items, x, y, width, positive) {
 }
 
 async function loadImages(data) {
-  const seen = new Set();
-  const unique = async source => {
-    const buffer = await fetchImage(source);
-    if (!buffer) return null;
-    const hash = crypto.createHash('sha1').update(buffer).digest('hex');
-    if (seen.has(hash)) return null;
-    seen.add(hash);
-    return buffer;
-  };
-
-  const cover = await unique(data.trip?.cover);
-  const days = [];
-  const dayGalleries = [];
-  for (const day of (data.days || [])) {
-    days.push(await unique(day.image));
-    const gallery = [];
-    for (const source of (day.gallery || []).slice(0, 2)) gallery.push(await unique(source));
-    dayGalleries.push(gallery);
-  }
-  const hotels = [];
-  for (const hotel of (data.hotels || [])) hotels.push(await unique(hotel.image));
-  return { cover, days, dayGalleries, hotels };
+  const coverPromise = fetchImage(data.trip?.cover);
+  const dayPromises = (data.days || []).map(async day => ({
+    main: await fetchImage(day.image),
+    gallery: await Promise.all((day.gallery || []).slice(0,2).map(fetchImage))
+  }));
+  const hotelPromises = (data.hotels || []).map(hotel => fetchImage(hotel.image));
+  const dayData = await Promise.all(dayPromises);
+  return { cover: await coverPromise, days: dayData.map(x=>x.main), dayGalleries: dayData.map(x=>x.gallery), hotels: await Promise.all(hotelPromises) };
 }
 async function fetchImage(source) {
   if (!source) return null;
