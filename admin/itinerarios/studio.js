@@ -4,8 +4,8 @@
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
   const uid = () => Math.random().toString(36).slice(2, 10);
   const emptyFlight = () => ({ id: uid(), date: '', airline: '', number: '', from: '', to: '', depart: '', arrive: '', notes: '' });
-  const emptyHotel = () => ({ id: uid(), name: '', city: '', checkin: '', checkout: '', room: '', meals: '' });
-  const emptyDay = () => ({ id: uid(), date: '', title: '', description: '', activities: '', image: '', breakfast: false, lunch: false, dinner: false, notes: '' });
+  const emptyHotel = () => ({ id: uid(), name: '', city: '', checkin: '', checkout: '', room: '', meals: '', image: '' });
+  const emptyDay = () => ({ id: uid(), date: '', title: '', description: '', activities: '', image: '', gallery: [], breakfast: false, lunch: false, dinner: false, notes: '' });
   const PREVIEW_STRINGS = {
     es: {
       locale: 'es-US', kicker: 'Itinerario personalizado', defaultTitle: 'Tu próximo gran viaje',
@@ -101,7 +101,13 @@
       ${field('Fecha',day.date,'date','date')}${field('Título del día',day.title,'title')}
       ${field('Narrativa',day.description,'description','textarea','span-2')}
       ${field('Actividades · una por línea',day.activities,'activities','textarea','span-2')}
-      <div class="day-image"><div class="image-thumb">${day.image?`<img src="${day.image}" alt="">`:'<span>✦</span>'}</div><div><button class="text-btn" data-action="image" data-kind="days" data-index="${i}">Seleccionar foto</button>${day.image?`<button class="text-btn danger" data-action="removeImage" data-kind="days" data-index="${i}">Quitar</button>`:''}<input type="file" accept="image/jpeg,image/png,image/webp" data-day-file="${i}" hidden></div></div>
+      <div class="day-image day-image-block">
+        <div class="image-thumb">${day.image?`<img src="${day.image}" alt="">`:'<span>✦</span>'}</div>
+        <div><strong>Imagen principal</strong><br><button class="text-btn" data-action="image" data-kind="days" data-index="${i}">Seleccionar foto</button>${day.image?`<button class="text-btn danger" data-action="removeImage" data-kind="days" data-index="${i}">Quitar</button>`:''}<input type="file" accept="image/jpeg,image/png,image/webp" data-day-file="${i}" hidden></div>
+      </div>
+      <div class="day-gallery">
+        ${[0,1].map(slot=>`<div class="gallery-slot"><div class="image-thumb">${day.gallery?.[slot]?`<img src="${day.gallery[slot]}" alt="">`:'<span>＋</span>'}</div><div><strong>Foto adicional ${slot+1}</strong><br><button class="text-btn" data-action="galleryImage" data-kind="days" data-index="${i}" data-slot="${slot}">Seleccionar</button>${day.gallery?.[slot]?`<button class="text-btn danger" data-action="removeGalleryImage" data-kind="days" data-index="${i}" data-slot="${slot}">Quitar</button>`:''}<input type="file" accept="image/jpeg,image/png,image/webp" data-day-gallery-file="${i}-${slot}" hidden></div></div>`).join('')}
+      </div>
       <div class="meal-row"><label class="check-pill"><input type="checkbox" data-key="breakfast" ${day.breakfast?'checked':''}> Desayuno</label><label class="check-pill"><input type="checkbox" data-key="lunch" ${day.lunch?'checked':''}> Almuerzo</label><label class="check-pill"><input type="checkbox" data-key="dinner" ${day.dinner?'checked':''}> Cena</label></div>
       ${field('Notas prácticas',day.notes,'notes','textarea','span-2')}
     </article>`).join('');
@@ -110,7 +116,7 @@
     $('#flightsEditor').innerHTML = state.flights.length ? state.flights.map((item,i) => `<article class="item-card" data-item="flights" data-index="${i}"><div class="card-title"><span class="day-number">TRAMO ${i+1}</span><h3>${escapeHTML(item.from||'Origen')} → ${escapeHTML(item.to||'Destino')}</h3>${actionButtons(i,state.flights.length,'flights')}</div>${field('Fecha',item.date,'date','date')}${field('Aerolínea',item.airline,'airline')}${field('Vuelo',item.number,'number')}${field('Origen',item.from,'from')}${field('Destino',item.to,'to')}${field('Salida',item.depart,'depart','time')}${field('Llegada',item.arrive,'arrive','time')}${field('Notas',item.notes,'notes','textarea','span-2')}</article>`).join('') : '<div class="empty-preview"><p>Aún no has agregado vuelos.</p></div>';
   }
   function renderHotels() {
-    $('#hotelsEditor').innerHTML = state.hotels.length ? state.hotels.map((item,i) => `<article class="item-card" data-item="hotels" data-index="${i}"><div class="card-title"><span class="day-number">HOTEL ${i+1}</span><h3>${escapeHTML(item.name||'Nuevo alojamiento')}</h3>${actionButtons(i,state.hotels.length,'hotels')}</div>${field('Hotel',item.name,'name')}${field('Ciudad',item.city,'city')}${field('Check-in',item.checkin,'checkin','date')}${field('Check-out',item.checkout,'checkout','date')}${field('Habitación',item.room,'room')}${field('Régimen',item.meals,'meals')}</article>`).join('') : '<div class="empty-preview"><p>Aún no has agregado hoteles.</p></div>';
+    $('#hotelsEditor').innerHTML = state.hotels.length ? state.hotels.map((item,i) => `<article class="item-card" data-item="hotels" data-index="${i}"><div class="card-title"><span class="day-number">HOTEL ${i+1}</span><h3>${escapeHTML(item.name||'Nuevo alojamiento')}</h3>${actionButtons(i,state.hotels.length,'hotels')}</div>${field('Hotel',item.name,'name')}${field('Ciudad',item.city,'city')}${field('Check-in',item.checkin,'checkin','date')}${field('Check-out',item.checkout,'checkout','date')}${field('Habitación',item.room,'room')}${field('Régimen',item.meals,'meals')}<div class="day-image"><div class="image-thumb">${item.image?`<img src="${item.image}" alt="">`:'<span>✦</span>'}</div><div><strong>Fotografía del hotel</strong><br><button class="text-btn" data-action="hotelImage" data-kind="hotels" data-index="${i}">Seleccionar foto</button>${item.image?`<button class="text-btn danger" data-action="removeHotelImage" data-kind="hotels" data-index="${i}">Quitar</button>`:''}<input type="file" accept="image/jpeg,image/png,image/webp" data-hotel-file="${i}" hidden></div></div></article>`).join('') : '<div class="empty-preview"><p>Aún no has agregado hoteles.</p></div>';
   }
   function bindDynamic() {
     $('#editor').addEventListener('input', e => {
@@ -131,11 +137,24 @@
       if (action === 'down' && index < list.length-1) [list[index+1],list[index]]=[list[index],list[index+1]];
       if (action === 'image') $(`[data-day-file="${index}"]`).click();
       if (action === 'removeImage') list[index].image = '';
+      if (action === 'galleryImage') $(`[data-day-gallery-file="${index}-${btn.dataset.slot}"]`).click();
+      if (action === 'removeGalleryImage') { list[index].gallery = list[index].gallery || []; list[index].gallery[Number(btn.dataset.slot)] = ''; }
+      if (action === 'hotelImage') $(`[data-hotel-file="${index}"]`).click();
+      if (action === 'removeHotelImage') list[index].image = '';
       renderEditors(); save(); renderPreview();
     });
     $('#editor').addEventListener('change', async e => {
-      if (!e.target.matches('[data-day-file]') || !e.target.files[0]) return;
-      state.days[Number(e.target.dataset.dayFile)].image = await resizeImage(e.target.files[0]); renderEditors(); save(); renderPreview();
+      if (!e.target.files?.[0]) return;
+      if (e.target.matches('[data-day-file]')) {
+        state.days[Number(e.target.dataset.dayFile)].image = await resizeImage(e.target.files[0]);
+      } else if (e.target.matches('[data-day-gallery-file]')) {
+        const [dayIndex, slot] = e.target.dataset.dayGalleryFile.split('-').map(Number);
+        state.days[dayIndex].gallery = state.days[dayIndex].gallery || [];
+        state.days[dayIndex].gallery[slot] = await resizeImage(e.target.files[0], 1200, .78);
+      } else if (e.target.matches('[data-hotel-file]')) {
+        state.hotels[Number(e.target.dataset.hotelFile)].image = await resizeImage(e.target.files[0], 1200, .78);
+      } else return;
+      renderEditors(); save(); renderPreview();
     });
   }
   function resizeImage(file, maxWidth = 1400, quality = .8) {
@@ -145,9 +164,9 @@
     const t=state.trip, price=Number(state.pricing.price||0), airfare=Number(state.pricing.airfare||0), total=price+airfare, currency=state.pricing.currency;
     const P=PREVIEW_STRINGS[previewLang()];
     const coverStyle=t.cover?` style="background-image:url('${t.cover}')"`:'';
-    const daysHTML=state.days.filter(d=>d.title||d.description||d.activities||d.image).map((d,i)=>`<div class="proposal-day"><div class="proposal-day-num">${P.day} ${String(i+1).padStart(2,'0')}</div><div><h3>${escapeHTML(d.title||P.dayTbd)}</h3>${d.date?`<div class="proposal-day-date">${escapeHTML(fmtDate(d.date))}</div>`:''}${d.image?`<img class="proposal-day-img" src="${d.image}" alt="">`:''}${d.description?`<p>${escapeHTML(d.description)}</p>`:''}${lines(d.activities).length?`<ul>${lines(d.activities).map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul>`:''}<div class="meal-tags">${d.breakfast?`<span>${P.breakfast}</span>`:''}${d.lunch?`<span>${P.lunch}</span>`:''}${d.dinner?`<span>${P.dinner}</span>`:''}</div>${d.notes?`<p><strong>${P.note}</strong> ${escapeHTML(d.notes)}</p>`:''}</div></div>`).join('');
+    const daysHTML=state.days.filter(d=>d.title||d.description||d.activities||d.image).map((d,i)=>`<div class="proposal-day"><div class="proposal-day-num">${P.day} ${String(i+1).padStart(2,'0')}</div><div><h3>${escapeHTML(d.title||P.dayTbd)}</h3>${d.date?`<div class="proposal-day-date">${escapeHTML(fmtDate(d.date))}</div>`:''}${d.image?`<img class="proposal-day-img" src="${d.image}" alt="">`:''}${d.gallery?.filter(Boolean).length?`<div class="proposal-day-gallery">${d.gallery.filter(Boolean).slice(0,2).map(img=>`<img src="${img}" alt="">`).join('')}</div>`:''}${d.description?`<p>${escapeHTML(d.description)}</p>`:''}${lines(d.activities).length?`<ul>${lines(d.activities).map(x=>`<li>${escapeHTML(x)}</li>`).join('')}</ul>`:''}<div class="meal-tags">${d.breakfast?`<span>${P.breakfast}</span>`:''}${d.lunch?`<span>${P.lunch}</span>`:''}${d.dinner?`<span>${P.dinner}</span>`:''}</div>${d.notes?`<p><strong>${P.note}</strong> ${escapeHTML(d.notes)}</p>`:''}</div></div>`).join('');
     const flights=state.flights.filter(x=>x.from||x.to||x.airline).map(x=>`<div class="proposal-info"><b>${escapeHTML(x.from||P.origin)} → ${escapeHTML(x.to||P.destination)}</b><span>${escapeHTML([x.airline,x.number,x.date?fmtDate(x.date):'',x.depart&&x.arrive?`${x.depart} – ${x.arrive}`:''].filter(Boolean).join(' · '))}</span>${x.notes?`<p>${escapeHTML(x.notes)}</p>`:''}</div>`).join('');
-    const hotels=state.hotels.filter(x=>x.name||x.city).map(x=>`<div class="proposal-info"><b>${escapeHTML(x.name||P.hotelTbd)}</b><span>${escapeHTML([x.city,x.room,x.meals].filter(Boolean).join(' · '))}</span>${x.checkin||x.checkout?`<p>${escapeHTML(x.checkin?fmtDate(x.checkin):'')} — ${escapeHTML(x.checkout?fmtDate(x.checkout):'')}</p>`:''}</div>`).join('');
+    const hotels=state.hotels.filter(x=>x.name||x.city).map(x=>`<div class="proposal-info">${x.image?`<img class="proposal-hotel-img" src="${x.image}" alt="">`:''}<b>${escapeHTML(x.name||P.hotelTbd)}</b><span>${escapeHTML([x.city,x.room,x.meals].filter(Boolean).join(' · '))}</span>${x.checkin||x.checkout?`<p>${escapeHTML(x.checkin?fmtDate(x.checkin):'')} — ${escapeHTML(x.checkout?fmtDate(x.checkout):'')}</p>`:''}</div>`).join('');
     $('#proposal').innerHTML=`<header class="proposal-cover ${t.cover?'has-image':''}"${coverStyle}><div class="proposal-logo"><img src="/images/simbolo-blanco.png" alt="Altamira Travel"><span>ALTA<b>MIRA</b></span></div><div><div class="proposal-kicker">${P.kicker}</div><h1>${escapeHTML(t.title||P.defaultTitle)}</h1><div class="proposal-route">${escapeHTML(t.route||P.defaultRoute)}</div><div class="proposal-client">${P.preparedFor} ${escapeHTML(t.client||P.defaultClient)}</div></div></header>
       <div class="proposal-stats"><div class="proposal-stat"><b>${escapeHTML(tripDays())}</b><span>${P.duration}</span></div><div class="proposal-stat"><b>${escapeHTML(t.travelers||'—')}</b><span>${P.travelers}</span></div><div class="proposal-stat"><b>${escapeHTML(t.start?fmtDate(t.start).replace(/ de \d{4}$/,'').replace(/,? \d{4}$/,''):P.tbd)}</b><span>${P.departure}</span></div></div>
       ${t.summary?`<section class="proposal-section"><div class="eyebrow">${P.experience}</div><h2>${P.tripPlanned}</h2><div class="proposal-summary">${escapeHTML(t.summary)}</div></section>`:''}
