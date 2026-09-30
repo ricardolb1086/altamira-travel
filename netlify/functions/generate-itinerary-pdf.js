@@ -207,7 +207,10 @@ async function buildPDF(data, images) {
 
     drawCover(doc, data, images.cover);
     drawOverview(doc, data);
-    drawDays(doc, data, images.days);
+    const format = getFormat(data);
+    if (format === 'editorial') drawEditorialDays(doc, data, images.days);
+    else if (format === 'executive') drawExecutiveDays(doc, data);
+    else drawDays(doc, data, images.days);
     if ((data.flights || []).length || (data.hotels || []).length) drawLogistics(doc, data);
     drawClosing(doc, data);
     addPageFurniture(doc);
@@ -277,6 +280,126 @@ function drawOverview(doc, data) {
 }
 
 const DAY_BOTTOM = 736;
+
+function getFormat(data) {
+  const value = String(data?.trip?.format || 'editorial').toLowerCase();
+  return ['editorial', 'detailed', 'executive'].includes(value) ? value : 'editorial';
+}
+
+function drawEditorialDays(doc, data, dayImages) {
+  const T = doc.T;
+  const days = (data.days || []).filter(day => day.title || day.description || day.activities || day.image);
+  days.forEach((day, index) => {
+    doc.addPage({ size: 'LETTER', margin: 0 });
+    doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
+
+    drawBrandLockup(doc, false, M, 23, .82);
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5)
+      .text(`${T.day} ${String(index + 1).padStart(2, '0')}`, M, 84, { characterSpacing: 1.6 });
+    doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8)
+      .text(shortDate(day.date, doc.lang) || T.dateTbd, W - M - 180, 84, { width: 180, align: 'right' });
+
+    const title = day.title || T.dayTitleTbd;
+    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(fitEditorialDayTitle(title))
+      .text(title, M, 102, { width: W - M * 2, lineGap: -2 });
+    let y = Math.max(160, doc.y + 16);
+
+    let img = null;
+    if (dayImages?.[index]) {
+      try { img = doc.openImage(dayImages[index]); } catch { img = null; }
+    }
+    if (img) {
+      const imageH = 218;
+      doc.save();
+      doc.roundedRect(M, y, W - M * 2, imageH, 7).clip();
+      doc.image(img, M, y, { cover: [W - M * 2, imageH], align: 'center', valign: 'center' });
+      doc.restore();
+      doc.fillColor(COLORS.terra).rect(M, y + imageH - 4, 74, 4).fill();
+      y += imageH + 22;
+    } else {
+      doc.fillColor(COLORS.cream).roundedRect(M, y, W - M * 2, 18, 9).fill();
+      doc.fillColor(COLORS.terra).roundedRect(M, y, 92, 18, 9).fill();
+      y += 35;
+    }
+
+    if (day.description) {
+      const descSize = String(day.description).length > 850 ? 9.2 : String(day.description).length > 550 ? 9.8 : 10.6;
+      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(descSize)
+        .text(day.description, M, y, { width: W - M * 2, lineGap: 4 });
+      y = doc.y + 18;
+    }
+
+    const activities = splitLines(day.activities);
+    if (activities.length) {
+      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.2)
+        .text(T.momentsOfDay, M, y, { characterSpacing: 1.5 });
+      y += 18;
+      const columns = activities.length > 4 ? 2 : 1;
+      const perColumn = Math.ceil(activities.length / columns);
+      const colW = columns === 2 ? 232 : W - M * 2;
+      activities.forEach((activity, i) => {
+        const col = Math.floor(i / perColumn);
+        const row = i % perColumn;
+        const x = M + col * 270;
+        const yy = y + row * 21;
+        doc.fillColor(COLORS.terra).circle(x + 4, yy + 4, 2.7).fill();
+        doc.fillColor(COLORS.soft).font('Helvetica').fontSize(9)
+          .text(activity, x + 15, yy, { width: colW - 15, height: 18, ellipsis: true });
+      });
+      y += perColumn * 21 + 12;
+    }
+
+    const meals = [day.breakfast && T.breakfast, day.lunch && T.lunch, day.dinner && T.dinner].filter(Boolean);
+    if (meals.length) {
+      meals.forEach((meal, i) => {
+        const x = M + i * 94;
+        doc.fillColor('#EFE6DA').roundedRect(x, y, 84, 22, 11).fill();
+        doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7)
+          .text(meal.toUpperCase(), x, y + 7.5, { width: 84, align: 'center' });
+      });
+      y += 34;
+    }
+
+    if (day.notes) {
+      const noteY = Math.min(y + 2, 690);
+      doc.fillColor(COLORS.cream).roundedRect(M, noteY, W - M * 2, 46, 6).fill();
+      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7)
+        .text(T.note, M + 14, noteY + 11, { characterSpacing: 1.2 });
+      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.2)
+        .text(day.notes, M + 64, noteY + 10, { width: W - M * 2 - 80, height: 28, ellipsis: true });
+    }
+
+    doc.strokeColor(COLORS.line).lineWidth(.6).moveTo(M, 750).lineTo(W - M, 750).stroke();
+  });
+}
+
+function drawExecutiveDays(doc, data) {
+  const T = doc.T;
+  const days = (data.days || []).filter(day => day.title || day.description || day.activities);
+  if (!days.length) return;
+  let y = contentPage(doc, T.itineraryKicker, T.dayByDay);
+  days.forEach((day, index) => {
+    if (y > 704) y = contentPage(doc, T.itineraryKicker, T.dayByDay);
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.2)
+      .text(`${T.day} ${String(index + 1).padStart(2, '0')}`, M, y, { characterSpacing: 1.3 });
+    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(15.5)
+      .text(day.title || T.dayTitleTbd, M + 70, y - 4, { width: 305, height: 22, ellipsis: true });
+    doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8)
+      .text(shortDate(day.date, doc.lang) || '', W - M - 125, y, { width: 125, align: 'right' });
+    const firstActivity = splitLines(day.activities)[0];
+    if (firstActivity) {
+      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.2)
+        .text(firstActivity, M + 70, y + 18, { width: W - M * 2 - 70, height: 14, ellipsis: true });
+    }
+    y += 43;
+    doc.strokeColor(COLORS.line).lineWidth(.5).moveTo(M + 70, y - 8).lineTo(W - M, y - 8).stroke();
+  });
+}
+
+function fitEditorialDayTitle(value = '') {
+  const length = String(value).length;
+  return length > 52 ? 25 : length > 34 ? 29 : 34;
+}
 
 // Days flow continuously (like the on-screen preview): several short days share a page,
 // and only days that really carry a photo get an image block. No placeholder art.
