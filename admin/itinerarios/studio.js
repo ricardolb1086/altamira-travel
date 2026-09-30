@@ -172,15 +172,34 @@
     $('#coverInput').onchange=async e=>{if(!e.target.files[0])return;state.trip.cover=await resizeImage(e.target.files[0],1800,.82);renderCover();save();renderPreview();};
     $('#removeCover').onclick=()=>{state.trip.cover='';renderCover();save();renderPreview();};
     async function downloadPDF(){
-      const button=$('#printBtn'),original=button.textContent;button.disabled=true;button.textContent='Generando PDF…';
-      try{const response=await fetch('/.netlify/functions/generate-itinerary-pdf',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});if(!response.ok){const result=await response.json();throw new Error(result.error||'No fue posible generar el PDF');}const blob=await response.blob(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`${(state.trip.title||'itinerario-altamira').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}.pdf`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('PDF profesional descargado');}catch(error){toast(error.message);}finally{button.disabled=false;button.textContent=original;}
+      const button=$('#printBtn'),original=button.textContent,status=$('#pdfStatus');
+      button.disabled=true;button.textContent='Generando PDF…';
+      status.className='send-status';status.textContent='Generando PDF…';
+      $$('[data-pdf-lang]').forEach(x=>x.disabled=true);
+      try{
+        const response=await fetch('/.netlify/functions/generate-itinerary-pdf',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});
+        if(!response.ok){let message='No fue posible generar el PDF';try{const result=await response.json();message=result.error||message;}catch{}throw new Error(message);}
+        const blob=await response.blob();
+        if(!blob.size) throw new Error('El PDF se generó vacío. Inténtalo nuevamente.');
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');
+        a.href=url;
+        a.download=`${(state.trip.title||'itinerario-altamira').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(()=>URL.revokeObjectURL(url),3000);
+        status.classList.add('success');status.textContent='PDF listo. La descarga debería comenzar ahora.';
+        toast('PDF profesional descargado');
+        setTimeout(()=>$('#pdfLangDialog').close(),900);
+      }catch(error){
+        status.classList.add('error');status.textContent=error.message;
+      }finally{
+        button.disabled=false;button.textContent=original;
+        $$('[data-pdf-lang]').forEach(x=>x.disabled=false);
+      }
     }
-    const formatHints={
-      editorial:'Fotografías protagonistas, narrativa aireada y presentación tipo revista.',
-      detailed:'Más contenido por página, ideal para programas extensos y documentación completa.',
-      executive:'Resumen compacto con portada, esencia del viaje, logística y condiciones principales.'
-    };
-    $('#printBtn').onclick=()=>{if(!state.trip.title){toast('Agrega primero el nombre del viaje');return;}$('#pdfFormat').value=state.trip.format||'editorial';$('#pdfFormatHint').textContent=formatHints[$('#pdfFormat').value];$('#pdfLangDialog').showModal();};
+    $('#printBtn').onclick=()=>{if(!state.trip.title){toast('Agrega primero el nombre del viaje');return;}$('#pdfFormat').value=state.trip.format||'editorial';$('#pdfFormatHint').textContent=formatHints[$('#pdfFormat').value];$('#pdfStatus').className='send-status';$('#pdfStatus').textContent='';$('#pdfLangDialog').showModal();};
     $('#pdfFormat').onchange=()=>{$('#pdfFormatHint').textContent=formatHints[$('#pdfFormat').value]||'';};
     $('[data-pdf-lang]').forEach(btn=>btn.onclick=()=>{state.trip.lang=btn.dataset.pdfLang;state.trip.format=$('#pdfFormat').value||'editorial';save();renderPreview();$('#pdfLangDialog').close();downloadPDF();});
     $('#fitPreview').onclick=()=>{const focused=document.body.classList.toggle('preview-focus');$('#fitPreview').textContent=focused?'Volver al editor':'Ajustar';window.scrollTo({top:0,behavior:'smooth'});};
