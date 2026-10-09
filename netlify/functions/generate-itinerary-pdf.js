@@ -61,6 +61,8 @@ const STRINGS = {
     flightsPerPerson: 'VUELOS POR PERSONA',
     totalEstimated: 'TOTAL ESTIMADO',
     investmentPerPerson: 'INVERSIÓN POR PERSONA',
+    priceDoubleRoom: 'PRECIO POR PERSONA EN HABITACIÓN DOBLE',
+    colPricePerPerson: 'PRECIO POR PERSONA',
     reserveWith: 'Reserva con',
     includes: 'EL VIAJE INCLUYE',
     excludes: 'NO INCLUYE',
@@ -129,6 +131,8 @@ const STRINGS = {
     flightsPerPerson: 'FLIGHTS PER PERSON',
     totalEstimated: 'TOTAL ESTIMATED',
     investmentPerPerson: 'INVESTMENT PER PERSON',
+    priceDoubleRoom: 'PRICE PER PERSON, DOUBLE ROOM',
+    colPricePerPerson: 'PRICE PER PERSON',
     reserveWith: 'Reserve with',
     includes: 'THE TRIP INCLUDES',
     excludes: 'NOT INCLUDED',
@@ -806,14 +810,19 @@ function drawEditorialClosing(doc, data) {
   const currency = data.pricing?.currency || 'USD';
   let y = 162;
   if (price || airfare) {
-    doc.fillColor(COLORS.ink).roundedRect(M, y, W - M * 2, 106, 8).fill();
-    const cols = airfare ? [[T.programPerPerson, price],[T.flightsPerPerson, airfare],[T.totalEstimated, price+airfare]] : [[T.investmentPerPerson, price]];
-    cols.forEach((item, i) => {
-      const w = (W - M * 2 - 36) / cols.length, x = M + 18 + i * w;
-      doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(6.5).text(item[0], x, y + 20, { width: w - 10, characterSpacing: 1 });
-      doc.fillColor(i === cols.length - 1 ? COLORS.white : COLORS.terra).font('Times-Roman').fontSize(24).text(`${currency} ${Number(item[1]||0).toLocaleString('en-US')}`, x, y + 43, { width: w - 10 });
-    });
-    y += 132;
+    doc.fillColor(COLORS.ink).roundedRect(M, y, W - M * 2, airfare ? 106 : 112, 8).fill();
+    if (!airfare) {
+      doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(8.6).text(data.pricing?.priceLabel || T.priceDoubleRoom, M + 22, y + 24, { width: W - M * 2 - 44, characterSpacing: 1.3 });
+      doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(46).text(`${currency} ${price.toLocaleString('en-US')}`, M + 22, y + 46, { width: W - M * 2 - 44 });
+    } else {
+      const cols = [[T.programPerPerson, price],[T.flightsPerPerson, airfare],[T.totalEstimated, price+airfare]];
+      cols.forEach((item, i) => {
+        const w = (W - M * 2 - 36) / cols.length, x = M + 18 + i * w;
+        doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(6.5).text(item[0], x, y + 20, { width: w - 10, characterSpacing: 1 });
+        doc.fillColor(i === cols.length - 1 ? COLORS.white : COLORS.terra).font('Times-Roman').fontSize(24).text(`${currency} ${Number(item[1]||0).toLocaleString('en-US')}`, x, y + 43, { width: w - 10 });
+      });
+    }
+    y += airfare ? 132 : 138;
   }
 
   const includes = splitLines(data.details?.includes).slice(0, 8);
@@ -843,7 +852,7 @@ function drawClosing(doc, data) {
   const airfare = Number(data.pricing?.airfare || 0);
   const total = price + airfare;
   if (price || airfare) {
-    doc.fillColor(COLORS.ink).roundedRect(M, y, W - M * 2, 92, 6).fill();
+    doc.fillColor(COLORS.ink).roundedRect(M, y, W - M * 2, airfare ? 92 : 104, 6).fill();
     const currency = data.pricing.currency || 'USD';
     if (airfare) {
       const priceColumns = [
@@ -858,11 +867,11 @@ function drawClosing(doc, data) {
       });
       if (data.pricing?.fareNotice) doc.fillColor('#D8CBBB').font('Helvetica').fontSize(7.3).text(data.pricing.fareNotice, M + 20, y + 69, { width: W - M * 2 - 40, height: 16, align: 'center', ellipsis: true });
     } else {
-      doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(7).text(T.investmentPerPerson, M + 20, y + 22, { characterSpacing: 1.4 });
-      doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(34).text(`${currency} ${price.toLocaleString('en-US')}`, M + 20, y + 42);
-      if (data.pricing.deposit) doc.fillColor(COLORS.white).font('Helvetica').fontSize(9).text(`${T.reserveWith} ${data.pricing.deposit}`, 320, y + 49, { width: 220, align: 'right' });
+      doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(8.6).text(data.pricing?.priceLabel || T.priceDoubleRoom, M + 22, y + 22, { width: W - M * 2 - 44, characterSpacing: 1.3 });
+      doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(44).text(`${currency} ${price.toLocaleString('en-US')}`, M + 22, y + 42, { width: 300 });
+      if (data.pricing.deposit) doc.fillColor(COLORS.white).font('Helvetica').fontSize(10).text(`${T.reserveWith} ${data.pricing.deposit}`, 320, y + 62, { width: 220, align: 'right' });
     }
-    y += 120;
+    y += airfare ? 120 : 132;
   }
   const includes = splitLines(data.details?.includes);
   const excludes = splitLines(data.details?.excludes);
@@ -947,29 +956,46 @@ function drawPaymentPlan(doc, T, items, x, y, width) {
 }
 
 function drawOptionalActivities(doc, T, items, x, y, width, note) {
+  const hasChild = items.some(item => item.child !== undefined && item.child !== null && String(item.child) !== '');
   sectionLabel(doc, T.optionalActivities, y);
   y += 16;
   doc.fillColor(COLORS.soft).font('Helvetica').fontSize(7.6).text(T.optionalActivitiesSubtitle, x, y, { width });
   y += 18;
-  const colCity = width * 0.20;
-  const colActivity = width * 0.48;
-  const colPrice = width * 0.16;
+  const colCity = width * 0.17;
+  const colPrice = hasChild ? width * 0.16 : width * 0.17;
+  const colActivity = width - colCity - colPrice * (hasChild ? 2 : 1);
   const adultX = x + colCity + colActivity + 4;
   const childX = x + colCity + colActivity + colPrice + 4;
   doc.fillColor(COLORS.soft).font('Helvetica-Bold').fontSize(6.8);
   doc.text(T.colCity, x + 14, y, { width: colCity - 14, characterSpacing: 0.8 });
   doc.text(T.colActivity, x + colCity + 4, y, { width: colActivity - 8, characterSpacing: 0.8 });
-  doc.text(T.colAdult, adultX, y, { width: colPrice - 8, characterSpacing: 0.8, align: 'right' });
-  doc.text(T.colChild, childX, y, { width: colPrice - 18, characterSpacing: 0.8, align: 'right' });
+  if (hasChild) {
+    doc.text(T.colAdult, adultX, y, { width: colPrice - 8, characterSpacing: 0.8, align: 'right' });
+    doc.text(T.colChild, childX, y, { width: colPrice - 18, characterSpacing: 0.8, align: 'right' });
+  } else {
+    doc.text(T.colPricePerPerson, adultX - 10, y, { width: colPrice + 6 - 18, characterSpacing: 0.8, align: 'right' });
+  }
   y += 15;
   items.forEach((item, index) => {
-    if (y >= 715) { y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments)); }
-    const rowH = 28;
+    const desc = String(item.description || '').trim();
+    doc.font('Helvetica').fontSize(7.4);
+    const descH = desc ? Math.min(30, doc.heightOfString(desc, { width: colActivity - 12, lineGap: 1.5 })) : 0;
+    const rowH = desc ? 22 + descH + 6 : 28;
+    if (y + rowH >= 735) { y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments)); }
     doc.fillColor(index % 2 ? COLORS.paper : COLORS.cream).roundedRect(x, y, width, rowH, 4).fill();
     doc.fillColor(COLORS.ink).font('Helvetica-Bold').fontSize(8.3).text(item.city || '', x + 14, y + 9, { width: colCity - 14, height: 14, ellipsis: true });
-    doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.3).text(item.name || '', x + colCity + 4, y + 9, { width: colActivity - 8, height: 14, ellipsis: true });
-    doc.fillColor(COLORS.terra).font('Helvetica-Bold').fontSize(9).text(`$${item.adult}`, adultX, y + 8, { width: colPrice - 8, align: 'right' });
-    doc.fillColor(COLORS.terra).font('Helvetica-Bold').fontSize(9).text(`$${item.child}`, childX, y + 8, { width: colPrice - 18, align: 'right' });
+    if (desc) {
+      doc.fillColor(COLORS.ink).font('Helvetica-Bold').fontSize(8.3).text(item.name || '', x + colCity + 4, y + 8, { width: colActivity - 8, height: 12, ellipsis: true });
+      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(7.4).text(desc, x + colCity + 4, y + 21, { width: colActivity - 12, height: descH, lineGap: 1.5, ellipsis: true });
+    } else {
+      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.3).text(item.name || '', x + colCity + 4, y + 9, { width: colActivity - 8, height: 14, ellipsis: true });
+    }
+    if (hasChild) {
+      doc.fillColor(COLORS.terra).font('Helvetica-Bold').fontSize(9).text(`$${item.adult}`, adultX, y + 8, { width: colPrice - 8, align: 'right' });
+      doc.fillColor(COLORS.terra).font('Helvetica-Bold').fontSize(9).text(item.child !== undefined && String(item.child) !== '' ? `$${item.child}` : '-', childX, y + 8, { width: colPrice - 18, align: 'right' });
+    } else {
+      doc.fillColor(COLORS.terra).font('Helvetica-Bold').fontSize(10).text(`$${item.adult}`, adultX - 10, y + 8, { width: colPrice + 6 - 18, align: 'right' });
+    }
     y += rowH + 5;
   });
   if (note) {
