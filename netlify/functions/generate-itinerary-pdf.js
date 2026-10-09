@@ -903,8 +903,9 @@ function drawClosing(doc, data) {
     y = drawTermsText(doc, data.pricing.terms, M, y, W - M * 2);
     y += 18;
   }
-  if (y >= 670) y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments));
-  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(9).text(T.fullTerms, M, Math.max(y, 690), { link: 'https://altamiratravel.com/terminos', underline: true });
+  // The footer rule sits at y=750: only start a page just for this link when it truly doesn't fit.
+  if (y > 732) y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments));
+  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(9).text(T.fullTerms, M, Math.min(Math.max(y, 690), 735), { link: 'https://altamiratravel.com/terminos', underline: true });
 }
 
 // Renders free-form paragraph text (pricing.terms) line by line, bolding and
