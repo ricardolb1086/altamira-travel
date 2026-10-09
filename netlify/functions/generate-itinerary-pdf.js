@@ -7,6 +7,7 @@ const COLORS = {
   terra: '#C47646', terraDeep: '#A85E32', line: '#DED7CA', white: '#FFFFFF'
 };
 const W = 612;
+const ROUTE_DASH = ' – ';
 const H = 792;
 const M = 52;
 const PDF_VERSION = 'editorial-v4-2026-09-30';
@@ -756,7 +757,8 @@ function drawLogistics(doc, data) {
       doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5).text(label, M + 18, y + 16, { characterSpacing: 1.4 });
       const carrier = [flight.airline, flight.number].filter(Boolean).join('  ');
       if (carrier) doc.fillColor(COLORS.ink).font('Helvetica-Bold').fontSize(9).text(carrier, M + 18, y + 15, { width: CW - 36, align: 'right' });
-      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(19).text(`${flight.from || T.origin} – ${flight.to || T.destination}`, M + 18, y + 34, { width: CW - 36 });
+      const routeLine = (flight.from || T.origin) + ROUTE_DASH + (flight.to || T.destination);
+      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(19).text(routeLine, M + 18, y + 34, { width: CW - 36 });
       const colY = y + 70;
       const cols = [
         [T.colDate, shortDate(flight.date, doc.lang) || '-', ''],
