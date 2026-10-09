@@ -236,7 +236,9 @@ function drawCover(doc, data, cover) {
   doc.addPage({ size: 'LETTER', margin: 0 });
   doc.rect(0, 0, W, H).fill(COLORS.ink);
 
-  if (cover && format === 'editorial') {
+  // trip.coverStyle = 'full' gives any format (detailed/executive) the full-page photo cover.
+  const fullPageCover = format === 'editorial' || String(data?.trip?.coverStyle || '').toLowerCase() === 'full';
+  if (cover && fullPageCover) {
     try {
       const img = doc.openImage(cover);
       doc.save();
