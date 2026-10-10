@@ -236,7 +236,9 @@ function drawCover(doc, data, cover) {
   doc.addPage({ size: 'LETTER', margin: 0 });
   doc.rect(0, 0, W, H).fill(COLORS.ink);
 
-  if (cover && format === 'editorial') {
+  // trip.coverStyle = 'full' gives any format (detailed/executive) the full-page photo cover.
+  const fullPageCover = format === 'editorial' || String(data?.trip?.coverStyle || '').toLowerCase() === 'full';
+  if (cover && fullPageCover) {
     try {
       const img = doc.openImage(cover);
       doc.save();
@@ -245,7 +247,7 @@ function drawCover(doc, data, cover) {
       doc.restore();
 
       doc.save();
-      doc.fillOpacity(.28).fillColor(COLORS.ink).rect(0, 0, W, H).fill();
+      doc.fillOpacity(format === 'editorial' ? .28 : .10).fillColor(COLORS.ink).rect(0, 0, W, H).fill();
       doc.fillOpacity(1);
       const shade = doc.linearGradient(0, 235, 0, H);
       shade.stop(0, COLORS.ink, 0).stop(.58, COLORS.ink, .48).stop(1, COLORS.ink, .93);
