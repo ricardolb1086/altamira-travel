@@ -843,15 +843,23 @@ function drawClosing(doc, data) {
     y = drawOptionalActivities(doc, T, optionalActivities, M, y, W - M * 2, data.pricing?.optionalActivitiesNote);
     y += 22;
   }
+  const linkOpts = { link: 'https://altamiratravel.com/terminos', underline: true };
+  let linkPlaced = false;
   if (data.pricing?.terms) {
     if (y >= 660) y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments));
-    sectionLabel(doc, T.paymentConditions, y); y += 20;
+    sectionLabel(doc, T.paymentConditions, y);
+    // Link sits on the section-label line so a long terms block never pushes it onto a page of its own.
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(8).text(T.fullTerms, M, y, { ...linkOpts, width: W - M * 2, align: 'right' });
+    linkPlaced = true;
+    y += 20;
     y = drawTermsText(doc, data.pricing.terms, M, y, W - M * 2);
-    y += 18;
+    y += 8;
   }
-  // The footer rule sits at y=750: only start a page just for this link when it truly doesn't fit.
-  if (y > 732) y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments));
-  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(9).text(T.fullTerms, M, Math.min(Math.max(y, 690), 735), { link: 'https://altamiratravel.com/terminos', underline: true });
+  if (!linkPlaced) {
+    // The footer rule sits at y=750: only start a page just for this link when it truly doesn't fit.
+    if (y > 738) y = Math.max(152, contentPage(doc, T.conditions, T.bookingPayments));
+    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(9).text(T.fullTerms, M, Math.min(Math.max(y, 690), 738), linkOpts);
+  }
 }
 
 // Renders free-form paragraph text (pricing.terms) line by line, bolding and
