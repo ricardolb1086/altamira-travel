@@ -223,8 +223,9 @@ async function buildPDF(data, images) {
       if (format === 'editorial') drawEditorialLogistics(doc, data, images.hotels);
       else drawLogistics(doc, data);
     }
-    if (format === 'editorial') drawEditorialClosing(doc, data);
-    else drawClosing(doc, data);
+    // Editorial uses the full closing too: its own summary version dropped the
+    // payment-plan and optional-activities tables and truncated the terms.
+    drawClosing(doc, data);
     addPageFurniture(doc);
     doc.end();
   });
@@ -697,14 +698,17 @@ function splitNoteParts(notes) {
 function drawEditorialLogistics(doc, data, hotelImages = []) {
   const T = doc.T;
   if (data.hotels?.length) {
-    doc.addPage({ size: 'LETTER', margin: 0 });
-    doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
-    drawBrandLockup(doc, false, M, 24, .86);
-    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.4).text(T.accommodation, M, 86, { characterSpacing: 1.5 });
-    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(31).text(T.accommodation, M, 103);
-    let y = 156;
-    data.hotels.slice(0, 6).forEach((hotel, index) => {
-      const col = index % 2, row = Math.floor(index / 2);
+    const y = 156;
+    data.hotels.forEach((hotel, index) => {
+      // Six cards per page; a 7th+ hotel continues on a new page instead of being dropped.
+      if (index % 6 === 0) {
+        doc.addPage({ size: 'LETTER', margin: 0 });
+        doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
+        drawBrandLockup(doc, false, M, 24, .86);
+        doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.4).text(T.accommodation, M, 86, { characterSpacing: 1.5 });
+        doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(31).text(T.accommodation, M, 103);
+      }
+      const col = index % 2, row = Math.floor((index % 6) / 2);
       const x = M + col * 258, cardY = y + row * 176, cardW = 242, cardH = 158;
       doc.fillColor(COLORS.cream).roundedRect(x, cardY, cardW, cardH, 8).fill();
       let img = null;
@@ -719,22 +723,9 @@ function drawEditorialLogistics(doc, data, hotelImages = []) {
     });
   }
 
-  if (data.flights?.length) {
-    doc.addPage({ size: 'LETTER', margin: 0 });
-    doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
-    drawBrandLockup(doc, false, M, 24, .86);
-    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.4).text(T.flights, M, 86, { characterSpacing: 1.5 });
-    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(31).text(T.flights, M, 103);
-    let y = 164;
-    data.flights.slice(0, 4).forEach((flight, index) => {
-      const cardH = 112;
-      doc.fillColor(index % 2 ? '#FBF7F0' : COLORS.cream).roundedRect(M, y, W - M * 2, cardH, 8).fill();
-      doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text(`${T.flightN} ${index + 1}`, M + 18, y + 17, { characterSpacing: 1.2 });
-      doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(20).text(`${flight.from || T.origin} → ${flight.to || T.destination}`, M + 18, y + 35, { width: 300 });
-      doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.2).text([flight.airline, flight.number, shortDate(flight.date, doc.lang), flight.depart && flight.arrive ? `${flight.depart} – ${flight.arrive}` : ''].filter(Boolean).join(' · '), M + 18, y + 69, { width: 440 });
-      y += cardH + 14;
-    });
-  }
+  // Full per-leg flight cards (all legs, stops/duration/arrival-day notes);
+  // the old 4-card editorial version dropped legs and the notes.
+  if (data.flights?.length) drawLogistics(doc, { ...data, hotels: [] });
 }
 
 function drawLogistics(doc, data) {
@@ -797,53 +788,6 @@ function drawLogistics(doc, data) {
       y += 84;
     });
   }
-}
-
-function drawEditorialClosing(doc, data) {
-  const T = doc.T;
-  doc.addPage({ size: 'LETTER', margin: 0 });
-  doc.fillColor(COLORS.paper).rect(0, 0, W, H).fill();
-  drawBrandLockup(doc, false, M, 24, .86);
-  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7.5).text(T.proposalDetails, M, 86, { characterSpacing: 1.5 });
-  doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(31).text(T.servicesInvestment, M, 103);
-
-  const price = Number(data.pricing?.price || 0);
-  const airfare = Number(data.pricing?.airfare || 0);
-  const currency = data.pricing?.currency || 'USD';
-  let y = 162;
-  if (price || airfare) {
-    doc.fillColor(COLORS.ink).roundedRect(M, y, W - M * 2, airfare ? 106 : 112, 8).fill();
-    if (!airfare) {
-      doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(8.6).text(data.pricing?.priceLabel || T.priceDoubleRoom, M + 22, y + 24, { width: W - M * 2 - 44, characterSpacing: 1.3 });
-      doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(46).text(`${currency} ${price.toLocaleString('en-US')}`, M + 22, y + 46, { width: W - M * 2 - 44 });
-    } else {
-      const cols = [[T.programPerPerson, price],[T.flightsPerPerson, airfare],[T.totalEstimated, price+airfare]];
-      cols.forEach((item, i) => {
-        const w = (W - M * 2 - 36) / cols.length, x = M + 18 + i * w;
-        doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(6.5).text(item[0], x, y + 20, { width: w - 10, characterSpacing: 1 });
-        doc.fillColor(i === cols.length - 1 ? COLORS.white : COLORS.terra).font('Times-Roman').fontSize(24).text(`${currency} ${Number(item[1]||0).toLocaleString('en-US')}`, x, y + 43, { width: w - 10 });
-      });
-    }
-    y += airfare ? 132 : 138;
-  }
-
-  const includes = splitLines(data.details?.includes).slice(0, 8);
-  const excludes = splitLines(data.details?.excludes).slice(0, 6);
-  const boxH = 260;
-  doc.fillColor(COLORS.cream).roundedRect(M, y, 242, boxH, 8).fill();
-  doc.fillColor('#FBF7F0').roundedRect(318, y, 242, boxH, 8).fill();
-  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text(T.includes, M + 16, y + 18, { characterSpacing: 1.3 });
-  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text(T.excludes, 334, y + 18, { characterSpacing: 1.3 });
-  includes.forEach((item,i)=>{const yy=y+46+i*25;doc.fillColor(COLORS.terra).circle(M+20,yy+4,2.3).fill();doc.fillColor(COLORS.soft).font('Helvetica').fontSize(7.9).text(item,M+31,yy,{width:190,height:18,ellipsis:true});});
-  excludes.forEach((item,i)=>{const yy=y+46+i*28;doc.fillColor(COLORS.soft).font('Helvetica-Bold').fontSize(8).text('—',334,yy);doc.fillColor(COLORS.soft).font('Helvetica').fontSize(7.9).text(item,348,yy,{width:195,height:21,ellipsis:true});});
-  y += boxH + 26;
-
-  const terms = editorialSummary(data.pricing?.terms || data.details?.requirements || '', 360);
-  if (terms) {
-    doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(7).text(T.paymentConditions, M, y, { characterSpacing: 1.3 });
-    doc.fillColor(COLORS.soft).font('Helvetica').fontSize(8.4).text(terms, M, y + 20, { width: W - M * 2, lineGap: 3 });
-  }
-  doc.fillColor(COLORS.terraDeep).font('Helvetica-Bold').fontSize(8.5).text(T.fullTerms, M, 706, { link: 'https://altamiratravel.com/terminos', underline: true });
 }
 
 function drawClosing(doc, data) {
