@@ -317,7 +317,7 @@ function drawEditorialOverview(doc, data) {
   stats.forEach((item, index) => {
     const x = M + index * 169;
     doc.fillColor(COLORS.cream).roundedRect(x, statsY, 155, 62, 7).fill();
-    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(18).text(item[0], x + 14, statsY + 14, { width: 128 });
+    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(fitStat(doc, item[0], 18, 128)).text(item[0], x + 14, statsY + 14, { width: 128 });
     doc.fillColor(COLORS.soft).font('Helvetica-Bold').fontSize(6.6).text(item[1], x + 14, statsY + 40, { characterSpacing: 1.1 });
   });
 
@@ -371,7 +371,7 @@ function drawOverview(doc, data) {
   stats.forEach((item, index) => {
     const x = M + index * 169;
     doc.fillColor(COLORS.cream).roundedRect(x, top, 155, 70, 5).fill();
-    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(20).text(item[0], x + 14, top + 17, { width: 130 });
+    doc.fillColor(COLORS.ink).font('Times-Roman').fontSize(fitStat(doc, item[0], 20, 130)).text(item[0], x + 14, top + 17, { width: 130 });
     doc.fillColor(COLORS.soft).font('Helvetica-Bold').fontSize(7).text(item[1], x + 14, top + 45, { characterSpacing: 1.2 });
   });
   let y = 246;
@@ -790,6 +790,21 @@ function drawLogistics(doc, data) {
   }
 }
 
+// Shrinks a short label so it stays on one line inside its card (e.g. "14 de noviembre").
+function fitStat(doc, text, base, maxWidth) {
+  let size = base;
+  doc.font('Times-Roman');
+  while (size > 11 && doc.fontSize(size).widthOfString(String(text)) > maxWidth) size -= 0.5;
+  return size;
+}
+
+// Whole amounts keep the "1,390" look; amounts with cents show both decimals ("890.10").
+function fmtMoney(n) {
+  return Number.isInteger(n)
+    ? n.toLocaleString('en-US')
+    : n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 function drawClosing(doc, data) {
   const T = doc.T;
   contentPage(doc, T.proposalDetails, T.servicesInvestment);
@@ -809,12 +824,12 @@ function drawClosing(doc, data) {
       priceColumns.forEach(([label, value], index) => {
         const x = M + 20 + index * 165;
         doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(6.5).text(label, x, y + 16, { width: 150, characterSpacing: 1 });
-        doc.fillColor(index === 2 ? COLORS.white : COLORS.terra).font('Times-Roman').fontSize(index === 2 ? 25 : 23).text(`${currency} ${value.toLocaleString('en-US')}`, x, y + 34, { width: 150 });
+        doc.fillColor(index === 2 ? COLORS.white : COLORS.terra).font('Times-Roman').fontSize(index === 2 ? 25 : 23).text(`${currency} ${fmtMoney(value)}`, x, y + 34, { width: 150 });
       });
       if (data.pricing?.fareNotice) doc.fillColor('#D8CBBB').font('Helvetica').fontSize(7.3).text(data.pricing.fareNotice, M + 20, y + 69, { width: W - M * 2 - 40, height: 16, align: 'center', ellipsis: true });
     } else {
       doc.fillColor('#D8CBBB').font('Helvetica-Bold').fontSize(8.6).text(data.pricing?.priceLabel || T.priceDoubleRoom, M + 22, y + 22, { width: W - M * 2 - 44, characterSpacing: 1.3 });
-      doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(44).text(`${currency} ${price.toLocaleString('en-US')}`, M + 22, y + 42, { width: 300 });
+      doc.fillColor(COLORS.terra).font('Times-Roman').fontSize(44).text(`${currency} ${fmtMoney(price)}`, M + 22, y + 42, { width: 300 });
       if (data.pricing.deposit) doc.fillColor(COLORS.white).font('Helvetica').fontSize(10).text(`${T.reserveWith} ${data.pricing.deposit}`, 320, y + 62, { width: 220, align: 'right' });
     }
     y += airfare ? 120 : 132;
